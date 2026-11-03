@@ -1,0 +1,479 @@
+{
+ "/mix mac light": {
+  "screens": 2.62,
+  "wide": false,
+  "tiles": [],
+  "cards": [
+   {
+    "tag": "SECTION.sect",
+    "box": [
+     286,
+     259,
+     1100,
+     492
+    ]
+   },
+   {
+    "tag": "SECTION.sect",
+    "box": [
+     286,
+     775,
+     1100,
+     570
+    ],
+    "h2": "The Lower 48 by fuel",
+    "sub": "28 days to Oct 29, against a year before"
+   },
+   {
+    "tag": "SECTION.sect",
+    "box": [
+     286,
+     1369,
+     1100,
+     867
+    ],
+    "h2": "Grid by grid",
+    "sub": "Each fuel's share of 28 days' power, change in points"
+   },
+   {
+    "tag": "DETAILS.card fold",
+    "box": [
+     286,
+     2260,
+     1100,
+     47
+    ],
+    "h2": "Sources and method"
+   }
+  ],
+  "gaps": [
+   12,
+   24,
+   24,
+   24,
+   24
+  ],
+  "title": null,
+  "fresh": [
+   "site-fresh warn: 95 collectors behind",
+   "page-fresh chip sm warn: Data to Oct 29 · behind schedule"
+  ]
+ },
+ "/mix mac dark": {
+  "screens": 2.62,
+  "wide": false,
+  "tiles": [],
+  "cards": [
+   {
+    "tag": "SECTION.sect",
+    "box": [
+     286,
+     259,
+     1100,
+     492
+    ]
+   },
+   {
+    "tag": "SECTION.sect",
+    "box": [
+     286,
+     775,
+     1100,
+     570
+    ],
+    "h2": "The Lower 48 by fuel",
+    "sub": "28 days to Oct 29, against a year before"
+   },
+   {
+    "tag": "SECTION.sect",
+    "box": [
+     286,
+     1369,
+     1100,
+     867
+    ],
+    "h2": "Grid by grid",
+    "sub": "Each fuel's share of 28 days' power, change in points"
+   },
+   {
+    "tag": "DETAILS.card fold",
+    "box": [
+     286,
+     2260,
+     1100,
+     47
+    ],
+    "h2": "Sources and method"
+   }
+  ],
+  "gaps": [
+   12,
+   24,
+   24,
+   24,
+   24
+  ],
+  "title": null,
+  "fresh": [
+   "site-fresh warn: 95 collectors behind",
+   "page-fresh chip sm warn: Data to Oct 29 · behind schedule"
+  ]
+ },
+ "/mix phone light": {
+  "screens": 2.59,
+  "wide": false,
+  "tiles": [],
+  "cards": [
+   {
+    "tag": "SECTION.sect",
+    "box": [
+     16,
+     277,
+     408,
+     498
+    ]
+   },
+   {
+    "tag": "SECTION.sect",
+    "box": [
+     16,
+     791,
+     408,
+     880
+    ],
+    "h2": "The Lower 48 by fuel",
+    "sub": "28 days to Oct 29, against a year before"
+   },
+   {
+    "tag": "SECTION.sect",
+    "box": [
+     16,
+     1687,
+     408,
+     640
+    ],
+    "h2": "Grid by grid",
+    "sub": "Each fuel's share of 28 days' power, change in points"
+   },
+   {
+    "tag": "DETAILS.card fold",
+    "box": [
+     16,
+     2342,
+     408,
+     47
+    ],
+    "h2": "Sources and method"
+   }
+  ],
+  "gaps": [
+   36,
+   16,
+   16,
+   16,
+   16,
+   16
+  ],
+  "title": null,
+  "fresh": [
+   "site-fresh warn: 95 collectors behind",
+   "page-fresh chip sm warn: Data to Oct 29 · behind schedule"
+  ]
+ },
+ "/mix phone dark": {
+  "screens": 2.59,
+  "wide": false,
+  "tiles": [],
+  "cards": [
+   {
+    "tag": "SECTION.sect",
+    "box": [
+     16,
+     277,
+     408,
+     498
+    ]
+   },
+   {
+    "tag": "SECTION.sect",
+    "box": [
+     16,
+     791,
+     408,
+     880
+    ],
+    "h2": "The Lower 48 by fuel",
+    "sub": "28 days to Oct 29, against a year before"
+   },
+   {
+    "tag": "SECTION.sect",
+    "box": [
+     16,
+     1687,
+     408,
+     640
+    ],
+    "h2": "Grid by grid",
+    "sub": "Each fuel's share of 28 days' power, change in points"
+   },
+   {
+    "tag": "DETAILS.card fold",
+    "box": [
+     16,
+     2342,
+     408,
+     47
+    ],
+    "h2": "Sources and method"
+   }
+  ],
+  "gaps": [
+   36,
+   16,
+   16,
+   16,
+   16,
+   16
+  ],
+  "title": null,
+  "fresh": [
+   "site-fresh warn: 95 collectors behind",
+   "page-fresh chip sm warn: Data to Oct 29 · behind schedule"
+  ]
+ },
+ "/mix?a=ERCO mac light": {
+  "screens": 1.76,
+  "wide": false,
+  "tiles": [],
+  "cards": [
+   {
+    "tag": "SECTION.sect",
+    "box": [
+     286,
+     267,
+     1100,
+     492
+    ]
+   },
+   {
+    "tag": "SECTION.sect",
+    "box": [
+     286,
+     783,
+     1100,
+     570
+    ],
+    "h2": "By fuel",
+    "sub": "28 days to Oct 29, against a year before"
+   },
+   {
+    "tag": "SECTION.sect",
+    "box": [
+     286,
+     1377,
+     1100,
+     92
+    ]
+   },
+   {
+    "tag": "DETAILS.card fold",
+    "box": [
+     286,
+     1493,
+     1100,
+     47
+    ],
+    "h2": "Sources and method"
+   }
+  ],
+  "gaps": [
+   12,
+   24,
+   24,
+   24,
+   24
+  ],
+  "title": null,
+  "fresh": [
+   "site-fresh warn: 95 collectors behind",
+   "page-fresh chip sm warn: Data to Oct 29 · behind schedule"
+  ]
+ },
+ "/mix?a=ERCO mac dark": {
+  "screens": 1.76,
+  "wide": false,
+  "tiles": [],
+  "cards": [
+   {
+    "tag": "SECTION.sect",
+    "box": [
+     286,
+     267,
+     1100,
+     492
+    ]
+   },
+   {
+    "tag": "SECTION.sect",
+    "box": [
+     286,
+     783,
+     1100,
+     570
+    ],
+    "h2": "By fuel",
+    "sub": "28 days to Oct 29, against a year before"
+   },
+   {
+    "tag": "SECTION.sect",
+    "box": [
+     286,
+     1377,
+     1100,
+     92
+    ]
+   },
+   {
+    "tag": "DETAILS.card fold",
+    "box": [
+     286,
+     1493,
+     1100,
+     47
+    ],
+    "h2": "Sources and method"
+   }
+  ],
+  "gaps": [
+   12,
+   24,
+   24,
+   24,
+   24
+  ],
+  "title": null,
+  "fresh": [
+   "site-fresh warn: 95 collectors behind",
+   "page-fresh chip sm warn: Data to Oct 29 · behind schedule"
+  ]
+ },
+ "/mix?a=ERCO phone light": {
+  "screens": 2.08,
+  "wide": false,
+  "tiles": [],
+  "cards": [
+   {
+    "tag": "SECTION.sect",
+    "box": [
+     16,
+     338,
+     408,
+     498
+    ]
+   },
+   {
+    "tag": "SECTION.sect",
+    "box": [
+     16,
+     852,
+     408,
+     880
+    ],
+    "h2": "By fuel",
+    "sub": "28 days to Oct 29, against a year before"
+   },
+   {
+    "tag": "SECTION.sect",
+    "box": [
+     16,
+     1748,
+     408,
+     92
+    ]
+   },
+   {
+    "tag": "DETAILS.card fold",
+    "box": [
+     16,
+     1856,
+     408,
+     47
+    ],
+    "h2": "Sources and method"
+   }
+  ],
+  "gaps": [
+   36,
+   16,
+   16,
+   16,
+   16,
+   16
+  ],
+  "title": null,
+  "fresh": [
+   "site-fresh warn: 95 collectors behind",
+   "page-fresh chip sm warn: Data to Oct 29 · behind schedule"
+  ]
+ },
+ "/mix?a=ERCO phone dark": {
+  "screens": 2.08,
+  "wide": false,
+  "tiles": [],
+  "cards": [
+   {
+    "tag": "SECTION.sect",
+    "box": [
+     16,
+     338,
+     408,
+     498
+    ]
+   },
+   {
+    "tag": "SECTION.sect",
+    "box": [
+     16,
+     852,
+     408,
+     880
+    ],
+    "h2": "By fuel",
+    "sub": "28 days to Oct 29, against a year before"
+   },
+   {
+    "tag": "SECTION.sect",
+    "box": [
+     16,
+     1748,
+     408,
+     92
+    ]
+   },
+   {
+    "tag": "DETAILS.card fold",
+    "box": [
+     16,
+     1856,
+     408,
+     47
+    ],
+    "h2": "Sources and method"
+   }
+  ],
+  "gaps": [
+   36,
+   16,
+   16,
+   16,
+   16,
+   16
+  ],
+  "title": null,
+  "fresh": [
+   "site-fresh warn: 95 collectors behind",
+   "page-fresh chip sm warn: Data to Oct 29 · behind schedule"
+  ]
+ },
+ "errors": []
+}

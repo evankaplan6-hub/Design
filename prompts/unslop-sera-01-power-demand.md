@@ -2,7 +2,7 @@
 
 Run in Claude Code from `~/sera`. Written 2026-11-02.
 
-**On hold until sera PR #169 (stage 3, the chart dashboards) is merged.** It rewrites `grid.html` and `sera.css`, so run this on the new page, and check the file names below still match.
+**Done.** Ran 2026-11-02 after sera #169 merged, and merged as sera #171 (2026-11-03). Screenshots and checks are in `audits/2026-11-unslop-grid/`. Power mix had the same pass (sera #175, `audits/2026-11-unslop-mix/`).
 
 ---
 

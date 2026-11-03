@@ -1,0 +1,391 @@
+{
+ "/mix mac light": {
+  "screens": 2.7,
+  "wide": false,
+  "tiles": [],
+  "cards": [
+   {
+    "tag": "SECTION.sect",
+    "box": [
+     286,
+     259,
+     1100,
+     528
+    ]
+   },
+   {
+    "tag": "SECTION.sect",
+    "box": [
+     286,
+     1423,
+     1100,
+     885
+    ],
+    "h2": "Grid by grid",
+    "sub": "Each fuel's share of the last 28 days' power"
+   },
+   {
+    "tag": "DETAILS.card fold",
+    "box": [
+     286,
+     2332,
+     1100,
+     47
+    ],
+    "h2": "Sources and method"
+   }
+  ],
+  "gaps": [
+   12,
+   24,
+   24,
+   24,
+   24
+  ],
+  "title": null,
+  "fresh": [
+   "site-fresh warn: 95 collectors behind",
+   "page-fresh chip sm warn: Data to Oct 29 · behind schedule"
+  ]
+ },
+ "/mix mac dark": {
+  "screens": 2.7,
+  "wide": false,
+  "tiles": [],
+  "cards": [
+   {
+    "tag": "SECTION.sect",
+    "box": [
+     286,
+     259,
+     1100,
+     528
+    ]
+   },
+   {
+    "tag": "SECTION.sect",
+    "box": [
+     286,
+     1423,
+     1100,
+     885
+    ],
+    "h2": "Grid by grid",
+    "sub": "Each fuel's share of the last 28 days' power"
+   },
+   {
+    "tag": "DETAILS.card fold",
+    "box": [
+     286,
+     2332,
+     1100,
+     47
+    ],
+    "h2": "Sources and method"
+   }
+  ],
+  "gaps": [
+   12,
+   24,
+   24,
+   24,
+   24
+  ],
+  "title": null,
+  "fresh": [
+   "site-fresh warn: 95 collectors behind",
+   "page-fresh chip sm warn: Data to Oct 29 · behind schedule"
+  ]
+ },
+ "/mix phone light": {
+  "screens": 2.72,
+  "wide": false,
+  "tiles": [],
+  "cards": [
+   {
+    "tag": "SECTION.sect",
+    "box": [
+     16,
+     277,
+     408,
+     526
+    ]
+   },
+   {
+    "tag": "SECTION.sect",
+    "box": [
+     16,
+     1808,
+     408,
+     640
+    ],
+    "h2": "Grid by grid",
+    "sub": "Each fuel's share of the last 28 days' power"
+   },
+   {
+    "tag": "DETAILS.card fold",
+    "box": [
+     16,
+     2463,
+     408,
+     47
+    ],
+    "h2": "Sources and method"
+   }
+  ],
+  "gaps": [
+   36,
+   16,
+   16,
+   16,
+   16,
+   16
+  ],
+  "title": null,
+  "fresh": [
+   "site-fresh warn: 95 collectors behind",
+   "page-fresh chip sm warn: Data to Oct 29 · behind schedule"
+  ]
+ },
+ "/mix phone dark": {
+  "screens": 2.72,
+  "wide": false,
+  "tiles": [],
+  "cards": [
+   {
+    "tag": "SECTION.sect",
+    "box": [
+     16,
+     277,
+     408,
+     526
+    ]
+   },
+   {
+    "tag": "SECTION.sect",
+    "box": [
+     16,
+     1808,
+     408,
+     640
+    ],
+    "h2": "Grid by grid",
+    "sub": "Each fuel's share of the last 28 days' power"
+   },
+   {
+    "tag": "DETAILS.card fold",
+    "box": [
+     16,
+     2463,
+     408,
+     47
+    ],
+    "h2": "Sources and method"
+   }
+  ],
+  "gaps": [
+   36,
+   16,
+   16,
+   16,
+   16,
+   16
+  ],
+  "title": null,
+  "fresh": [
+   "site-fresh warn: 95 collectors behind",
+   "page-fresh chip sm warn: Data to Oct 29 · behind schedule"
+  ]
+ },
+ "/mix?a=ERCO mac light": {
+  "screens": 1.82,
+  "wide": false,
+  "tiles": [],
+  "cards": [
+   {
+    "tag": "SECTION.sect",
+    "box": [
+     286,
+     267,
+     1100,
+     528
+    ]
+   },
+   {
+    "tag": "SECTION.sect",
+    "box": [
+     286,
+     1431,
+     1100,
+     92
+    ]
+   },
+   {
+    "tag": "DETAILS.card fold",
+    "box": [
+     286,
+     1547,
+     1100,
+     47
+    ],
+    "h2": "Sources and method"
+   }
+  ],
+  "gaps": [
+   12,
+   24,
+   24,
+   24,
+   24
+  ],
+  "title": null,
+  "fresh": [
+   "site-fresh warn: 95 collectors behind",
+   "page-fresh chip sm warn: Data to Oct 29 · behind schedule"
+  ]
+ },
+ "/mix?a=ERCO mac dark": {
+  "screens": 1.82,
+  "wide": false,
+  "tiles": [],
+  "cards": [
+   {
+    "tag": "SECTION.sect",
+    "box": [
+     286,
+     267,
+     1100,
+     528
+    ]
+   },
+   {
+    "tag": "SECTION.sect",
+    "box": [
+     286,
+     1431,
+     1100,
+     92
+    ]
+   },
+   {
+    "tag": "DETAILS.card fold",
+    "box": [
+     286,
+     1547,
+     1100,
+     47
+    ],
+    "h2": "Sources and method"
+   }
+  ],
+  "gaps": [
+   12,
+   24,
+   24,
+   24,
+   24
+  ],
+  "title": null,
+  "fresh": [
+   "site-fresh warn: 95 collectors behind",
+   "page-fresh chip sm warn: Data to Oct 29 · behind schedule"
+  ]
+ },
+ "/mix?a=ERCO phone light": {
+  "screens": 2.15,
+  "wide": false,
+  "tiles": [],
+  "cards": [
+   {
+    "tag": "SECTION.sect",
+    "box": [
+     16,
+     318,
+     408,
+     526
+    ]
+   },
+   {
+    "tag": "SECTION.sect",
+    "box": [
+     16,
+     1813,
+     408,
+     92
+    ]
+   },
+   {
+    "tag": "DETAILS.card fold",
+    "box": [
+     16,
+     1921,
+     408,
+     47
+    ],
+    "h2": "Sources and method"
+   }
+  ],
+  "gaps": [
+   36,
+   16,
+   16,
+   16,
+   16,
+   16
+  ],
+  "title": null,
+  "fresh": [
+   "site-fresh warn: 95 collectors behind",
+   "page-fresh chip sm warn: Data to Oct 29 · behind schedule"
+  ]
+ },
+ "/mix?a=ERCO phone dark": {
+  "screens": 2.15,
+  "wide": false,
+  "tiles": [],
+  "cards": [
+   {
+    "tag": "SECTION.sect",
+    "box": [
+     16,
+     318,
+     408,
+     526
+    ]
+   },
+   {
+    "tag": "SECTION.sect",
+    "box": [
+     16,
+     1813,
+     408,
+     92
+    ]
+   },
+   {
+    "tag": "DETAILS.card fold",
+    "box": [
+     16,
+     1921,
+     408,
+     47
+    ],
+    "h2": "Sources and method"
+   }
+  ],
+  "gaps": [
+   36,
+   16,
+   16,
+   16,
+   16,
+   16
+  ],
+  "title": null,
+  "fresh": [
+   "site-fresh warn: 95 collectors behind",
+   "page-fresh chip sm warn: Data to Oct 29 · behind schedule"
+  ]
+ },
+ "errors": []
+}

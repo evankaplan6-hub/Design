@@ -1,0 +1,1271 @@
+{
+ "/grid mac light": {
+  "screens": 2.78,
+  "wide": false,
+  "tiles": [
+   {
+    "box": [
+     286,
+     180,
+     266,
+     162
+    ],
+    "pad": "16px",
+    "label": "Lower 48",
+    "val": "10.88 TWh",
+    "valSize": "28px",
+    "delta": "7 days: ▲ +1.2% on a year before",
+    "foot": "Delivered on the latest day\nOct 29, 2026",
+    "footLines": 2
+   },
+   {
+    "box": [
+     564,
+     180,
+     266,
+     162
+    ],
+    "pad": "16px",
+    "label": "Lower 48, last 91 days",
+    "val": "▲ +7.1%",
+    "valSize": "28px",
+    "foot": "Against the same 91 days a year before\nOct 29, 2026",
+    "footLines": 2
+   },
+   {
+    "box": [
+     842,
+     180,
+     266,
+     162
+    ],
+    "pad": "16px",
+    "label": "Texas, last 91 days",
+    "val": "▲ +9.3%",
+    "valSize": "28px",
+    "foot": "Against the same 91 days a year before\nOct 29, 2026",
+    "footLines": 2
+   },
+   {
+    "box": [
+     1120,
+     180,
+     266,
+     162
+    ],
+    "pad": "16px",
+    "label": "Areas near a record",
+    "val": "0 of 19",
+    "valSize": "28px",
+    "foot": "Within 2% of their all-time daily high\nOct 29, 2026",
+    "footLines": 2
+   }
+  ],
+  "cards": [
+   {
+    "tag": "SECTION.page-h",
+    "box": [
+     286,
+     124,
+     1100,
+     32
+    ]
+   },
+   {
+    "tag": "SECTION.tiles four",
+    "box": [
+     286,
+     180,
+     1100,
+     162
+    ]
+   },
+   {
+    "tag": "SECTION.grid2",
+    "box": [
+     286,
+     366,
+     1100,
+     380
+    ],
+    "h2": "The country",
+    "sub": "Lower 48, 7-day average, TWh a day",
+    "foot": "EIA-930 | Oct 29, 2026"
+   },
+   {
+    "tag": "ARTICLE.card",
+    "box": [
+     286,
+     366,
+     623,
+     380
+    ],
+    "h2": "The country",
+    "sub": "Lower 48, 7-day average, TWh a day",
+    "foot": "EIA-930 | Oct 29, 2026"
+   },
+   {
+    "tag": "ARTICLE.card",
+    "box": [
+     925,
+     366,
+     461,
+     380
+    ],
+    "h2": "Texas (ERCOT)",
+    "sub": "7-day average, GWh a day",
+    "foot": "EIA-930 | Oct 29, 2026"
+   },
+   {
+    "tag": "SECTION.card",
+    "box": [
+     286,
+     770,
+     1100,
+     210
+    ],
+    "h2": "The country",
+    "sub": "All 48 contiguous states",
+    "foot": "EIA-930 | Oct 29, 2026"
+   },
+   {
+    "tag": "SECTION.card",
+    "box": [
+     286,
+     1004,
+     1100,
+     561
+    ],
+    "h2": "Grid operators",
+    "sub": "Each serves many utilities and power producers",
+    "foot": "EIA-930 | Oct 29, 2026"
+   },
+   {
+    "tag": "SECTION.card",
+    "box": [
+     286,
+     1589,
+     1100,
+     795
+    ],
+    "h2": "Utility areas",
+    "sub": "One utility's area, with the listed company that owns it",
+    "foot": "EIA-930 | Oct 29, 2026"
+   },
+   {
+    "tag": "DETAILS.card fold",
+    "box": [
+     286,
+     2408,
+     1100,
+     47
+    ],
+    "h2": "Sources and method"
+   }
+  ],
+  "gaps": [
+   12,
+   24,
+   24,
+   24,
+   24,
+   24,
+   24
+  ],
+  "title": {
+   "size": "28px",
+   "weight": "700",
+   "ls": "-0.7px"
+  },
+  "fresh": [
+   "site-fresh warn: 95 collectors behind",
+   "page-fresh chip sm warn: Data to Oct 29 · behind schedule"
+  ]
+ },
+ "/grid mac dark": {
+  "screens": 2.78,
+  "wide": false,
+  "tiles": [
+   {
+    "box": [
+     286,
+     180,
+     266,
+     162
+    ],
+    "pad": "16px",
+    "label": "Lower 48",
+    "val": "10.88 TWh",
+    "valSize": "28px",
+    "delta": "7 days: ▲ +1.2% on a year before",
+    "foot": "Delivered on the latest day\nOct 29, 2026",
+    "footLines": 2
+   },
+   {
+    "box": [
+     564,
+     180,
+     266,
+     162
+    ],
+    "pad": "16px",
+    "label": "Lower 48, last 91 days",
+    "val": "▲ +7.1%",
+    "valSize": "28px",
+    "foot": "Against the same 91 days a year before\nOct 29, 2026",
+    "footLines": 2
+   },
+   {
+    "box": [
+     842,
+     180,
+     266,
+     162
+    ],
+    "pad": "16px",
+    "label": "Texas, last 91 days",
+    "val": "▲ +9.3%",
+    "valSize": "28px",
+    "foot": "Against the same 91 days a year before\nOct 29, 2026",
+    "footLines": 2
+   },
+   {
+    "box": [
+     1120,
+     180,
+     266,
+     162
+    ],
+    "pad": "16px",
+    "label": "Areas near a record",
+    "val": "0 of 19",
+    "valSize": "28px",
+    "foot": "Within 2% of their all-time daily high\nOct 29, 2026",
+    "footLines": 2
+   }
+  ],
+  "cards": [
+   {
+    "tag": "SECTION.page-h",
+    "box": [
+     286,
+     124,
+     1100,
+     32
+    ]
+   },
+   {
+    "tag": "SECTION.tiles four",
+    "box": [
+     286,
+     180,
+     1100,
+     162
+    ]
+   },
+   {
+    "tag": "SECTION.grid2",
+    "box": [
+     286,
+     366,
+     1100,
+     380
+    ],
+    "h2": "The country",
+    "sub": "Lower 48, 7-day average, TWh a day",
+    "foot": "EIA-930 | Oct 29, 2026"
+   },
+   {
+    "tag": "ARTICLE.card",
+    "box": [
+     286,
+     366,
+     623,
+     380
+    ],
+    "h2": "The country",
+    "sub": "Lower 48, 7-day average, TWh a day",
+    "foot": "EIA-930 | Oct 29, 2026"
+   },
+   {
+    "tag": "ARTICLE.card",
+    "box": [
+     925,
+     366,
+     461,
+     380
+    ],
+    "h2": "Texas (ERCOT)",
+    "sub": "7-day average, GWh a day",
+    "foot": "EIA-930 | Oct 29, 2026"
+   },
+   {
+    "tag": "SECTION.card",
+    "box": [
+     286,
+     770,
+     1100,
+     210
+    ],
+    "h2": "The country",
+    "sub": "All 48 contiguous states",
+    "foot": "EIA-930 | Oct 29, 2026"
+   },
+   {
+    "tag": "SECTION.card",
+    "box": [
+     286,
+     1004,
+     1100,
+     561
+    ],
+    "h2": "Grid operators",
+    "sub": "Each serves many utilities and power producers",
+    "foot": "EIA-930 | Oct 29, 2026"
+   },
+   {
+    "tag": "SECTION.card",
+    "box": [
+     286,
+     1589,
+     1100,
+     795
+    ],
+    "h2": "Utility areas",
+    "sub": "One utility's area, with the listed company that owns it",
+    "foot": "EIA-930 | Oct 29, 2026"
+   },
+   {
+    "tag": "DETAILS.card fold",
+    "box": [
+     286,
+     2408,
+     1100,
+     47
+    ],
+    "h2": "Sources and method"
+   }
+  ],
+  "gaps": [
+   12,
+   24,
+   24,
+   24,
+   24,
+   24,
+   24
+  ],
+  "title": {
+   "size": "28px",
+   "weight": "700",
+   "ls": "-0.7px"
+  },
+  "fresh": [
+   "site-fresh warn: 95 collectors behind",
+   "page-fresh chip sm warn: Data to Oct 29 · behind schedule"
+  ]
+ },
+ "/grid phone light": {
+  "screens": 2.76,
+  "wide": false,
+  "tiles": [
+   {
+    "box": [
+     16,
+     194,
+     198,
+     173
+    ],
+    "pad": "12px",
+    "label": "Lower 48",
+    "val": "10.88 TWh",
+    "valSize": "28px",
+    "delta": "7 days: ▲ +1.2% on a year before",
+    "foot": "Delivered on the latest day\nOct 29, 2026",
+    "footLines": 2
+   },
+   {
+    "box": [
+     226,
+     194,
+     198,
+     173
+    ],
+    "pad": "12px",
+    "label": "Lower 48, last 91 days",
+    "val": "▲ +7.1%",
+    "valSize": "28px",
+    "foot": "Against the same 91 days a year before\nOct 29, 2026",
+    "footLines": 3
+   },
+   {
+    "box": [
+     16,
+     379,
+     198,
+     144
+    ],
+    "pad": "12px",
+    "label": "Texas, last 91 days",
+    "val": "▲ +9.3%",
+    "valSize": "28px",
+    "foot": "Against the same 91 days a year before\nOct 29, 2026",
+    "footLines": 3
+   },
+   {
+    "box": [
+     226,
+     379,
+     198,
+     144
+    ],
+    "pad": "12px",
+    "label": "Areas near a record",
+    "val": "0 of 19",
+    "valSize": "28px",
+    "foot": "Within 2% of their all-time daily high\nOct 29, 2026",
+    "footLines": 3
+   }
+  ],
+  "cards": [
+   {
+    "tag": "SECTION.page-h",
+    "box": [
+     16,
+     146,
+     408,
+     32
+    ]
+   },
+   {
+    "tag": "SECTION.tiles four",
+    "box": [
+     16,
+     194,
+     408,
+     330
+    ]
+   },
+   {
+    "tag": "SECTION.grid2",
+    "box": [
+     16,
+     540,
+     408,
+     776
+    ],
+    "h2": "The country",
+    "sub": "Lower 48, 7-day average, TWh a day",
+    "foot": "EIA-930 | Oct 29, 2026"
+   },
+   {
+    "tag": "ARTICLE.card",
+    "box": [
+     16,
+     540,
+     408,
+     380
+    ],
+    "h2": "The country",
+    "sub": "Lower 48, 7-day average, TWh a day",
+    "foot": "EIA-930 | Oct 29, 2026"
+   },
+   {
+    "tag": "ARTICLE.card",
+    "box": [
+     16,
+     936,
+     408,
+     380
+    ],
+    "h2": "Texas (ERCOT)",
+    "sub": "7-day average, GWh a day",
+    "foot": "EIA-930 | Oct 29, 2026"
+   },
+   {
+    "tag": "SECTION.card",
+    "box": [
+     16,
+     1331,
+     408,
+     192
+    ],
+    "h2": "The country",
+    "sub": "All 48 contiguous states",
+    "foot": "EIA-930 | Oct 29, 2026"
+   },
+   {
+    "tag": "SECTION.card",
+    "box": [
+     16,
+     1540,
+     408,
+     517
+    ],
+    "h2": "Grid operators",
+    "sub": "Each serves many utilities and power producers",
+    "foot": "EIA-930 | Oct 29, 2026"
+   },
+   {
+    "tag": "SECTION.card",
+    "box": [
+     16,
+     2072,
+     408,
+     419
+    ],
+    "h2": "Utility areas",
+    "sub": "One utility's area, with the listed company that owns it",
+    "foot": "EIA-930 | Oct 29, 2026"
+   },
+   {
+    "tag": "DETAILS.card fold",
+    "box": [
+     16,
+     2508,
+     408,
+     47
+    ],
+    "h2": "Sources and method"
+   }
+  ],
+  "gaps": [
+   36,
+   16,
+   16,
+   16,
+   16,
+   16,
+   16,
+   16
+  ],
+  "title": {
+   "size": "28px",
+   "weight": "700",
+   "ls": "-0.7px"
+  },
+  "fresh": [
+   "site-fresh warn: 95 collectors behind",
+   "page-fresh chip sm warn: Data to Oct 29 · behind schedule"
+  ]
+ },
+ "/grid phone dark": {
+  "screens": 2.76,
+  "wide": false,
+  "tiles": [
+   {
+    "box": [
+     16,
+     194,
+     198,
+     173
+    ],
+    "pad": "12px",
+    "label": "Lower 48",
+    "val": "10.88 TWh",
+    "valSize": "28px",
+    "delta": "7 days: ▲ +1.2% on a year before",
+    "foot": "Delivered on the latest day\nOct 29, 2026",
+    "footLines": 2
+   },
+   {
+    "box": [
+     226,
+     194,
+     198,
+     173
+    ],
+    "pad": "12px",
+    "label": "Lower 48, last 91 days",
+    "val": "▲ +7.1%",
+    "valSize": "28px",
+    "foot": "Against the same 91 days a year before\nOct 29, 2026",
+    "footLines": 3
+   },
+   {
+    "box": [
+     16,
+     379,
+     198,
+     144
+    ],
+    "pad": "12px",
+    "label": "Texas, last 91 days",
+    "val": "▲ +9.3%",
+    "valSize": "28px",
+    "foot": "Against the same 91 days a year before\nOct 29, 2026",
+    "footLines": 3
+   },
+   {
+    "box": [
+     226,
+     379,
+     198,
+     144
+    ],
+    "pad": "12px",
+    "label": "Areas near a record",
+    "val": "0 of 19",
+    "valSize": "28px",
+    "foot": "Within 2% of their all-time daily high\nOct 29, 2026",
+    "footLines": 3
+   }
+  ],
+  "cards": [
+   {
+    "tag": "SECTION.page-h",
+    "box": [
+     16,
+     146,
+     408,
+     32
+    ]
+   },
+   {
+    "tag": "SECTION.tiles four",
+    "box": [
+     16,
+     194,
+     408,
+     330
+    ]
+   },
+   {
+    "tag": "SECTION.grid2",
+    "box": [
+     16,
+     540,
+     408,
+     776
+    ],
+    "h2": "The country",
+    "sub": "Lower 48, 7-day average, TWh a day",
+    "foot": "EIA-930 | Oct 29, 2026"
+   },
+   {
+    "tag": "ARTICLE.card",
+    "box": [
+     16,
+     540,
+     408,
+     380
+    ],
+    "h2": "The country",
+    "sub": "Lower 48, 7-day average, TWh a day",
+    "foot": "EIA-930 | Oct 29, 2026"
+   },
+   {
+    "tag": "ARTICLE.card",
+    "box": [
+     16,
+     936,
+     408,
+     380
+    ],
+    "h2": "Texas (ERCOT)",
+    "sub": "7-day average, GWh a day",
+    "foot": "EIA-930 | Oct 29, 2026"
+   },
+   {
+    "tag": "SECTION.card",
+    "box": [
+     16,
+     1331,
+     408,
+     192
+    ],
+    "h2": "The country",
+    "sub": "All 48 contiguous states",
+    "foot": "EIA-930 | Oct 29, 2026"
+   },
+   {
+    "tag": "SECTION.card",
+    "box": [
+     16,
+     1540,
+     408,
+     517
+    ],
+    "h2": "Grid operators",
+    "sub": "Each serves many utilities and power producers",
+    "foot": "EIA-930 | Oct 29, 2026"
+   },
+   {
+    "tag": "SECTION.card",
+    "box": [
+     16,
+     2072,
+     408,
+     419
+    ],
+    "h2": "Utility areas",
+    "sub": "One utility's area, with the listed company that owns it",
+    "foot": "EIA-930 | Oct 29, 2026"
+   },
+   {
+    "tag": "DETAILS.card fold",
+    "box": [
+     16,
+     2508,
+     408,
+     47
+    ],
+    "h2": "Sources and method"
+   }
+  ],
+  "gaps": [
+   36,
+   16,
+   16,
+   16,
+   16,
+   16,
+   16,
+   16
+  ],
+  "title": {
+   "size": "28px",
+   "weight": "700",
+   "ls": "-0.7px"
+  },
+  "fresh": [
+   "site-fresh warn: 95 collectors behind",
+   "page-fresh chip sm warn: Data to Oct 29 · behind schedule"
+  ]
+ },
+ "/grid?a=ERCO mac light": {
+  "screens": 1.62,
+  "wide": false,
+  "tiles": [
+   {
+    "box": [
+     286,
+     228,
+     266,
+     144
+    ],
+    "pad": "16px",
+    "label": "Latest day",
+    "val": "1,297 GWh",
+    "valSize": "28px",
+    "foot": "Oct 29, 2026",
+    "footLines": 1
+   },
+   {
+    "box": [
+     564,
+     228,
+     266,
+     144
+    ],
+    "pad": "16px",
+    "label": "Last 7 days",
+    "val": "▲ +5.7%",
+    "valSize": "28px",
+    "foot": "Against the same 7 days a year before",
+    "footLines": 1
+   },
+   {
+    "box": [
+     842,
+     228,
+     266,
+     144
+    ],
+    "pad": "16px",
+    "label": "Last 91 days",
+    "val": "▲ +9.3%",
+    "valSize": "28px",
+    "delta": "28 days: ▲ +1.6%",
+    "foot": "Against the same 91 days a year before",
+    "footLines": 1
+   },
+   {
+    "box": [
+     1120,
+     228,
+     266,
+     144
+    ],
+    "pad": "16px",
+    "label": "Record day",
+    "val": "1,825 GWh",
+    "valSize": "28px",
+    "delta": "Latest day: ▼ −28.9%",
+    "foot": "Aug 24, 2026",
+    "footLines": 1
+   }
+  ],
+  "cards": [
+   {
+    "tag": "SECTION.page-h",
+    "box": [
+     286,
+     132,
+     1100,
+     72
+    ]
+   },
+   {
+    "tag": "SECTION.tiles four",
+    "box": [
+     286,
+     228,
+     1100,
+     144
+    ]
+   },
+   {
+    "tag": "SECTION.card",
+    "box": [
+     286,
+     396,
+     1100,
+     420
+    ],
+    "h2": "This year vs last",
+    "sub": "7-day average, against the same weekdays a year before",
+    "foot": "EIA-930 | Oct 29, 2026"
+   },
+   {
+    "tag": "SECTION.card",
+    "box": [
+     286,
+     840,
+     1100,
+     498
+    ],
+    "h2": "Last two weeks",
+    "sub": "Each day against the same weekday a year before"
+   },
+   {
+    "tag": "DETAILS.card fold",
+    "box": [
+     286,
+     1361,
+     1100,
+     47
+    ],
+    "h2": "Sources and method"
+   }
+  ],
+  "gaps": [
+   12,
+   24,
+   24,
+   24,
+   24
+  ],
+  "title": {
+   "size": "28px",
+   "weight": "700",
+   "ls": "-0.7px"
+  },
+  "fresh": [
+   "site-fresh warn: 95 collectors behind",
+   "page-fresh chip sm warn: Data to Oct 29 · behind schedule"
+  ]
+ },
+ "/grid?a=ERCO mac dark": {
+  "screens": 1.62,
+  "wide": false,
+  "tiles": [
+   {
+    "box": [
+     286,
+     228,
+     266,
+     144
+    ],
+    "pad": "16px",
+    "label": "Latest day",
+    "val": "1,297 GWh",
+    "valSize": "28px",
+    "foot": "Oct 29, 2026",
+    "footLines": 1
+   },
+   {
+    "box": [
+     564,
+     228,
+     266,
+     144
+    ],
+    "pad": "16px",
+    "label": "Last 7 days",
+    "val": "▲ +5.7%",
+    "valSize": "28px",
+    "foot": "Against the same 7 days a year before",
+    "footLines": 1
+   },
+   {
+    "box": [
+     842,
+     228,
+     266,
+     144
+    ],
+    "pad": "16px",
+    "label": "Last 91 days",
+    "val": "▲ +9.3%",
+    "valSize": "28px",
+    "delta": "28 days: ▲ +1.6%",
+    "foot": "Against the same 91 days a year before",
+    "footLines": 1
+   },
+   {
+    "box": [
+     1120,
+     228,
+     266,
+     144
+    ],
+    "pad": "16px",
+    "label": "Record day",
+    "val": "1,825 GWh",
+    "valSize": "28px",
+    "delta": "Latest day: ▼ −28.9%",
+    "foot": "Aug 24, 2026",
+    "footLines": 1
+   }
+  ],
+  "cards": [
+   {
+    "tag": "SECTION.page-h",
+    "box": [
+     286,
+     132,
+     1100,
+     72
+    ]
+   },
+   {
+    "tag": "SECTION.tiles four",
+    "box": [
+     286,
+     228,
+     1100,
+     144
+    ]
+   },
+   {
+    "tag": "SECTION.card",
+    "box": [
+     286,
+     396,
+     1100,
+     420
+    ],
+    "h2": "This year vs last",
+    "sub": "7-day average, against the same weekdays a year before",
+    "foot": "EIA-930 | Oct 29, 2026"
+   },
+   {
+    "tag": "SECTION.card",
+    "box": [
+     286,
+     840,
+     1100,
+     498
+    ],
+    "h2": "Last two weeks",
+    "sub": "Each day against the same weekday a year before"
+   },
+   {
+    "tag": "DETAILS.card fold",
+    "box": [
+     286,
+     1361,
+     1100,
+     47
+    ],
+    "h2": "Sources and method"
+   }
+  ],
+  "gaps": [
+   12,
+   24,
+   24,
+   24,
+   24
+  ],
+  "title": {
+   "size": "28px",
+   "weight": "700",
+   "ls": "-0.7px"
+  },
+  "fresh": [
+   "site-fresh warn: 95 collectors behind",
+   "page-fresh chip sm warn: Data to Oct 29 · behind schedule"
+  ]
+ },
+ "/grid?a=ERCO phone light": {
+  "screens": 1.57,
+  "wide": false,
+  "tiles": [
+   {
+    "box": [
+     16,
+     234,
+     198,
+     126
+    ],
+    "pad": "12px",
+    "label": "Latest day",
+    "val": "1,297 GWh",
+    "valSize": "28px",
+    "foot": "Oct 29, 2026",
+    "footLines": 1
+   },
+   {
+    "box": [
+     226,
+     234,
+     198,
+     126
+    ],
+    "pad": "12px",
+    "label": "Last 7 days",
+    "val": "▲ +5.7%",
+    "valSize": "28px",
+    "foot": "Against the same 7 days a year before",
+    "footLines": 2
+   },
+   {
+    "box": [
+     16,
+     372,
+     198,
+     154
+    ],
+    "pad": "12px",
+    "label": "Last 91 days",
+    "val": "▲ +9.3%",
+    "valSize": "28px",
+    "delta": "28 days: ▲ +1.6%",
+    "foot": "Against the same 91 days a year before",
+    "footLines": 2
+   },
+   {
+    "box": [
+     226,
+     372,
+     198,
+     154
+    ],
+    "pad": "12px",
+    "label": "Record day",
+    "val": "1,825 GWh",
+    "valSize": "28px",
+    "delta": "Latest day: ▼ −28.9%",
+    "foot": "Aug 24, 2026",
+    "footLines": 1
+   }
+  ],
+  "cards": [
+   {
+    "tag": "SECTION.page-h",
+    "box": [
+     16,
+     146,
+     408,
+     72
+    ]
+   },
+   {
+    "tag": "SECTION.tiles four",
+    "box": [
+     16,
+     234,
+     408,
+     292
+    ]
+   },
+   {
+    "tag": "SECTION.card",
+    "box": [
+     16,
+     542,
+     408,
+     420
+    ],
+    "h2": "This year vs last",
+    "sub": "7-day average, against the same weekdays a year before",
+    "foot": "EIA-930 | Oct 29, 2026"
+   },
+   {
+    "tag": "SECTION.card",
+    "box": [
+     16,
+     978,
+     408,
+     376
+    ],
+    "h2": "Last two weeks",
+    "sub": "Each day against the same weekday a year before"
+   },
+   {
+    "tag": "DETAILS.card fold",
+    "box": [
+     16,
+     1370,
+     408,
+     47
+    ],
+    "h2": "Sources and method"
+   }
+  ],
+  "gaps": [
+   36,
+   16,
+   16,
+   16,
+   16,
+   16
+  ],
+  "title": {
+   "size": "28px",
+   "weight": "700",
+   "ls": "-0.7px"
+  },
+  "fresh": [
+   "site-fresh warn: 95 collectors behind",
+   "page-fresh chip sm warn: Data to Oct 29 · behind schedule"
+  ]
+ },
+ "/grid?a=ERCO phone dark": {
+  "screens": 1.57,
+  "wide": false,
+  "tiles": [
+   {
+    "box": [
+     16,
+     234,
+     198,
+     126
+    ],
+    "pad": "12px",
+    "label": "Latest day",
+    "val": "1,297 GWh",
+    "valSize": "28px",
+    "foot": "Oct 29, 2026",
+    "footLines": 1
+   },
+   {
+    "box": [
+     226,
+     234,
+     198,
+     126
+    ],
+    "pad": "12px",
+    "label": "Last 7 days",
+    "val": "▲ +5.7%",
+    "valSize": "28px",
+    "foot": "Against the same 7 days a year before",
+    "footLines": 2
+   },
+   {
+    "box": [
+     16,
+     372,
+     198,
+     154
+    ],
+    "pad": "12px",
+    "label": "Last 91 days",
+    "val": "▲ +9.3%",
+    "valSize": "28px",
+    "delta": "28 days: ▲ +1.6%",
+    "foot": "Against the same 91 days a year before",
+    "footLines": 2
+   },
+   {
+    "box": [
+     226,
+     372,
+     198,
+     154
+    ],
+    "pad": "12px",
+    "label": "Record day",
+    "val": "1,825 GWh",
+    "valSize": "28px",
+    "delta": "Latest day: ▼ −28.9%",
+    "foot": "Aug 24, 2026",
+    "footLines": 1
+   }
+  ],
+  "cards": [
+   {
+    "tag": "SECTION.page-h",
+    "box": [
+     16,
+     146,
+     408,
+     72
+    ]
+   },
+   {
+    "tag": "SECTION.tiles four",
+    "box": [
+     16,
+     234,
+     408,
+     292
+    ]
+   },
+   {
+    "tag": "SECTION.card",
+    "box": [
+     16,
+     542,
+     408,
+     420
+    ],
+    "h2": "This year vs last",
+    "sub": "7-day average, against the same weekdays a year before",
+    "foot": "EIA-930 | Oct 29, 2026"
+   },
+   {
+    "tag": "SECTION.card",
+    "box": [
+     16,
+     978,
+     408,
+     376
+    ],
+    "h2": "Last two weeks",
+    "sub": "Each day against the same weekday a year before"
+   },
+   {
+    "tag": "DETAILS.card fold",
+    "box": [
+     16,
+     1370,
+     408,
+     47
+    ],
+    "h2": "Sources and method"
+   }
+  ],
+  "gaps": [
+   36,
+   16,
+   16,
+   16,
+   16,
+   16
+  ],
+  "title": {
+   "size": "28px",
+   "weight": "700",
+   "ls": "-0.7px"
+  },
+  "fresh": [
+   "site-fresh warn: 95 collectors behind",
+   "page-fresh chip sm warn: Data to Oct 29 · behind schedule"
+  ]
+ },
+ "errors": []
+}
