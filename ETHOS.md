@@ -1,0 +1,10 @@
+# Ethos
+
+Sera and Hexagon should be as perfect as Linear's website or Apple Notes: simple purpose, simple architecture, simple design, simple implementation.
+
+- Cut taglines, helper text and secondary labels. If a screen needs them to make sense, fix the layout.
+- Every decision should elevate the user experience (UX), developer experience (DX) and agent experience (AX) at once, without breaking anything.
+
+"Without breaking anything" keeps each project's safety rules. A figure's as-of date, the paper or sample label, and the text or sign that says a state without color are not secondary labels, so they stay.
+
+Each project's `CLAUDE.md` carries this section word for word. Change it here first, then copy it there.
