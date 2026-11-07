@@ -1,0 +1,290 @@
+{
+  "checks" : [
+    {
+      "action" : {
+        "kind" : "openURL",
+        "target" : "x-apple.systempreferences:com.apple.Time-Machine-Settings.extension",
+        "title" : "Set up Time Machine"
+      },
+      "detail" : "Time Machine isn't set up, so files only on this Mac can't be recovered if it's lost or breaks.",
+      "id" : "backup",
+      "status" : "problem",
+      "title" : "Backups"
+    },
+    {
+      "detail" : "The family-tree nightly backup last worked yesterday at 11:47 PM.",
+      "id" : "nightly-ancestry",
+      "status" : "ok",
+      "title" : "Family-tree backup"
+    },
+    {
+      "detail" : "The built-in 500 GB SSD passes its own health self-check (SMART: Verified).",
+      "id" : "ssd-smart",
+      "status" : "ok",
+      "title" : "SSD health"
+    },
+    {
+      "detail" : "XProtect malware scanner updated Oct 23.",
+      "id" : "xprotect",
+      "status" : "ok",
+      "title" : "XProtect"
+    },
+    {
+      "detail" : "Firewall is on.",
+      "id" : "firewall",
+      "status" : "ok",
+      "title" : "Firewall"
+    },
+    {
+      "detail" : "FileVault is on, so the files on this Mac are encrypted.",
+      "id" : "filevault",
+      "status" : "ok",
+      "title" : "FileVault"
+    },
+    {
+      "detail" : "macOS 27.2 has no updates waiting (last checked today at 3:06 PM).",
+      "id" : "macos-updates",
+      "status" : "ok",
+      "title" : "macOS updates"
+    },
+    {
+      "detail" : "No simulators are running.",
+      "id" : "simulators",
+      "status" : "ok",
+      "title" : "Simulators"
+    },
+    {
+      "detail" : "Memory pressure is normal, so apps have the memory they need.",
+      "id" : "memory-pressure",
+      "status" : "ok",
+      "title" : "Memory"
+    },
+    {
+      "detail" : "Running cool.",
+      "id" : "thermal",
+      "status" : "ok",
+      "title" : "Temperature"
+    },
+    {
+      "detail" : "251 GB of 494 GB is available (50% free).",
+      "id" : "disk-space",
+      "status" : "ok",
+      "title" : "Disk space"
+    },
+    {
+      "detail" : "The battery holds 100% of its original charge after 93 charge cycles.",
+      "id" : "battery-health",
+      "status" : "ok",
+      "title" : "Battery health"
+    },
+    {
+      "detail" : "This Wi-Fi network uses a password (WPA3 Personal).",
+      "id" : "open-wifi",
+      "status" : "ok",
+      "title" : "Wi-Fi security"
+    }
+  ],
+  "devices" : [
+    {
+      "id" : "bt:70:F9:4A:8A:C4:27",
+      "kind" : "bluetooth",
+      "name" : "Evan’s AirPods Max 2"
+    }
+  ],
+  "diskWatch" : {
+    "active" : false,
+    "avgRateBytesPerSec" : 0,
+    "droppedBytes" : 0,
+    "freeBytes" : 245043572736,
+    "rateBytesPerSec" : 0,
+    "recentFallBytes" : 0,
+    "recentFallSeconds" : 0,
+    "sampledAt" : "2026-11-03T23:04:03Z",
+    "severity" : "normal",
+    "windowSeconds" : 0
+  },
+  "overall" : "needsAttention",
+  "recommendation" : {
+    "action" : {
+      "kind" : "openURL",
+      "target" : "x-apple.systempreferences:com.apple.Time-Machine-Settings.extension",
+      "title" : "Set up Time Machine"
+    },
+    "detail" : "Time Machine isn't set up, so files only on this Mac can't be recovered if it's lost or breaks.",
+    "id" : "backup",
+    "status" : "problem",
+    "title" : "Backups"
+  },
+  "snapshot" : {
+    "battery" : {
+      "condition" : "Normal",
+      "cycleCount" : 93,
+      "isCharging" : false,
+      "maxCapacityPct" : 100,
+      "onACPower" : true,
+      "percent" : 80,
+      "present" : true
+    },
+    "chip" : "Apple M5",
+    "cpu" : {
+      "idlePct" : 89.24930491195552,
+      "perCoreBusyPct" : [
+        14.018691588785046,
+        11.627906976744185,
+        7.4074074074074066,
+        3.7209302325581395,
+        2.803738317757009,
+        3.686635944700461,
+        18.98148148148148,
+        17.51152073732719,
+        15.74074074074074,
+        11.926605504587156
+      ],
+      "systemPct" : 3.19740500463392,
+      "userPct" : 7.553290083410566
+    },
+    "date" : "2026-11-03T23:04:03Z",
+    "disk" : {
+      "availableBytes" : 251121108794,
+      "totalBytes" : 494332366848,
+      "volumeName" : "Macintosh HD"
+    },
+    "macModel" : "MacBook Pro",
+    "memory" : {
+      "appBytes" : 6040125440,
+      "cachedFilesBytes" : 6244794368,
+      "compressedBytes" : 1143324672,
+      "pressure" : "normal",
+      "swapTotalBytes" : 1073741824,
+      "swapUsedBytes" : 273088512,
+      "totalBytes" : 17179869184,
+      "usedBytes" : 9898295296,
+      "wiredBytes" : 2714845184
+    },
+    "network" : {
+      "band" : "5 GHz",
+      "downloadBytesPerSec" : 2625.3599247507727,
+      "interfaceName" : "en0",
+      "isConnected" : true,
+      "isSecured" : true,
+      "isWiFi" : true,
+      "noiseDBm" : -95,
+      "rssiDBm" : -49,
+      "securityLabel" : "WPA3 Personal",
+      "ssid" : "WiFi5G",
+      "ssidHidden" : false,
+      "txRateMbps" : 1200,
+      "uploadBytesPerSec" : 1854.253181995579
+    },
+    "thermal" : {
+      "batteryTempC" : 29.6,
+      "cpuTempC" : 37.5,
+      "explanation" : "Running cool.",
+      "pressure" : "nominal",
+      "ssdTempC" : 33,
+      "verdict" : "cool"
+    },
+    "uptime" : {
+      "bootDate" : "2026-11-03T06:11:42Z"
+    }
+  },
+  "topGroups" : [
+    {
+      "canQuit" : false,
+      "cpuPct" : 10.8,
+      "iconPath" : "\/Applications\/Claude.app",
+      "id" : "claude-code",
+      "kind" : "claudeCode",
+      "memoryBytes" : 878061552,
+      "name" : "Claude Code",
+      "processCount" : 13
+    },
+    {
+      "bundleID" : "com.apple.Terminal",
+      "canQuit" : true,
+      "cpuPct" : 9.2,
+      "iconPath" : "\/System\/Applications\/Utilities\/Terminal.app",
+      "id" : "com.apple.Terminal",
+      "kind" : "app",
+      "memoryBytes" : 580522496,
+      "name" : "Terminal",
+      "processCount" : 8
+    },
+    {
+      "canQuit" : false,
+      "cpuPct" : 2.2,
+      "id" : "proc:spotlight",
+      "kind" : "background",
+      "memoryBytes" : 107339192,
+      "name" : "Spotlight search",
+      "processCount" : 8
+    },
+    {
+      "canQuit" : false,
+      "cpuPct" : 0.7,
+      "id" : "proc:Storage cleanup (deleted)",
+      "kind" : "background",
+      "memoryBytes" : 4948328,
+      "name" : "Storage cleanup (deleted)",
+      "processCount" : 1
+    },
+    {
+      "canQuit" : false,
+      "cpuPct" : 0.5,
+      "id" : "proc:Siri & suggestions",
+      "kind" : "background",
+      "memoryBytes" : 111251248,
+      "name" : "Siri & suggestions",
+      "processCount" : 8
+    },
+    {
+      "bundleID" : "com.apple.controlcenter",
+      "canQuit" : false,
+      "cpuPct" : 0.4,
+      "iconPath" : "\/System\/Library\/CoreServices\/ControlCenter.app",
+      "id" : "com.apple.controlcenter",
+      "kind" : "background",
+      "memoryBytes" : 57164952,
+      "name" : "Control Center",
+      "processCount" : 2
+    },
+    {
+      "bundleID" : "com.apple.WindowManager",
+      "canQuit" : false,
+      "cpuPct" : 0.4,
+      "iconPath" : "\/System\/Library\/CoreServices\/WindowManager.app",
+      "id" : "com.apple.WindowManager",
+      "kind" : "background",
+      "memoryBytes" : 16662912,
+      "name" : "WindowManager",
+      "processCount" : 1
+    },
+    {
+      "canQuit" : false,
+      "cpuPct" : 0.3,
+      "id" : "proc:SetStoreUpdateService",
+      "kind" : "background",
+      "memoryBytes" : 64429808,
+      "name" : "SetStoreUpdateService",
+      "processCount" : 22
+    },
+    {
+      "canQuit" : false,
+      "cpuPct" : 0.3,
+      "id" : "proc:Handoff & Continuity",
+      "kind" : "background",
+      "memoryBytes" : 13058528,
+      "name" : "Handoff & Continuity",
+      "processCount" : 1
+    },
+    {
+      "canQuit" : false,
+      "cpuPct" : 0.3,
+      "id" : "proc:ContinuityCaptureAgent",
+      "kind" : "background",
+      "memoryBytes" : 6734208,
+      "name" : "ContinuityCaptureAgent",
+      "processCount" : 1
+    }
+  ]
+}

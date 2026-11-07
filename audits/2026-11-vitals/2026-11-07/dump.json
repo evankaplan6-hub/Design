@@ -1,0 +1,290 @@
+{
+  "checks" : [
+    {
+      "action" : {
+        "kind" : "openURL",
+        "target" : "x-apple.systempreferences:com.apple.Time-Machine-Settings.extension",
+        "title" : "Set up Time Machine"
+      },
+      "detail" : "Time Machine isn't set up, so files only on this Mac can't be recovered if it's lost or breaks.",
+      "id" : "backup",
+      "status" : "problem",
+      "title" : "Backups"
+    },
+    {
+      "detail" : "The family-tree nightly backup last worked today at 12:00 AM.",
+      "id" : "nightly-ancestry",
+      "status" : "ok",
+      "title" : "Family-tree backup"
+    },
+    {
+      "detail" : "The built-in 500 GB SSD passes its own health self-check (SMART: Verified).",
+      "id" : "ssd-smart",
+      "status" : "ok",
+      "title" : "SSD health"
+    },
+    {
+      "detail" : "XProtect malware scanner updated Nov 4.",
+      "id" : "xprotect",
+      "status" : "ok",
+      "title" : "XProtect"
+    },
+    {
+      "detail" : "Firewall is on.",
+      "id" : "firewall",
+      "status" : "ok",
+      "title" : "Firewall"
+    },
+    {
+      "detail" : "FileVault is on, so the files on this Mac are encrypted.",
+      "id" : "filevault",
+      "status" : "ok",
+      "title" : "FileVault"
+    },
+    {
+      "detail" : "macOS 27.2 has no updates waiting (last checked today at 4:09 AM).",
+      "id" : "macos-updates",
+      "status" : "ok",
+      "title" : "macOS updates"
+    },
+    {
+      "detail" : "No simulators are running.",
+      "id" : "simulators",
+      "status" : "ok",
+      "title" : "Simulators"
+    },
+    {
+      "detail" : "Memory pressure is normal, so apps have the memory they need.",
+      "id" : "memory-pressure",
+      "status" : "ok",
+      "title" : "Memory"
+    },
+    {
+      "detail" : "Running cool.",
+      "id" : "thermal",
+      "status" : "ok",
+      "title" : "Temperature"
+    },
+    {
+      "detail" : "200 GB of 494 GB is available (40% free).",
+      "id" : "disk-space",
+      "status" : "ok",
+      "title" : "Disk space"
+    },
+    {
+      "detail" : "The battery holds 100% of its original charge after 94 charge cycles.",
+      "id" : "battery-health",
+      "status" : "ok",
+      "title" : "Battery health"
+    },
+    {
+      "detail" : "This Wi-Fi network uses a password (WPA2 Personal).",
+      "id" : "open-wifi",
+      "status" : "ok",
+      "title" : "Wi-Fi security"
+    },
+    {
+      "detail" : "Disk-full warnings and notification banners are enabled. Focus may delay them.",
+      "id" : "disk-alerts",
+      "status" : "ok",
+      "title" : "Disk-full warnings"
+    }
+  ],
+  "devices" : [
+
+  ],
+  "diskWatch" : {
+    "active" : false,
+    "avgRateBytesPerSec" : 0,
+    "droppedBytes" : 2297856,
+    "freeBytes" : 191561723904,
+    "minutesToFull" : 2811.0805887312385,
+    "rateBytesPerSec" : 1135753.7778171634,
+    "recentFallBytes" : 0,
+    "recentFallSeconds" : 0,
+    "sampledAt" : "2026-11-07T14:30:34Z",
+    "severity" : "normal",
+    "windowSeconds" : 2.0231990814208984
+  },
+  "gpuUtilization" : 52,
+  "hidden" : [
+    "backup"
+  ],
+  "overall" : "good",
+  "recommendation" : null,
+  "snapshot" : {
+    "battery" : {
+      "condition" : "Normal",
+      "cycleCount" : 94,
+      "isCharging" : false,
+      "maxCapacityPct" : 100,
+      "minutesRemaining" : 437,
+      "onACPower" : false,
+      "percent" : 77,
+      "present" : true
+    },
+    "chip" : "Apple M5",
+    "cpu" : {
+      "idlePct" : 81.52866242038216,
+      "perCoreBusyPct" : [
+        42.364532019704434,
+        30.198019801980198,
+        23.902439024390244,
+        18.7192118226601,
+        16.176470588235293,
+        12.254901960784313,
+        18.446601941747574,
+        10.784313725490197,
+        6.341463414634147,
+        5.853658536585367
+      ],
+      "systemPct" : 6.075453209211171,
+      "userPct" : 12.395884370406664
+    },
+    "date" : "2026-11-07T14:30:34Z",
+    "disk" : {
+      "availableBytes" : 199684097539,
+      "totalBytes" : 494332366848,
+      "volumeName" : "Macintosh HD"
+    },
+    "macModel" : "MacBook Pro",
+    "memory" : {
+      "appBytes" : 6506971136,
+      "cachedFilesBytes" : 4372234240,
+      "compressedBytes" : 2032844800,
+      "pressure" : "normal",
+      "swapTotalBytes" : 2147483648,
+      "swapUsedBytes" : 494665728,
+      "totalBytes" : 17179869184,
+      "usedBytes" : 11522326528,
+      "wiredBytes" : 2982510592
+    },
+    "network" : {
+      "band" : "5 GHz",
+      "downloadBytesPerSec" : 7365.903062545787,
+      "interfaceName" : "en0",
+      "isConnected" : true,
+      "isSecured" : true,
+      "isWiFi" : true,
+      "noiseDBm" : -96,
+      "rssiDBm" : -72,
+      "securityLabel" : "WPA2 Personal",
+      "ssid" : "Sky Terrace",
+      "ssidHidden" : false,
+      "txRateMbps" : 216,
+      "uploadBytesPerSec" : 298574.510248818
+    },
+    "thermal" : {
+      "batteryTempC" : 25.2,
+      "cpuTempC" : 34.9,
+      "explanation" : "Running cool.",
+      "pressure" : "nominal",
+      "ssdTempC" : 29,
+      "verdict" : "cool"
+    },
+    "uptime" : {
+      "bootDate" : "2026-11-03T06:11:42Z"
+    }
+  },
+  "topGroups" : [
+    {
+      "bundleID" : "com.anthropic.claudefordesktop",
+      "canQuit" : true,
+      "cpuPct" : 62.5,
+      "iconPath" : "\/Applications\/Claude.app",
+      "id" : "com.anthropic.claudefordesktop",
+      "kind" : "claude",
+      "memoryBytes" : 3507100104,
+      "name" : "Claude",
+      "processCount" : 52
+    },
+    {
+      "bundleID" : "com.google.Chrome",
+      "canQuit" : true,
+      "cpuPct" : 44.7,
+      "iconPath" : "\/Applications\/Google Chrome.app",
+      "id" : "com.google.Chrome",
+      "kind" : "app",
+      "memoryBytes" : 1077495784,
+      "name" : "Google Chrome",
+      "processCount" : 16
+    },
+    {
+      "canQuit" : false,
+      "cpuPct" : 11,
+      "iconPath" : "\/Applications\/Claude.app",
+      "id" : "claude-code",
+      "kind" : "claudeCode",
+      "memoryBytes" : 943266800,
+      "name" : "Claude Code",
+      "processCount" : 6
+    },
+    {
+      "canQuit" : false,
+      "cpuPct" : 0.7,
+      "id" : "proc:Storage cleanup",
+      "kind" : "background",
+      "memoryBytes" : 4915536,
+      "name" : "Storage cleanup",
+      "processCount" : 1
+    },
+    {
+      "bundleID" : "com.apple.controlcenter",
+      "canQuit" : false,
+      "cpuPct" : 0.3,
+      "iconPath" : "\/System\/Library\/CoreServices\/ControlCenter.app",
+      "id" : "com.apple.controlcenter",
+      "kind" : "background",
+      "memoryBytes" : 121750848,
+      "name" : "Control Center",
+      "processCount" : 2
+    },
+    {
+      "canQuit" : false,
+      "cpuPct" : 0.2,
+      "id" : "proc:AirDrop & sharing",
+      "kind" : "background",
+      "memoryBytes" : 28509480,
+      "name" : "AirDrop & sharing",
+      "processCount" : 1
+    },
+    {
+      "canQuit" : false,
+      "cpuPct" : 0.2,
+      "id" : "proc:Handoff & Continuity",
+      "kind" : "background",
+      "memoryBytes" : 13828624,
+      "name" : "Handoff & Continuity",
+      "processCount" : 1
+    },
+    {
+      "canQuit" : false,
+      "cpuPct" : 0.1,
+      "id" : "proc:ContinuityCaptureAgent",
+      "kind" : "background",
+      "memoryBytes" : 6734208,
+      "name" : "ContinuityCaptureAgent",
+      "processCount" : 1
+    },
+    {
+      "canQuit" : false,
+      "cpuPct" : 0.1,
+      "id" : "proc:SidecarRelay",
+      "kind" : "background",
+      "memoryBytes" : 3965216,
+      "name" : "SidecarRelay",
+      "processCount" : 1
+    },
+    {
+      "bundleID" : "com.apple.campo",
+      "canQuit" : false,
+      "cpuPct" : 0,
+      "iconPath" : "\/System\/Applications\/Siri AI.app",
+      "id" : "com.apple.campo",
+      "kind" : "background",
+      "memoryBytes" : 279956744,
+      "name" : "Siri",
+      "processCount" : 1
+    }
+  ]
+}

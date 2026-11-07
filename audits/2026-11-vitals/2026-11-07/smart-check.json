@@ -1,0 +1,108 @@
+{
+  "also" : [
+
+  ],
+  "findings" : [
+    {
+      "bytes" : 5259632640,
+      "cleanupHint" : "uv cache prune",
+      "id" : "uv",
+      "kind" : "rebuilds",
+      "note" : "Old package downloads.",
+      "stage" : "storage",
+      "title" : "Python download cache (uv)"
+    },
+    {
+      "bytes" : 2804301824,
+      "cleanupHint" : "npm cache clean --force",
+      "id" : "npm",
+      "kind" : "rebuilds",
+      "stage" : "storage",
+      "title" : "npm cache"
+    },
+    {
+      "bytes" : 849842176,
+      "cleanupHint" : "pnpm store prune",
+      "id" : "pnpm",
+      "kind" : "rebuilds",
+      "stage" : "storage",
+      "title" : "pnpm store"
+    },
+    {
+      "bytes" : 10726617088,
+      "cleanupHint" : "Only if Cowork is no longer used",
+      "id" : "claude-vm",
+      "kind" : "rebuilds",
+      "note" : "The virtual machine Claude Cowork runs in; it re-downloads when needed.",
+      "stage" : "storage",
+      "title" : "Claude app virtual machine"
+    },
+    {
+      "bytes" : 9192595456,
+      "cleanupHint" : "Quit Cursor, then clear old checkpoints",
+      "id" : "cursor-snapshots",
+      "kind" : "rebuilds",
+      "note" : "Edit checkpoints from past AI sessions.",
+      "stage" : "storage",
+      "title" : "Cursor snapshots"
+    },
+    {
+      "bytes" : 6874476544,
+      "id" : "app-caches",
+      "kind" : "rebuilds",
+      "note" : "Apps rebuild these as you use them.",
+      "stage" : "storage",
+      "title" : "App caches"
+    },
+    {
+      "bytes" : 337682432,
+      "cleanupHint" : "Quit Codex, then move this folder to the Trash",
+      "id" : "codex-codex-runtime-install-tCWqQe",
+      "kind" : "win",
+      "note" : "A half-finished install; the live runtime is codex-primary-runtime.",
+      "stage" : "storage",
+      "title" : "Codex install leftover"
+    },
+    {
+      "id" : "startup:com.evan.ancestry-autocommit",
+      "kind" : "info",
+      "note" : "\/bin\/bash",
+      "stage" : "startup",
+      "title" : "com.evan.ancestry-autocommit"
+    },
+    {
+      "bytes" : 146051072,
+      "cleanupHint" : "Look inside ~\/Library\/Application Support\/NVIDIA; if the app is really gone, move the folder to the Trash",
+      "id" : "leftover:NVIDIA",
+      "kind" : "win",
+      "note" : "Possible: the app seems to be gone. Nothing has changed here since Feb 2026. Check before removing.",
+      "stage" : "apps",
+      "title" : "Possible leftovers from NVIDIA"
+    }
+  ],
+  "finishedAt" : "2026-11-07T14:30:39Z",
+  "seconds" : 1.5229849815368652,
+  "stageSummaries" : [
+    {
+      "stage" : "storage",
+      "text" : "Up to 338 MB you could clear"
+    },
+    {
+      "stage" : "protection",
+      "text" : "3 of 3 protections on"
+    },
+    {
+      "stage" : "performance",
+      "text" : "Memory, heat, battery and disk are fine"
+    },
+    {
+      "stage" : "startup",
+      "text" : "1 item starts on its own"
+    },
+    {
+      "stage" : "apps",
+      "text" : "1 possible leftover"
+    }
+  ],
+  "verdict" : "good"
+}
