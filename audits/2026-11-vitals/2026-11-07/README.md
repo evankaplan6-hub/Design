@@ -38,7 +38,7 @@ Reviewed by an independent agent against the code, `CONTRACT.md` and the screens
 These go against the ethos, but each was asked for and written into `CONTRACT.md`. They need his call, not a fix:
 
 - **Paced scan** (`CONTRACT.md:117`, "too fast and boring"). Padding is 7.3 s here (8 folders × 0.35 s + 5 stages × 0.9 s, `SmartCheckRunner.swift:33`), on top of the real work, which in the app includes the slow-check refresh. Results arrive about 9 s after clicking, for a ~1 s scan.
-- **Globe wedges at least 5% wide** (`CONTRACT.md:118`). The two blue wins (484 MB) look like a large slice of a 36 GB sphere; in fact they are 1.3%.
+- ~~**Globe wedges at least 5% wide**~~ Moot 11-07: Evan, "i hate the globe it makes no sense"; globe removed in vitals#15 (`507d1bd`), see `no-globe/`. (`CONTRACT.md:118`). The two blue wins (484 MB) look like a large slice of a 36 GB sphere; in fact they are 1.3%.
 - **Prominent blue Check button** (`CONTRACT.md:50`): the loudest thing on a calm Overview, louder than the status. The card is ~100 pt for one button.
 
 ## P3: polish

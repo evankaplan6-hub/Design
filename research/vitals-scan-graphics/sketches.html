@@ -1,0 +1,426 @@
+<title>Smart Check Sketches</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Layout: a quiet macOS-grey page; three 420 pt panels side by side, then each sketch frame by frame in light and dark. */
+:root {
+  --bg: #f3f3f5; --fg: #1d1d1f; --fg2: rgba(29,29,31,.72); --fg3: rgba(29,29,31,.38);
+  --panel: #ececee; --module: #e1e1e5; --paper: #ffffff; --btn: #e6e6e9;
+  --accent: #007aff; --refill: rgba(29,29,31,.5); --green: #34c759; --neutral: #8e8e93; --red: #ff3b30; --line: rgba(0,0,0,.1);
+  --ui: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+  --mono: ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #1b1b1d; --fg: #f5f5f7; --fg2: rgba(245,245,247,.72); --fg3: rgba(245,245,247,.36);
+  --panel: #262628; --module: #333336; --paper: #3b3b3f; --btn: #3a3a3d;
+  --accent: #0a84ff; --refill: rgba(245,245,247,.45); --green: #30d158; --neutral: #8e8e93; --red: #ff453a; --line: rgba(255,255,255,.12); color-scheme: dark } }
+:root[data-theme="dark"], .t-dark {
+  --bg: #1b1b1d; --fg: #f5f5f7; --fg2: rgba(245,245,247,.72); --fg3: rgba(245,245,247,.36);
+  --panel: #262628; --module: #333336; --paper: #3b3b3f; --btn: #3a3a3d;
+  --accent: #0a84ff; --refill: rgba(245,245,247,.45); --green: #30d158; --neutral: #8e8e93; --red: #ff453a; --line: rgba(255,255,255,.12); color-scheme: dark }
+.t-light {
+  --bg: #f3f3f5; --fg: #1d1d1f; --fg2: rgba(29,29,31,.72); --fg3: rgba(29,29,31,.38);
+  --panel: #ececee; --module: #e1e1e5; --paper: #ffffff; --btn: #e6e6e9;
+  --accent: #007aff; --refill: rgba(29,29,31,.5); --green: #34c759; --neutral: #8e8e93; --red: #ff3b30; --line: rgba(0,0,0,.1); color-scheme: light }
+body { background: var(--bg); color: var(--fg); font-family: var(--ui); }
+.wrap { max-width: 1340px; margin: 0 auto; padding-block: 28px 56px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: grid; gap: 28px; }
+h1 { font-size: 26px; font-weight: 700; margin: 0; text-wrap: balance; letter-spacing: -.01em }
+h2 { font-size: 17px; font-weight: 600; margin: 0; }
+p { margin: 0; color: var(--fg2); line-height: 1.5; max-width: 68ch }
+.intro { display: grid; gap: 8px }
+.bar { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); padding-block: 10px; border-bottom: 1px solid var(--line) }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg) }
+button, select { font: inherit; font-size: 13px; color: var(--fg); background: var(--module); border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px; cursor: pointer }
+button.primary { background: var(--accent); color: #fff; border-color: transparent }
+button:focus-visible, select:focus-visible, input:focus-visible { outline: 3px solid color-mix(in srgb, var(--accent) 50%, transparent); outline-offset: 2px }
+label { font-size: 13px; color: var(--fg2); display: inline-flex; gap: 6px; align-items: center }
+input[type=range] { width: min(320px, 60vw); accent-color: var(--accent) }
+.time { font: 13px var(--mono); color: var(--fg2); font-variant-numeric: tabular-nums; min-width: 6ch }
+.panels { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: 20px; align-items: start }
+.card { display: grid; gap: 10px; min-width: 0; align-content: start }
+.card .rank { font: 600 13px var(--ui); color: var(--fg2) }
+canvas { width: 100%; max-width: 420px; height: auto; border-radius: 18px; background: var(--panel); box-shadow: 0 0 0 1px var(--line), 0 12px 30px rgba(0,0,0,.08); display: block }
+.ref img { width: 100%; max-width: 420px; height: auto; border-radius: 18px; box-shadow: 0 0 0 1px var(--line); display: block }
+.frames-theme { background: var(--bg); color: var(--fg); padding: 16px; border-radius: 20px; display: grid; gap: 12px; border: 1px solid var(--line) }
+.frames { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 14px }
+.frames figure { margin: 0; display: grid; gap: 6px; min-width: 0; align-content: start }
+.frames figcaption { font-size: 12px; color: var(--fg2) }
+.note { font-size: 13px }
+.sketch-frames { display: grid; gap: 12px }
+</style>
+
+<div class="wrap">
+  <div class="intro">
+    <h1>Smart Check sketches</h1>
+    <p>Three ways the scan could look while it runs, drawn from Evan's real Nov 7 scan: six caches that rebuild themselves (35.7 GB) and two folders you could clear (484 MB). Sizes are to scale and the pacing is the app's own (0.35 s per folder, 0.9 s per step). Colour only means a status, as the Vitals contract asks: the folders you could clear are solid and dark, and the caches are quieter grey. Every sketch ends on today's results screen, unchanged apart from a small copy of the graphic under Biggest wins.</p>
+  </div>
+
+  <div class="bar" role="group" aria-label="Playback">
+    <button class="primary" id="play">Play scan</button>
+    <input type="range" id="scrub" min="0" max="8.7" step="0.01" value="8.7" aria-label="Scan time">
+    <span class="time" id="clock">8.7 s</span>
+    <label for="theme">Look
+      <select id="theme"><option value="">System</option><option value="light">Light</option><option value="dark">Dark</option></select>
+    </label>
+    <label><input type="checkbox" id="rm"> Reduce Motion</label>
+  </div>
+
+  <div class="panels">
+    <div class="card">
+      <span class="rank">Pick 1</span>
+      <h2>Tally squares</h2>
+      <p class="note">One square is 100 MB; a pale square is the part left over. Each folder lays down its squares as it's measured, with a gap before the next; the few dark squares at the end are all you could clear. Ends as a thin band under Biggest wins.</p>
+      <canvas id="c-tally" width="420" height="556" role="img" aria-label="Tally squares sketch"></canvas>
+    </div>
+    <div class="card">
+      <span class="rank">Pick 2</span>
+      <h2>Receipt</h2>
+      <p class="note">Folders print as line items, each with a thin bar under its name to scale. Caches that rebuild themselves are quieter and add up on their own line; the bottom line is what you could clear. It hands over to the results screen exactly as it is today, with nothing added.</p>
+      <canvas id="c-receipt" width="420" height="556" role="img" aria-label="Receipt sketch"></canvas>
+    </div>
+    <div class="card">
+      <span class="rank">Pick 3</span>
+      <h2>Strip chart</h2>
+      <p class="note">A pen draws one spike per folder, in the order they're measured, each to scale, and a short flat stretch for each step with no folders. Grey spikes are caches that rebuild themselves; the dark, labelled ones you could clear. Ends as a thin strip under Biggest wins.</p>
+      <canvas id="c-strip" width="420" height="556" role="img" aria-label="Strip chart sketch"></canvas>
+    </div>
+  </div>
+
+  <div class="intro">
+    <h2>Today's results screen</h2>
+    <p>For comparison: the real Smart Check result from the Nov 7 audit. The last frame of each sketch is drawn from this.</p>
+  </div>
+  <figure class="ref" style="margin:0"><img src="today-results-light.png" alt="Vitals results screen: 1 hidden, checked at 9:49 AM, five step rows, Also needs a look: Backups hidden, Biggest wins: Codex install leftover up to 338 MB and Possible leftovers from NVIDIA up to 146 MB, Rebuilds itself 35.7 GB, Check again and Done buttons."></figure>
+
+  <div class="intro">
+    <h2>Frame by frame</h2>
+    <p>Start, mid-scan, a step with no folders, the end of the scan, and the results screen, in light and dark.</p>
+  </div>
+  <div id="frames" class="sketch-frames"></div>
+</div>
+
+<script>
+(() => {
+  const END = 7.3, MAX = 8.7, W = 420, H = 556;
+  const items = [
+    { t: .35, st: 0, title: 'Python download cache (uv)', b: 5259632640, k: 'r' },
+    { t: .70, st: 0, title: 'npm cache', b: 2804301824, k: 'r' },
+    { t: 1.05, st: 0, title: 'pnpm store', b: 849842176, k: 'r' },
+    { t: 1.40, st: 0, title: 'Claude app virtual machine', b: 10726617088, k: 'r' },
+    { t: 1.75, st: 0, title: 'Cursor snapshots', b: 9192595456, k: 'r' },
+    { t: 2.10, st: 0, title: 'App caches', b: 6874476544, k: 'r' },
+    { t: 2.45, st: 0, title: 'Codex install leftover', b: 337682432, k: 'w', sub: 'A half-finished install' },
+    { t: 6.40, st: 4, title: 'Possible leftovers from NVIDIA', b: 146051072, k: 'w', sub: 'Possible: the app seems to be gone' },
+  ];
+  const stages = [
+    { name: 'Storage', s: 0, e: 3.35, sum: 'Up to 338 MB you could clear', ok: 'n' },
+    { name: 'Protection', s: 3.35, e: 4.25, sum: '3 of 3 protections on', ok: 'g' },
+    { name: 'Performance', s: 4.25, e: 5.15, sum: 'Memory, heat, battery and disk are fine', ok: 'g' },
+    { name: 'Startup items', s: 5.15, e: 6.05, sum: '1 item starts on its own', ok: 'n' },
+    { name: 'Apps', s: 6.05, e: 7.3, sum: '1 possible leftover', ok: 'n' },
+  ];
+  const MAXB = Math.max(...items.map(i => i.b));
+  const REFILL = items.filter(i => i.k === 'r').reduce((a, i) => a + i.b, 0);
+  const WINS = items.filter(i => i.k === 'w').reduce((a, i) => a + i.b, 0);
+  const fmt = b => b >= 1e9 ? (b / 1e9).toFixed(1) + ' GB' : Math.round(b / 1e6) + ' MB';
+  const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+  const ease = k => 1 - Math.pow(1 - k, 3);
+  const lerp = (a, b, k) => a + (b - a) * k;
+  const UI = '-apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif';
+  const UNIT = 1e8, wholeOf = i => Math.floor(i.b / UNIT), cellsOf = i => wholeOf(i) + (i.b % UNIT > 0 ? 1 : 0);
+  let reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Positions of today's results screen (check-light.png, in points), shifted 16 pt down for the panel's top inset.
+  const V = { title: 36, sub: 56, row0: 92, pitch: 28, also: 243, backups: 267, rule: 295, wins: 318, w1: 343, w1s: 359, w2: 385, w2s: 401, rebuild: 428, slot: 448, slotH: 40, btn: 511 };
+  const GY = 72, GH = { tally: 240, strip: 240, receipt: 314 };
+
+  function tokens(el) {
+    const cs = getComputedStyle(el), g = n => cs.getPropertyValue('--' + n).trim();
+    return { fg: g('fg'), fg2: g('fg2'), fg3: g('fg3'), panel: g('panel'), module: g('module'), paper: g('paper'), btn: g('btn'), refill: g('refill'), green: g('green'), neutral: g('neutral'), red: g('red'), line: g('line') };
+  }
+  function fit(ctx, s, w) {
+    if (ctx.measureText(s).width <= w) return s;
+    while (s.length > 1 && ctx.measureText(s + '…').width > w) s = s.slice(0, -1);
+    return s + '…';
+  }
+  function rrect(ctx, x, y, w, h, r) { ctx.beginPath(); ctx.roundRect(x, y, w, h, r); }
+  const found = t => items.filter(i => t >= i.t);
+  const latest = t => found(t).slice(-1)[0];
+  const stageAt = t => stages.findIndex(s => t >= s.s && t < s.e);
+  const vkOf = t => reduce ? (t >= END + .3 ? 1 : 0) : ease(clamp((t - END - .3) / .9));
+  function text(ctx, s, x, y, font, color, align = 'left') { ctx.font = font; ctx.fillStyle = color; ctx.textAlign = align; ctx.textBaseline = 'middle'; ctx.fillText(s, x, y); ctx.textAlign = 'left'; }
+
+  // ---------- the app's own status icons ----------
+  function icon(ctx, c, kind, x, y) {
+    ctx.save();
+    if (kind === 'g') {
+      ctx.fillStyle = c.green; ctx.beginPath(); ctx.arc(x, y, 8, 0, 7); ctx.fill();
+      ctx.strokeStyle = '#fff'; ctx.lineWidth = 1.8; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+      ctx.beginPath(); ctx.moveTo(x - 3.6, y + .2); ctx.lineTo(x - 1, y + 2.8); ctx.lineTo(x + 3.8, y - 2.8); ctx.stroke();
+    } else if (kind === 'n') {
+      ctx.fillStyle = c.neutral; ctx.beginPath(); ctx.arc(x, y, 8, 0, 7); ctx.fill();
+      ctx.fillStyle = '#fff'; ctx.fillRect(x - 1, y - 1, 2, 5.5); ctx.beginPath(); ctx.arc(x, y - 3.8, 1.25, 0, 7); ctx.fill();
+    } else if (kind === 'r') {
+      ctx.globalAlpha *= .5; ctx.fillStyle = c.red; ctx.beginPath();
+      for (let k = 0; k < 8; k++) { const a = Math.PI / 8 + k * Math.PI / 4; ctx.lineTo(x + 8.6 * Math.cos(a), y + 8.6 * Math.sin(a)); }
+      ctx.closePath(); ctx.fill(); ctx.globalAlpha /= .5;
+      ctx.strokeStyle = '#fff'; ctx.lineWidth = 1.7; ctx.lineCap = 'round';
+      ctx.beginPath(); ctx.moveTo(x - 3, y - 3); ctx.lineTo(x + 3, y + 3); ctx.moveTo(x + 3, y - 3); ctx.lineTo(x - 3, y + 3); ctx.stroke();
+    }
+    ctx.restore();
+  }
+  function ring(ctx, c, x, y, t, r = 6) { // progress ring in a grey style, not a colour; still under Reduce Motion
+    ctx.strokeStyle = c.fg2; ctx.lineWidth = 2; ctx.lineCap = 'round'; ctx.beginPath();
+    const a = reduce ? -Math.PI / 2 : t * 5; ctx.arc(x, y, r, a, a + Math.PI * 1.4); ctx.stroke(); ctx.lineCap = 'butt';
+  }
+
+  // ---------- header: "Checking…" during the scan, today's "1 hidden" after ----------
+  function header(ctx, c, t, vk) {
+    const out = clamp(1 - vk * 2), inn = clamp(vk * 2 - 1);
+    if (out > 0) {
+      ctx.save(); ctx.globalAlpha = out;
+      ring(ctx, c, 20, V.title, t, 5.5);
+      text(ctx, 'Checking…', 32, V.title, `600 17px ${UI}`, c.fg);
+      const si = t >= END ? 4 : stageAt(t);
+      text(ctx, `Step ${si + 1} of 5 · ${stages[si].name}`, 16, V.sub, `13px ${UI}`, c.fg2);
+      ctx.restore();
+    }
+    if (inn > 0) {
+      ctx.save(); ctx.globalAlpha = inn;
+      ctx.fillStyle = c.neutral; ctx.beginPath(); ctx.arc(20, V.title, 5, 0, 7); ctx.fill();
+      text(ctx, '1 hidden', 32, V.title, `600 17px ${UI}`, c.fg);
+      text(ctx, 'Checked at 9:49 AM', 16, V.sub, `13px ${UI}`, c.fg2);
+      ctx.restore();
+    }
+  }
+  function stageRows(ctx, c, t, y0) {
+    stages.forEach((s, i) => {
+      const y = y0 + i * V.pitch, done = t >= s.e, active = !done && t >= s.s;
+      if (done) icon(ctx, c, s.ok, 25, y);
+      else if (active) ring(ctx, c, 25, y, t, 6.5);
+      else { ctx.strokeStyle = c.neutral; ctx.lineWidth = 1.3; ctx.beginPath(); ctx.arc(25, y, 7, 0, 7); ctx.stroke(); }
+      text(ctx, s.name, 44, y, `14px ${UI}`, done || active ? c.fg : c.fg2);
+      if (done) { ctx.font = `14px ${UI}`; text(ctx, fit(ctx, s.sum, 268), 404, y, `14px ${UI}`, c.fg2, 'right'); }
+    });
+  }
+  function button(ctx, c, label, x, w, y) {
+    ctx.fillStyle = c.btn; rrect(ctx, x, y - 12, w, 24, 12); ctx.fill(); ctx.strokeStyle = c.line; ctx.lineWidth = 1; ctx.stroke();
+    text(ctx, label, x + w / 2, y, `14px ${UI}`, c.fg, 'center');
+  }
+  function copyButton(ctx, c, x, y) {
+    ctx.fillStyle = c.btn; ctx.beginPath(); ctx.arc(x, y, 13, 0, 7); ctx.fill(); ctx.strokeStyle = c.line; ctx.lineWidth = 1; ctx.stroke();
+    ctx.strokeStyle = c.fg; ctx.lineWidth = 1.3; ctx.strokeRect(x - 5.5, y - 7, 8, 10.5);
+    ctx.fillStyle = c.fg; rrect(ctx, x - 2.5, y - 3.5, 8, 10.5, 1); ctx.fill();
+  }
+  // Everything below the step rows on today's results screen.
+  function verdictBody(ctx, c, k) {
+    if (k <= 0) return;
+    ctx.save(); ctx.globalAlpha = k;
+    text(ctx, 'Also needs a look', 16, V.also, `600 13px ${UI}`, c.fg2);
+    icon(ctx, c, 'r', 25, V.backups); text(ctx, 'Backups', 44, V.backups, `14px ${UI}`, c.fg); text(ctx, 'Hidden', 404, V.backups, `14px ${UI}`, c.fg2, 'right');
+    ctx.strokeStyle = c.line; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(16, V.rule + .5); ctx.lineTo(404, V.rule + .5); ctx.stroke();
+    text(ctx, 'Biggest wins', 16, V.wins, `600 13px ${UI}`, c.fg2);
+    items.filter(i => i.k === 'w').forEach((i, n) => {
+      const ty = n ? V.w2 : V.w1, sy = n ? V.w2s : V.w1s;
+      text(ctx, i.title, 16, ty, `14px ${UI}`, c.fg);
+      text(ctx, 'up to ' + fmt(i.b) + ' · ' + i.sub, 16, sy, `12px ${UI}`, c.fg2);
+      copyButton(ctx, c, 390, (ty + sy) / 2);
+    });
+    text(ctx, 'Rebuilds itself', 16, V.rebuild, `14px ${UI}`, c.fg2); text(ctx, fmt(REFILL), 404, V.rebuild, `14px ${UI}`, c.fg2, 'right');
+    button(ctx, c, 'Check again', 237, 101, V.btn); button(ctx, c, 'Done', 346, 58, V.btn);
+    ctx.restore();
+  }
+
+  // ---------- readout line at the top of the strip and tally boxes ----------
+  function readout(ctx, c, t, x, y, w) {
+    const l = latest(t), si = stageAt(t), ry = y + 22;
+    if (!l) { text(ctx, 'Measuring folders…', x + 16, ry, `13px ${UI}`, c.fg2); return; }
+    if (l.st === si) {
+      const win = l.k === 'w';
+      ctx.font = `${win ? 600 : 400} 13px ${UI}`;
+      text(ctx, fit(ctx, l.title, 196), x + 16, ry, ctx.font, win ? c.fg : c.fg2);
+      text(ctx, win ? 'up to ' + fmt(l.b) + ' you could clear' : fmt(l.b) + ' · rebuilds itself', x + w - 16, ry, `${win ? 600 : 400} 13px ${UI}`, win ? c.fg : c.fg2, 'right');
+    } else {
+      const n = found(t).length;
+      text(ctx, n + (n === 1 ? ' folder' : ' folders') + ' measured', x + 16, ry, `13px ${UI}`, c.fg);
+      text(ctx, 'No folders in this step', x + w - 16, ry, `13px ${UI}`, c.fg2, 'right');
+    }
+  }
+  function legend(ctx, c, x, y, w, glyph) {
+    glyph(ctx, c.refill, x + 21, y); text(ctx, fmt(REFILL) + ' rebuilds itself', x + 32, y, `12px ${UI}`, c.fg2);
+    const s = 'Up to ' + fmt(WINS) + ' you could clear'; ctx.font = `600 12px ${UI}`; const sw = ctx.measureText(s).width;
+    text(ctx, s, x + w - 16, y, ctx.font, c.fg, 'right'); glyph(ctx, c.fg, x + w - 16 - sw - 11, y);
+  }
+
+  // ---------- 1. tally squares ----------
+  function drawTally(ctx, c, t, x, y, w, h, compact) {
+    if (!compact) { ctx.fillStyle = c.module; rrect(ctx, x, y, w, h, 14); ctx.fill(); }
+    const cell = compact ? 4 : 10, gap = compact ? 1 : 2, pitch = cell + gap;
+    const gx = x + (compact ? 0 : 16), cols = Math.floor((w - (compact ? 0 : 32) + gap) / pitch);
+    const gy = compact ? y + (h - Math.ceil(376 / cols) * pitch) / 2 : y + 44;
+    let n = 0; const a0 = ctx.globalAlpha;
+    items.forEach(it => {
+      const cells = cellsOf(it);
+      if (t >= it.t) {
+        const show = reduce || compact ? cells : Math.ceil(cells * clamp((t - it.t) / .3));
+        ctx.fillStyle = it.k === 'w' ? c.fg : c.refill;
+        for (let j = 0; j < show; j++) {
+          const idx = n + j, cx = gx + (idx % cols) * pitch, cy = gy + Math.floor(idx / cols) * pitch;
+          ctx.globalAlpha = j >= wholeOf(it) ? a0 * .35 : a0;
+          if (compact) ctx.fillRect(cx, cy, cell, cell); else { rrect(ctx, cx, cy, cell, cell, 2); ctx.fill(); }
+        }
+      }
+      n += cells + 1; // one empty square between folders
+    });
+    ctx.globalAlpha = a0;
+    if (compact) return;
+    if (t >= END) text(ctx, '1 square = 100 MB · a pale one is part of 100 MB', x + 16, y + 22, `13px ${UI}`, c.fg2);
+    else readout(ctx, c, t, x, y, w);
+    if (t >= END) legend(ctx, c, x, y + h - 20, w, (ctx, col, gx, gy) => { ctx.fillStyle = col; rrect(ctx, gx - 5, gy - 5, 10, 10, 2); ctx.fill(); });
+  }
+
+  // ---------- 2. strip chart ----------
+  function drawStrip(ctx, c, t, x, y, w, h, compact) {
+    if (!compact) { ctx.fillStyle = c.module; rrect(ctx, x, y, w, h, 14); ctx.fill(); }
+    const x0 = x + (compact ? 0 : 16), xw = w - (compact ? 0 : 32), slot = xw / 10.7, st = slot * .9;
+    const xs = x0 + 7 * slot; // end of Storage; then Protection, Performance, Startup items (no folders); then Apps
+    const px = i => i < 7 ? x0 + slot * (i + .5) : xs + 3 * st + slot / 2;
+    const base = y + h - (compact ? 2 : 34), A = h - (compact ? 10 : 34 + 70);
+    // pen: one even slot per folder; it waits while steps without folders run
+    const keys = [[0, x0], ...items.slice(0, 7).map((it, i) => [it.t, px(i)]), [3.35, xs], [4.25, xs + st], [5.15, xs + 2 * st], [6.05, xs + 3 * st], [6.4, px(7)], [END, x0 + xw]];
+    const pt = Math.min(t, END); let penX = x0 + xw;
+    for (let k = 0; k < keys.length - 1; k++) if (pt >= keys[k][0] && pt <= keys[k + 1][0]) { penX = lerp(keys[k][1], keys[k + 1][1], (pt - keys[k][0]) / (keys[k + 1][0] - keys[k][0])); break; }
+    if (compact) penX = x0 + xw;
+    ctx.strokeStyle = c.refill; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(x0, base + .5); ctx.lineTo(penX, base + .5); ctx.stroke();
+    const hw = Math.min(slot * .3, compact ? 4 : 10);
+    items.forEach((it, i) => {
+      if (t < it.t) return;
+      const X = px(i), hh = A * it.b / MAXB, win = it.k === 'w';
+      ctx.strokeStyle = win ? c.fg : c.refill; ctx.lineWidth = win ? (compact ? 1.8 : 2.4) : (compact ? 1.2 : 1.6); ctx.lineJoin = 'round';
+      ctx.beginPath(); ctx.moveTo(X - hw, base); ctx.lineTo(X, base - hh); ctx.lineTo(X + hw, base); ctx.stroke();
+      if (win && compact) { ctx.fillStyle = c.fg; ctx.beginPath(); ctx.arc(X, base - hh - (compact ? 4 : 6), compact ? 2 : 2.6, 0, 7); ctx.fill(); }
+      if (!compact) text(ctx, fmt(it.b), X, base - hh - 9, `${win ? 600 : 400} 11px ${UI}`, win ? c.fg : c.fg2, 'center');
+    });
+    if (compact) return;
+    if (t < END) { ctx.fillStyle = c.fg; ctx.beginPath(); ctx.arc(penX, base, 2.8, 0, 7); ctx.fill(); }
+    if (pt >= 0) text(ctx, 'Storage', (px(0) + px(6)) / 2, base + 16, `11px ${UI}`, c.fg2, 'center');
+    if (pt >= 3.35) text(ctx, 'No folders', xs + 1.5 * st, base + 16, `11px ${UI}`, c.fg2, 'center');
+    [xs, xs + st, xs + 2 * st, xs + 3 * st].forEach((tx, k) => { if (pt >= [3.35, 4.25, 5.15, 6.05][k]) { ctx.strokeStyle = c.refill; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(tx + .5, base + 3); ctx.lineTo(tx + .5, base + 7); ctx.stroke(); } });
+    if (pt >= 6.05) text(ctx, 'Apps', px(7), base + 16, `11px ${UI}`, c.fg2, 'center');
+    if (t >= END) legend(ctx, c, x, y + 22, w, (ctx, col, gx, gy) => { ctx.strokeStyle = col; ctx.lineWidth = 1.8; ctx.beginPath(); ctx.moveTo(gx - 5, gy + 5); ctx.lineTo(gx, gy - 5); ctx.lineTo(gx + 5, gy + 5); ctx.stroke(); });
+    else readout(ctx, c, t, x, y, w);
+  }
+
+  // ---------- 3. receipt ----------
+  const rLines = [{ t: 0, ty: 'head', l: 'Storage' }];
+  items.filter(i => i.st === 0).forEach(i => rLines.push({ t: i.t, ty: 'item', i }));
+  rLines.push({ t: 6.05, ty: 'head', l: 'Apps' }, { t: 6.4, ty: 'item', i: items[7] }, { t: END, ty: 'rule' }, { t: END, ty: 'total' }, { t: END, ty: 'grand' });
+  const RLH = { head: 20, item: 22, rule: 12, total: 22, grand: 26 };
+  function drawReceipt(ctx, c, t, x, y, w, h) {
+    ctx.fillStyle = c.module; rrect(ctx, x, y, w, h, 14); ctx.fill();
+    const vis = rLines.filter(L => t >= L.t), ch = vis.reduce((a, L) => a + RLH[L.ty], 0) + 14;
+    const px0 = x + 12, pw = w - 24;
+    ctx.fillStyle = c.paper; rrect(ctx, px0, y + 12, pw, ch, 8); ctx.fill();
+    const L0 = px0 + 14, R0 = px0 + pw - 14;
+    let ly = y + 19;
+    for (const L of vis) {
+      const reveal = reduce ? 1 : clamp((t - L.t) / .22);
+      ctx.save(); ctx.beginPath(); ctx.rect(px0, ly - 2, pw * reveal, RLH[L.ty] + 4); ctx.clip();
+      const mid = ly + RLH[L.ty] / 2;
+      if (L.ty === 'head') text(ctx, L.l, L0, mid, `600 12px ${UI}`, c.fg2);
+      else if (L.ty === 'item') {
+        const i = L.i, win = i.k === 'w';
+        ctx.font = `${win ? 600 : 400} 13px ${UI}`;
+        text(ctx, fit(ctx, i.title, R0 - L0 - 150), L0, mid - 2, ctx.font, win ? c.fg : c.fg2);
+        text(ctx, win ? 'up to ' + fmt(i.b) : fmt(i.b) + ' · rebuilds itself', R0, mid - 2, `${win ? 600 : 400} 13px ${UI}`, win ? c.fg : c.fg2, 'right');
+        ctx.fillStyle = win ? c.fg : c.refill; rrect(ctx, L0, mid + 7, Math.max(2, (R0 - L0 - 150) * i.b / MAXB), 2.5, 1.25); ctx.fill();
+      }
+      else if (L.ty === 'rule') { ctx.strokeStyle = c.line; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(L0, mid + .5); ctx.lineTo(R0, mid + .5); ctx.stroke(); }
+      else if (L.ty === 'total') { text(ctx, 'Rebuilds itself', L0, mid, `13px ${UI}`, c.fg2); text(ctx, fmt(REFILL), R0, mid, `13px ${UI}`, c.fg2, 'right'); }
+      else if (L.ty === 'grand') { text(ctx, 'You could clear', L0, mid, `600 15px ${UI}`, c.fg); text(ctx, 'up to ' + fmt(WINS), R0, mid, `600 15px ${UI}`, c.fg, 'right'); }
+      ctx.restore(); ly += RLH[L.ty];
+    }
+  }
+
+  // ---------- one panel: header, graphic, step rows, then today's result ----------
+  const DRAW = { tally: drawTally, strip: drawStrip, receipt: drawReceipt };
+  const panel = kind => (ctx, c, t) => {
+    const vk = vkOf(t), out = clamp(1 - vk * 2), inn = clamp(vk * 2 - 1);
+    header(ctx, c, t, vk);
+    if (out > 0) { ctx.save(); ctx.globalAlpha = out; DRAW[kind](ctx, c, t, 16, GY, 388, GH[kind], false); ctx.restore(); }
+    if (inn > 0 && kind !== 'receipt') {
+      ctx.save(); ctx.globalAlpha = inn; DRAW[kind](ctx, c, t, 16, V.slot, 256, V.slotH, true);
+      const kg = kind === 'tally' ? (col, gx, gy) => { ctx.fillStyle = col; ctx.fillRect(gx - 3, gy - 3, 6, 6); } : (col, gx, gy) => { ctx.strokeStyle = col; ctx.lineWidth = 1.6; ctx.beginPath(); ctx.moveTo(gx - 4, gy + 4); ctx.lineTo(gx, gy - 4); ctx.lineTo(gx + 4, gy + 4); ctx.stroke(); };
+      kg(c.fg, 290, V.slot + 11); text(ctx, 'You could clear', 300, V.slot + 11, `12px ${UI}`, c.fg2);
+      kg(c.refill, 290, V.slot + 29); text(ctx, 'Rebuilds itself', 300, V.slot + 29, `12px ${UI}`, c.fg2);
+      ctx.restore();
+    }
+    stageRows(ctx, c, t, lerp(GY + GH[kind] + 26, V.row0, ease(clamp(vk * 2))));
+    verdictBody(ctx, c, inn);
+  };
+  // What VoiceOver would hear (per step, not per frame).
+  function describe(name, t) {
+    if (t >= END) return `${name}. Check done. 6 caches that rebuild themselves, ${fmt(REFILL)}. 2 folders, up to ${fmt(WINS)} you could clear.`;
+    const si = stageAt(t), n = found(t).length;
+    return `${name}. Checking, step ${si + 1} of 5, ${stages[si].name}. ${n} ${n === 1 ? 'folder' : 'folders'} measured so far.`;
+  }
+
+  // ---------- plumbing ----------
+  function paint(canvas, fn, t) {
+    const dpr = Math.min(3, window.devicePixelRatio || 1);
+    if (canvas.width !== W * dpr) { canvas.width = W * dpr; canvas.height = H * dpr; }
+    const ctx = canvas.getContext('2d'); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const c = tokens(canvas);
+    ctx.clearRect(0, 0, W, H); ctx.fillStyle = c.panel; ctx.fillRect(0, 0, W, H);
+    fn(ctx, c, t);
+  }
+  const NAMES = { tally: 'Tally squares', strip: 'Strip chart', receipt: 'Receipt' };
+  const live = ['tally', 'strip', 'receipt'].map(k => [document.getElementById('c-' + k), panel(k), k]);
+  const frameDefs = [['Start · 0.5 s', .5], ['Mid-scan · 2.2 s', 2.2], ['Step with no folders · 4.6 s', 4.6], ['End of scan · 7.3 s', 7.3], ['Results screen', MAX]];
+  const frameCanvases = [];
+  const host = document.getElementById('frames');
+  ['tally', 'receipt', 'strip'].forEach(k => {
+    const h = document.createElement('h2'); h.textContent = NAMES[k]; host.append(h);
+    ['t-light', 't-dark'].forEach(th => {
+      const box = document.createElement('div'); box.className = 'frames-theme ' + th;
+      const row = document.createElement('div'); row.className = 'frames'; box.append(row); host.append(box);
+      frameDefs.forEach(([cap, t]) => {
+        const f = document.createElement('figure'), cv = document.createElement('canvas');
+        cv.setAttribute('role', 'img'); cv.setAttribute('aria-label', describe(NAMES[k], t)); f.append(cv);
+        const fc = document.createElement('figcaption'); fc.textContent = cap; f.append(fc); row.append(f);
+        frameCanvases.push([cv, panel(k), t]);
+      });
+    });
+  });
+  const scrub = document.getElementById('scrub'), clock = document.getElementById('clock');
+  let T = MAX, raf = 0, playing = false, last = 0;
+  function render() {
+    live.forEach(([cv, fn, k]) => { paint(cv, fn, T); const d = describe(NAMES[k], T); if (cv.getAttribute('aria-label') !== d) cv.setAttribute('aria-label', d); });
+    clock.textContent = T.toFixed(1) + ' s'; scrub.value = T;
+  }
+  function renderFrames() { const r = reduce; reduce = true; frameCanvases.forEach(([cv, fn, t]) => paint(cv, fn, t)); reduce = r; }
+  function tick(now) {
+    if (!playing) return;
+    T = Math.min(MAX, T + (now - last) / 1000); last = now; render();
+    if (T < MAX) raf = requestAnimationFrame(tick); else stop();
+  }
+  function stop() { playing = false; cancelAnimationFrame(raf); playBtn.textContent = 'Play scan'; }
+  const playBtn = document.getElementById('play');
+  function play() {
+    stop();
+    if (reduce) { // no pacing with Reduce Motion: the real scan (~1.5 s), then the result at once
+      T = 0; render(); playBtn.textContent = 'Scanning…';
+      setTimeout(() => { T = MAX; render(); playBtn.textContent = 'Play scan'; }, 1500); return;
+    }
+    T = 0; playing = true; last = performance.now(); playBtn.textContent = 'Stop'; raf = requestAnimationFrame(tick);
+  }
+  playBtn.addEventListener('click', () => playing ? stop() : play());
+  scrub.addEventListener('input', () => { stop(); T = +scrub.value; render(); });
+  const rm = document.getElementById('rm'); rm.checked = reduce;
+  rm.addEventListener('change', () => { reduce = rm.checked; render(); });
+  const theme = document.getElementById('theme');
+  theme.addEventListener('change', () => { theme.value ? document.documentElement.setAttribute('data-theme', theme.value) : document.documentElement.removeAttribute('data-theme'); render(); renderFrames(); });
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { render(); renderFrames(); });
+  render(); renderFrames();
+  if (!reduce) setTimeout(play, 900);
+})();
+</script>
