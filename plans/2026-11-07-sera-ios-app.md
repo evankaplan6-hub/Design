@@ -12,6 +12,8 @@
 
 **Audit:** A separate reviewer checked revision 1 against `~/sera` `origin/main` `4aff70c` and Apple's docs on 2026-11-07. All 16 findings are fixed in this revision.
 
+**Revision 3 (2026-11-07), free start:** Evan asked whether there's a trial. There isn't, but Phase 1 needs nothing the paid program gives. So Phase 1 is now built and used on Xcode's free Personal Team, and the $99 is paid only when Phase 2 starts. A second reviewer checked this revision against Apple's docs. Its fixes are in: pairing in Xcode 27's Device Hub, the steps in the right order, an install script that builds for the phone and always targets the live box, the one-time "Trust" step, and a Phase 2 gate that isn't circular.
+
 ## Part 1: Findings and decisions
 
 ### What exists (checked 2026-11-07 against `~/sera` main `4aff70c`)
@@ -44,10 +46,12 @@
 1. **A shell first, not a rewrite.**
    - Rewriting 90 pages and 125 templates in SwiftUI would take months, and every collector, alert rule and page would then exist twice. ETHOS.md asks for simple architecture.
    - The shell gives native tabs, swipe-back, pull-to-refresh and push in weeks. Native screens come later, one at a time, and only where they beat the web page (Phase 4).
-2. **Native push is the reason to do this, and it costs $99 a year.**
+2. **Phase 1 is free; native push costs $99 a year.**
    - A `WKWebView` in an app gets no Web Push, so without APNs the app would push *less* than the Home Screen app does today.
-   - APNs, and installing on a real iPhone for more than 7 days, both need the paid Apple Developer Program.
-   - **Phase 0 is a hard gate.** Without enrollment, stop after Phase 1 and keep the Home Screen app for pushes.
+   - APNs, TestFlight, and installs that last more than 7 days all need the paid Apple Developer Program. Apple has no trial, and waives the fee only for nonprofits, schools and governments.
+   - Phase 1 needs none of those. It runs on Xcode's free Personal Team (any Apple ID). The cost is reinstalling from the Mac every 7 days, which `ios/scripts/install.sh` makes one command (Task 3).
+   - Through Phase 1, the Home Screen app stays on the phone and keeps delivering pushes.
+   - **Phase 0b (enrollment and APNs keys) is a hard gate for Phase 2.** If Evan doesn't enroll, the project stops after Phase 1, and he keeps both the app and the Home Screen app.
 3. **The app lives in the Sera repo, in `ios/`.** Server and app changes that depend on each other land in one PR. The Docker allowlist already keeps `ios/` out of the image.
 4. **A plain Xcode project with folder-synchronized groups.** No XcodeGen, and no third-party Swift packages.
 5. **One `WKWebView` per tab, sharing `WKWebsiteDataStore.default()`.**
@@ -61,7 +65,9 @@
    - FINRA's data is non-commercial and Sera is private.
    - Internal TestFlight builds skip App Review, update over the air and last 90 days.
    - Phase 1 can be a direct Xcode install.
-8. **Bundle ID `com.evankaplan.sera`, minimum iOS 27.0, iPhone only, portrait only.**
+8. **Bundle ID `com.evankaplan.sera.dev` on the free team; `com.evankaplan.sera` from Phase 2 on the paid team. Minimum iOS 27.0, iPhone only, portrait only.**
+   - An App ID registered by the free Personal Team belongs to that team, which is not the paid team Evan gets on enrolling. There's no way to release it yourself: Apple's own advice is to change the bundle ID (developer.apple.com/forums/thread/843925, August 2026). Keeping `com.evankaplan.sera` unused until then means the paid team can register it without a clash.
+   - The switch in Task 6 is one build setting plus deleting the `.dev` app from the phone.
    - In landscape a Pro Max is about 956 points wide. That's over the 900 px breakpoint, so the Mac rail and top bar would appear inside the app.
    - Landscape waits until a native screen (Phase 4) needs it.
    - Tests run on the iPhone 18 Pro Max simulator only (Evan's rule).
@@ -76,9 +82,10 @@
 
 | Phase | Ships | Gate to start |
 |---|---|---|
-| 0 | Apple account, simulator, APNs keys | none (Evan's steps) |
-| 1 | Native shell on Evan's iPhone, with the web pages inside | iOS simulator runtime installed |
-| 2 | Native push, badge, notification taps, TestFlight | Phase 0 done, Phase 1 used for a few days |
+| 0a | Simulator, free Personal Team, phone paired (free) | none |
+| 1 | Native shell on Evan's iPhone, with the web pages inside (free) | Phase 0a done |
+| 0b | Paid enrollment, APNs keys ($99 a year) | Evan decides the app is worth keeping |
+| 2 | Native push, badge, notification taps, TestFlight | Phase 0b Steps 1-3 done, Phase 1 used for a few days |
 | 3 | Widget and App Intents (candidates; each gets its own plan) | Phase 2 has pushed reliably for a week |
 | 4 | Native screens one at a time (candidates; each gets its own plan) | a measured problem with a web page in the app |
 
@@ -87,7 +94,7 @@
 - **Backend:** the Python server stays the backend. No collector, alert rule or page logic moves into Swift.
 - **App build:**
   - Swift 6 language mode, SwiftUI, deployment target iOS 27.0, iPhone portrait only, no third-party Swift packages.
-  - Bundle ID `com.evankaplan.sera`. User agent token `SeraApp/1`.
+  - Bundle ID `com.evankaplan.sera.dev` in Phase 1 (free team), `com.evankaplan.sera` from Task 6 (paid team). User agent token `SeraApp/1`.
   - Server base URL `https://sera-desk.fly.dev`. A Debug build reads `SERA_BASE_URL` from Info.plist, so a local server (`http://127.0.0.1:8080`) works.
 - **Simulator:** iPhone 18 Pro Max only.
 - **Writing rules, for every string in the app too:**
@@ -125,11 +132,11 @@
 
 ---
 
-## Phase 0: Prerequisites (Evan does these; about 30 minutes plus Apple's wait)
+## Phase 0a: Free setup (about 20 minutes, no payment)
 
-These steps need your Apple ID, payment or physical phone, so Claude can't do them, except Step 1.
+Steps 2 to 4 need Evan's Apple ID or his phone, so Claude can't do them. Step 1 Claude can run.
 
-- [ ] **Step 1: Install the iOS simulator runtime** (about 8 GB). Claude can run this one. If it says no runtime matches, add `-architectureVariant arm64`.
+- [ ] **Step 1: Install the iOS simulator runtime** (about 8 GB). If it says no runtime matches, add `-architectureVariant arm64`.
 
 ```bash
 xcodebuild -downloadPlatform iOS
@@ -137,16 +144,15 @@ xcodebuild -downloadPlatform iOS
 
 Expected: `xcrun simctl list devices available | grep "iPhone 18 Pro Max"` prints a device.
 
-- [ ] **Step 2: Enroll in the Apple Developer Program** at developer.apple.com/programs ($99 a year, individual). Approval usually takes up to 48 hours.
-- [ ] **Step 3: Sign in to Xcode** with the same Apple ID: Xcode > Settings > Accounts > +. Your team appears with its 10-character Team ID.
-- [ ] **Step 4: Turn on Developer Mode on the iPhone** (Settings > Privacy & Security > Developer Mode). Then plug the phone in once so Xcode registers it.
-- [ ] **Step 5: Make two APNs keys.**
-  - Go to developer.apple.com > Certificates, IDs & Profiles > Keys > +.
-  - Make one key for Apple Push Notifications service with environment **Sandbox**, and one with **Production**.
-  - Download both `AuthKey_<KEYID>.p8` files (Apple lets you download each only once) and note both Key IDs.
-  - Store copies in your password manager.
-- [ ] **Step 6: Check for ntfy.** Run `fly secrets list -a sera-desk` (names only). If `SERA_NTFY_TOPIC` is listed, alerts also go to ntfy (`alerts.py:1130`). Decide whether to unset it once the app pushes, so alerts don't arrive twice by another route.
-- [ ] **Step 7: Set the keys** with `ops/set-apns-key.sh` once Task 4 has added it. Run it twice, once per environment. It asks for the Key ID, the Team ID and the path to the `.p8`, checks that the file is a P-256 private key, and sets the Fly secrets. It never prints the key. Delete the `.p8` files from Downloads afterwards.
+- [ ] **Step 2: Sign in to Xcode with your Apple ID:** Xcode > Settings > Accounts > +. A "Personal Team" appears. It's free and can sign apps for your own devices.
+- [ ] **Step 3: Pair the phone with the Mac.** In Xcode, open Device Hub (Xcode > Open Developer Tool > Device Hub). Either click + > Pair Nearby Device with the phone unlocked next to the Mac, or plug it in with a cable and click Pair. Tap Trust on the phone and enter its passcode.
+- [ ] **Step 4: Turn on Developer Mode.** The setting only appears after pairing. On the phone: Settings > Privacy & Security > Developer Mode, turn it on, tap Restart, then after the restart tap Enable and enter the passcode.
+
+After pairing, installs work over Wi-Fi whenever the phone and Mac are on the same network. Two catches:
+- The Wi-Fi network must have IPv6 turned on. Most home routers do by default.
+- **Every iOS update unpairs the phone.** After one, pair again in Device Hub (Step 3) before the next reinstall.
+
+What the free team can't do, so the plan doesn't use it before Phase 2: push notifications, Time Sensitive notifications, TestFlight, and anything that lasts more than 7 days. Its other limits: 3 free-team apps on the phone at once, 3 registered devices, and 10 App IDs, each expiring after 7 days. Vitals is a Mac app, so it doesn't use a slot on the phone.
 
 ---
 
@@ -216,7 +222,7 @@ Adjust the last assertion to the theme button's real attribute in `hubs.html:40`
 - Create, with Xcode's iOS App template (SwiftUI, Swift Testing, folder-synchronized groups): `ios/Sera.xcodeproj`, `ios/Sera/SeraApp.swift`, `ios/SeraTests/`
 - Create: `ios/Sera/SeraTab.swift`, `ios/Sera/LinkPolicy.swift`, `ios/Sera/AppConfig.swift`
 - Create: `ios/README.md` (how to build, test and install)
-- Modify: `.gitignore` (`ios/**/xcuserdata/`, `ios/build/`)
+- Modify: `.gitignore` (`ios/**/xcuserdata/`, `ios/build/`, `ios/Local.xcconfig`)
 - Modify: `CLAUDE.md` only, never the `AGENTS.md` symlink. Add one line under the phone rules: "The iPhone app lives in `ios/`; read `ios/README.md` first."
 - Test: `ios/SeraTests/SeraTabTests.swift`, `ios/SeraTests/LinkPolicyTests.swift`
 
@@ -233,8 +239,8 @@ Adjust the last assertion to the theme button's real attribute in `hubs.html:40`
 
 - [ ] **Step 1: Make the project** in `~/sera/ios`, with `XcodeNewProject` (Xcode plugin) or File > New > Project:
   - product `Sera`
-  - team from Phase 0 (or Personal Team until enrollment clears)
-  - bundle ID `com.evankaplan.sera`
+  - team: Evan's Personal Team (Phase 0a), with automatic signing
+  - bundle ID `com.evankaplan.sera.dev`, and display name "Sera". Set it before the first build for a phone: the template's default (`com.evankaplan.Sera`) would otherwise be claimed by the free team and use up one of its 10 App IDs.
   - iOS 27.0, iPhone only, portrait only
   - Info.plist `ITSAppUsesNonExemptEncryption = NO`, so TestFlight doesn't ask about encryption on every upload
 - [ ] **Step 2: Write the failing tests**
@@ -265,7 +271,7 @@ let base = URL(string: "https://sera-desk.fly.dev")!
   - `AppConfig.baseURL` reads the Info.plist key `SERA_BASE_URL`: `https://sera-desk.fly.dev` in Release, overridable in Debug.
   - Add `NSAppTransportSecurity > NSAllowsLocalNetworking = YES` for the local server.
 - [ ] **Step 5: Run the tests.** Expected: all pass.
-- [ ] **Step 6: Write `ios/README.md`.** Cover the Phase 0 prerequisites, the test command, and how to run on the simulator and on the phone. List the server pieces the app relies on: the `in-app` class from Task 1, and the routes from Task 5.
+- [ ] **Step 6: Write `ios/README.md`.** Cover the Phase 0a and 0b prerequisites, the test command, the weekly reinstall (Task 3), and how to run on the simulator and on the phone. List the server pieces the app relies on: the `in-app` class from Task 1, and the routes from Task 5.
 - [ ] **Step 7: Add a feature-notes line and commit.** `git commit -m "iPhone app: Xcode project, the five tabs and where links open"`
 
 ### Task 3: Web tabs, refresh, login, offline and outside links
@@ -276,6 +282,7 @@ let base = URL(string: "https://sera-desk.fly.dev")!
 - Create: `ios/Sera/OfflineView.swift`
 - Modify: `ios/Sera/SeraApp.swift` (a `TabView` over `SeraTab.allCases`)
 - Create: the app icon, a 1024 px PNG drawn from the rail's mark (`base.html:30`: the white check-line glyph) on the `--mark-top`/`--mark-bottom` graphite gradient with the `--mark-core` green (`sera.css:38`). `web/static/icons/` stops at 512 px, so it can't be the source.
+- Create: `ios/scripts/install.sh` (build and install on Evan's iPhone in one command; the weekly free-team reinstall)
 - Test: `ios/SeraTests/TabRouterTests.swift`
 
 **Interfaces:**
@@ -319,8 +326,24 @@ let base = URL(string: "https://sera-desk.fly.dev")!
   - **Re-tapping the selected tab** scrolls to top, then goes back to the tab's root path.
 - [ ] **Step 5: Implement `OfflineView`** for `didFailProvisionalNavigation` with `NSURLErrorNotConnectedToInternet` or `NSURLErrorTimedOut`. Copy: title "Can't connect", body "Check the connection, then try again.", button "Try again".
 - [ ] **Step 6: Run the tests.** Expected: all pass.
+- [ ] **Step 6b: Write `ios/scripts/install.sh`.** A free-team install stops opening after 7 days, and the phone's registration to the free team lapses on the same clock. Reinstalling over the old app keeps its data, so the login survives. The script:
+  - **finds the phone** with `xcrun devicectl list devices --json-output <tmpfile>` (Apple says to read the JSON, not the printed table): the one paired iPhone, or the name in `SERA_DEVICE` if there are several. It reads the phone's hardware UDID for the build and its device identifier for the install.
+  - **checks it's unlocked** with `xcrun devicectl device info lockState --device <id>`. If it's locked, it prints "Unlock the phone, then run this again." and stops; Apple says devicectl needs an unlocked phone.
+  - **builds for that phone**, not a generic device, so a lapsed registration is renewed:
+
+```bash
+xcodebuild -project ios/Sera.xcodeproj -scheme Sera -configuration Debug \
+  -destination "id=$UDID" -derivedDataPath ios/build \
+  -allowProvisioningUpdates -allowProvisioningDeviceRegistration \
+  SERA_BASE_URL=https://sera-desk.fly.dev build
+```
+
+  - The `SERA_BASE_URL` override is there so the phone always gets the live box, even if a local address was left in the Debug settings (Step 7).
+  - **installs** with `xcrun devicectl device install app --device <id> ios/build/Build/Products/Debug-iphoneos/Sera.app`.
+  - **prints one line:** `Installed. Opens until <date>.`, with the date read from the profile it actually used (`security cms -D -i ios/build/Build/Products/Debug-iphoneos/Sera.app/embedded.mobileprovision | plutil -extract ExpirationDate raw -`). That stays right after Task 6 moves to the paid team, whose profiles last much longer. Otherwise it prints the reason: no phone found, the phone isn't paired (pair it again in Device Hub, which every iOS update needs), the phone isn't on this Wi-Fi, or signing failed.
+  - Check: run it twice. The second run reinstalls without a cable (phone on the same Wi-Fi), and the app opens still logged in.
 - [ ] **Step 7: Check it by hand on the simulator.**
-  - First against a local server: `SERA_URL= SERA_PASS=test uv run sera serve`, with Debug `SERA_BASE_URL=http://127.0.0.1:8080`. Stop that server when done.
+  - First against a local server: `SERA_URL= SERA_PASS=test uv run sera serve`, with `SERA_BASE_URL=http://127.0.0.1:8080` set in the Sera scheme's Run environment or an uncommitted `ios/Local.xcconfig` (in `.gitignore`), never in the committed project. Stop that server when done.
   - Then against the live box.
   - Check:
     - [ ] no web tab bar under the native one, and the last row clears the tab bar
@@ -336,10 +359,27 @@ let base = URL(string: "https://sera-desk.fly.dev")!
 - [ ] **Step 8: Ship it.**
   - Add a feature-notes line, commit and open the PR.
   - Deploy the server half (Task 1) with `sera-deploy`.
-  - Install on Evan's iPhone from Xcode (Product > Run with the phone selected).
+  - **First install, from Xcode:** pick the phone as the run destination and click Run (Product > Run). That registers the phone to the free team. Every later install is `ios/scripts/install.sh`.
+  - **Evan, once, on the phone:** the first time, iOS won't open an app from a free developer until you trust it. Go to Settings > General > VPN & Device Management, tap your Apple ID under Developer App, then Trust. The phone needs internet for this.
+  - Run `ios/scripts/install.sh` once to check the weekly path works.
   - Commit message: `git commit -m "iPhone app: tabs of web pages with refresh, swipe back, login, offline view and outside links in Safari"`
 
-**Phase 1 is done when** Evan has used the app instead of the Home Screen app for a few days. Until Phase 2, pushes still arrive through the Home Screen app, so keep its icon.
+**Phase 1 is done when** Evan has used the app instead of the Home Screen app for a few days. Until Phase 2, pushes still arrive through the Home Screen app, so keep its icon. Then he decides whether the app is worth $99 a year (Phase 0b). If not, the free app stays, reinstalled weekly, and the plan stops here.
+
+---
+
+## Phase 0b: Paid setup (before Phase 2; $99 a year)
+
+Start this only once Evan has used the Phase 1 app for a while and wants to keep it. These steps need his Apple ID, payment or keys, so Claude can't do them.
+
+- [ ] **Step 1: Enroll in the Apple Developer Program** at developer.apple.com/programs ($99 a year, individual), with the same Apple ID as Phase 0a. Approval usually takes up to 48 hours. Xcode then lists a second team next to the Personal Team, with its own 10-character Team ID.
+- [ ] **Step 2: Make two APNs keys.**
+  - Go to developer.apple.com > Certificates, IDs & Profiles > Keys > +.
+  - Make one key for Apple Push Notifications service with environment **Sandbox**, and one with **Production**.
+  - Download both `AuthKey_<KEYID>.p8` files (Apple lets you download each only once) and note both Key IDs.
+  - Store copies in your password manager.
+- [ ] **Step 3: Check for ntfy.** Run `fly secrets list -a sera-desk` (names only). If `SERA_NTFY_TOPIC` is listed, alerts also go to ntfy (`alerts.py:1130`). Decide whether to unset it once the app pushes, so alerts don't arrive twice by another route.
+- [ ] **Step 4: Set the keys** with `ops/set-apns-key.sh`. This step happens during Phase 2: Task 4 writes the script, and Task 5's deploy waits for it. Run it twice, once per environment. It asks for the Key ID, the paid team's Team ID and the path to the `.p8`, checks that the file is a P-256 private key, and sets the Fly secrets. It never prints the key. Delete the `.p8` files from Downloads afterwards.
 
 ---
 
@@ -461,6 +501,7 @@ def test_delete_route_removes_the_device(client): ...
 - Create: `ios/Sera/Sera.entitlements`:
   - `aps-environment` (Xcode sets `development` for Debug and `production` for TestFlight builds)
   - `com.apple.developer.usernotifications.time-sensitive`
+- Modify: `ios/Sera.xcodeproj/project.pbxproj` (team and bundle ID, Step 0)
 - Modify: `ios/Sera/SeraApp.swift`, `ios/Sera/WebTab.swift` (after each page load, refresh the unseen count)
 - Test: `ios/SeraTests/PushRegistrarTests.swift`, `ios/SeraTests/TabRouterTests.swift`
 
@@ -481,6 +522,12 @@ def test_delete_route_removes_the_device(client): ...
 
   - The session cookie comes from `WKWebsiteDataStore.default().httpCookieStore` (`serasession`) and is set on each `URLRequest`, because `URLSession` doesn't share the web view's cookies.
   - `env` is `"sandbox"` in Debug builds and `"production"` otherwise (`#if DEBUG`).
+
+- [ ] **Step 0: Move the project to the paid team** (needs Phase 0b Step 1).
+  - In the Sera target's Signing & Capabilities, set Team to the paid team and the bundle ID to `com.evankaplan.sera`. Add the Push Notifications and Time Sensitive Notifications capabilities; the free team can't add either.
+  - Build and run `ios/scripts/install.sh`, then delete the old `com.evankaplan.sera.dev` app from the phone.
+  - The new bundle ID gets a new app container, so the web views start logged out. Log in once with a pairing code.
+  - Commit: `git commit -m "iPhone app: the paid team and the final bundle ID"`
 
 - [ ] **Step 1: Write the failing tests**
 
@@ -505,7 +552,7 @@ def test_delete_route_removes_the_device(client): ...
   - **Badge:** set the Alerts tab's `.badge` and `UNUserNotificationCenter.setBadgeCount` from `/api/unseen` on launch, on return to the foreground and after each page load.
 - [ ] **Step 4: Run the tests.** Expected: all pass.
 - [ ] **Step 5: Check it on Evan's iPhone.** Pushes from a real server don't reach the simulator.
-  1. Install from Xcode (a sandbox build).
+  1. Install with `ios/scripts/install.sh` (a Debug build, so sandbox).
   2. Delete the Home Screen web app's icon.
   3. Press "Send a test" on Alerts > Notifications, then check:
      - [ ] exactly one banner arrives
@@ -527,7 +574,7 @@ def test_delete_route_removes_the_device(client): ...
 - [ ] **Step 4: Install from TestFlight and test the production host.**
   - Press "Send a test" again. This build registers as `production`, so this checks the production host.
   - Remove the Xcode build's sandbox row on the settings page.
-- [ ] **Step 5: Record it.** Write the date in `ios/README.md` and a feature-notes line. If ntfy was kept (Phase 0 Step 6), decide now whether to unset `SERA_NTFY_TOPIC`.
+- [ ] **Step 5: Record it.** Write the date in `ios/README.md` and a feature-notes line. If ntfy was kept (Phase 0b Step 3), decide now whether to unset `SERA_NTFY_TOPIC`.
 
 **Phase 2 is done when** a week of real alerts has arrived through the app, each once, with the right badge.
 
@@ -553,6 +600,6 @@ Only start one of these when a web page measurably fails in the app (touch handl
 
 ## Execution
 
-Phase 0 is Evan's. Phases 1 and 2 are seven tasks. Tasks 4 and 5 (server) don't depend on Tasks 2 and 3 (app), so they can run in parallel.
+Phases 0a and 0b are mostly Evan's. Phase 1 (Tasks 1 to 3) is free and stands on its own. Phase 2 is Tasks 4 to 7. Tasks 4 and 5 can be written and tested while Phase 1 is in use, but they're deployed only after Phase 0b, since Task 5's deploy needs the APNs secrets. Tasks 4 and 5 (server) don't depend on Tasks 2 and 3 (app), so they can run in parallel.
 
 Recommended: subagent-driven. The app and server tasks meet at exact interfaces (the user agent token, the `in-app` class, the registration JSON), and a mistake in push means missed or doubled alerts.
