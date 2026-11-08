@@ -45,19 +45,21 @@ Inside Vitals (`~/claude/vitals`). It is already running in the menu bar and alr
 
 The real fan turns 39 to 109 times a second. No screen can show that, and at those speeds the blades would appear to wobble or run backward.
 
-So the icon turns at exactly 1/2,620 of the real speed:
+So the icon turns at exactly 1/3,200 of the real speed:
 
 | Real fan | Icon |
 |---|---|
-| 2,317 RPM | 0.9 turns a second |
-| 4,000 RPM | 1.5 turns a second |
-| 6,550 RPM | 2.5 turns a second |
+| 2,317 RPM | 0.7 turns a second |
+| 4,000 RPM | 1.25 turns a second |
+| 6,550 RPM | 2 turns a second |
 
-Twice the real speed is twice the icon speed, so the animation stays true. 2.5 turns a second is also the fastest a 5-blade icon can go at 30 frames a second before it starts to look like it runs backward.
+Twice the real speed is twice the icon speed, so the animation stays true. 2 turns a second is also about the fastest a 7-blade icon can go at 30 frames a second before it starts to look like it runs backward.
 
 ## The drawing
 
-- Five swept blades and a small hub, no outer ring, 16 to 18 points. Five reads clearly at this size. A real laptop fan's many thin blades would turn to mush.
+- A round housing that stays still, with seven thin curved blades and a hub spinning inside it, 18 points.
+- The first draft had five rounded blades and no housing. Evan said it looked like a flower. Four new designs were rendered at the real 36-pixel menu bar size: seven blades read as a laptop fan, five looked like a star, nine blurred together, and three looked like a boat propeller.
+- Blade shape, in a 20-unit box centered on the hub: start (-1, -1.7), curve to (4.5, -6.6) with controls (-0.9, -4.3) and (1, -6.9), curve to (1.2, -1.5) with controls (2.7, -5.7) and (1.5, -4), close. Hub radius 2.1. Housing radius 9, line width 1.3.
 - Drawn in code next to the existing `MenuBarIcon` in `VitalsApp.swift`.
 - Black-and-clear "template" images, so macOS colors it correctly on any wallpaper and in light or dark.
 - The pulse and its needs-attention state stay exactly as they are.
@@ -66,7 +68,7 @@ Twice the real speed is twice the icon speed, so the animation stays true. 2.5 t
 
 The icon must not cause the heat it reports.
 
-- Blades repeat every 72 degrees, so 24 pre-drawn frames cover the whole spin. Built once, then swapped.
+- Blades repeat about every 51 degrees, so 18 pre-drawn frames cover the whole spin. Built once, then swapped.
 - 30 frames a second at most. 15 in Low Power Mode.
 - Pauses when the display sleeps or the menu bar is hidden in full screen.
 - Target: under 1% of one CPU core while spinning, measured. If image swapping misses that, switch the blades to a Core Animation layer that runs outside the app.
@@ -94,4 +96,4 @@ Work on a branch from `origin/main`. Another Claude session currently has Vitals
 
 - Lives in Vitals, beside the pulse icon.
 - 8 seconds before it leaves.
-- Five blades, white like the other menu bar icons, no color for high speed.
+- White like the other menu bar icons, no color for high speed.
