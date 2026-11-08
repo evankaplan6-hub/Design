@@ -24,20 +24,24 @@ Inside Vitals (`~/claude/vitals`). It is already running in the menu bar and alr
 
 | Option | Trade-off | Verdict |
 |---|---|---|
-| **Fan grows out beside the Vitals pulse icon, in the same menu bar item** | Only icons to its left move, about 22 points. Clicking it opens the Vitals panel. | **Recommended** |
+| **The Vitals pulse morphs into the fan, then back (Evan's idea)** | No other icon moves at all. Clicking it still opens the Vitals panel. | **Chosen** |
+| Fan grows out beside the pulse | Icons to its left move about 22 points each time. | No |
 | A separate menu bar item | Can be dragged anywhere, but a new item can land at the far left and get hidden by the notch. | No |
-| Pulse icon turns into the fan | Nothing moves at all, but it does not "pop up" and the pulse disappears. | No |
 | A new standalone app | Duplicates what Vitals already does. | No |
 
 ## How it behaves
 
-**Fan off:** nothing is drawn and no space is used. Vitals checks the fan every 2 seconds.
+**Fan off:** the normal Vitals pulse. Vitals checks the fan every 2 seconds.
 
-**Fan starts:** on the first reading above 0, a 22-point slot opens beside the pulse in 0.28 seconds and the fan scales up and fades in with no bounce. It leaves the same way. No window, banner, sound or focus change. Checks speed up to once a second while it runs.
+**Fan starts:** on the first reading above 0, the pulse morphs into the fan in about half a second. The spikes relax, the line bends into a smile, its ends sweep up and close into the ring, and the blades grow out of the center already turning. No window, banner, sound or focus change. Checks speed up to once a second while it runs.
 
 **Fan running:** the icon's spin follows the real speed. Changes are smoothed over about a second so it speeds up and slows down like something with weight.
 
-**Fan stops:** the icon coasts to a stop and stays 8 seconds, then shrinks away. The wait stops it flickering if the fan pulses on and off.
+**Fan stops:** the blades coast to a stop and the fan stays 8 seconds, then the same morph plays in reverse. The wait stops it flickering if the fan pulses on and off. If the fan restarts mid-morph, the shape turns around from where it is, with no jump.
+
+**Needs attention:** the small dot stays in its usual corner over the fan.
+
+**Icon width:** the pulse, the fan and every morph frame are drawn on one fixed-width canvas, so nothing beside it ever shifts.
 
 **Hover:** the tooltip says "Fan 3,400 RPM". VoiceOver reads the same. There is no number in the bar.
 
@@ -63,6 +67,9 @@ The blades also blur as speed rises, up to about 30 degrees of smear at full spe
 - What keeps it from looking like a flower: blade tips cut square along a circle, a visible gap between blades and hub, and the fixed ring.
 - Six ideas were rendered at the real 36-pixel size beside the actual menu bar icons (`research/vitals-fan-icon-study.png`). Apple's own SF Symbols fan reads as a clover. The snail-shaped blower case turns to mush. The solid square is too heavy. A bare pinwheel looks like a toy. A reviewer who was not told the subject picked the ring and named it a fan or turbine. The outline square came second and is the backup.
 - Numbers, in a 20-unit box centered on the hub, angles clockwise from the top. Each blade starts at radius 2.9, angle 0. It curves to radius 7.3, angle 38, with its control at radius 5.1, angle 5. It follows the circle to angle 68, then curves back to radius 2.9, angle 18, with its control at radius 5.1, angle 29. Hub radius 2. Ring radius 9, line width 1.3.
+- The morph starts from a trace of Apple's `waveform.path.ecg` symbol at 14 points semibold (`research/vitals-pulse-morph.png`). Its line is 1.15 points thick, almost the same as the ring, so the line itself becomes the ring. Trace in points from the icon's center, y up: (-6.5, -0.85), (-3.5, -0.85), (-1.85, 5.75), (0.4, -6.5), (2.55, 2.75), (3.75, -0.85), (6.3, -0.85).
+- Morph, with t going 0 to 1: spike height falls to 0 by t 0.42. The line curls from t 0.1 to 0.85, keeping its length until it fits the ring's 8.1-point radius, then growing as its ends sweep around. The hub grows from t 0.45 to 0.8 and the blades from t 0.5 to 1. Drive t with a no-bounce spring (0.5 second response) so it can reverse at any moment. The blades use the live spin angle throughout, so there is no pause when the morph ends.
+- Four morphs were rendered frame by frame. Curling closed won. Adding a rotation was disorienting, collapsing to a dot and regrowing was not a morph, and drawing the ring separately broke into pieces.
 - Drawn in code next to the existing `MenuBarIcon` in `VitalsApp.swift`.
 - Black-and-clear "template" images, so macOS colors it correctly on any wallpaper and in light or dark.
 - The pulse and its needs-attention state stay exactly as they are.
@@ -75,7 +82,7 @@ The icon must not cause the heat it reports.
 - 30 frames a second at most. 15 in Low Power Mode.
 - Pauses when the display sleeps or the menu bar is hidden in full screen.
 - Target: under 1% of one CPU core while spinning, measured. If image swapping misses that, switch the blades to a Core Animation layer that runs outside the app.
-- With Reduce Motion on, the fan appears and holds still, with no spin and no blur. The tooltip still gives the speed.
+- With Reduce Motion on, the pulse cross-fades to a still fan, with no morph, spin or blur. The tooltip still gives the speed.
 
 ## Build steps
 
@@ -84,8 +91,8 @@ Work on a branch from `origin/main`. Another Claude session currently has Vitals
 1. **Reader.** New `Sources/Vitals/FanReader.swift`, read-only. Reads the fan count, minimum, maximum and live speed from AppleSMC. It keeps one connection open. If the keys are missing, it reports "no fan" and the icon never appears. Add `--fan-live <seconds>`. Then Evan runs a few minutes of heavy work so the live speed can be confirmed above 0.
 2. **Behavior.** New `FanIndicator` logic with no drawing in it: show, smooth, coast, hide. Add `--selftest-fan` with made-up timelines (off, start, flicker, full speed, missing sensor) and add it to `scripts/check.sh`.
 3. **Graphic.** Draw the frames. Add `--simulate-fan <rpm>` to `--snapshot`. Check it on light and dark wallpapers.
-4. **Menu bar.** Wire it into `StatusItemController.refreshIcon`, including the slot animation, tooltip and VoiceOver label.
-5. **Measure.** CPU while spinning, CPU while hidden, and icons not jumping or hiding behind the notch.
+4. **Menu bar.** Wire it into `StatusItemController.refreshIcon`, including the morph, the attention dot, tooltip and VoiceOver label.
+5. **Measure.** CPU while spinning, CPU while hidden, and no neighboring icon moving by even a pixel during the morph.
 6. **Ship.** Add a section to `CONTRACT.md`, run `./scripts/check.sh`, open a PR, merge, install with `./scripts/build-app.sh`, then watch a real fan cycle: appears, tracks, leaves.
 
 ## Not included
@@ -97,6 +104,6 @@ Work on a branch from `origin/main`. Another Claude session currently has Vitals
 
 ## Calls made for Evan to check
 
-- Lives in Vitals, beside the pulse icon.
+- Lives in Vitals, in the pulse icon's spot while the fan runs.
 - 8 seconds before it leaves.
 - White like the other menu bar icons, no color for high speed.
