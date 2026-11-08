@@ -90,7 +90,7 @@ The icon must not cause the heat it reports.
 - For the handoff from the morph, start a rotation animation with an explicit `fromValue` of the current angle, and `toValue` one full turn more. Leaving out `fromValue` did not land on the right angle. With it, macOS showed exactly 10.00 and 28.00 degrees, and the pixels matched the drawn fan to 0.80 and 0.83 out of 255.
 - To change speed, set `timeOffset` to the layer's current local time, `beginTime` to now, and `speed` to the new rate. Five live changes showed no jump beyond normal travel, and the largest timing error was 0.04 degrees.
 - Still to confirm in the build: the icon's color when the wallpaper switches the menu bar between light and dark. It was only tested on the current dark bar.
-- The morph frames are pre-drawn once, then played.
+- The morph is drawn live, as it was in the tests. Each frame depends on the live spin and blur, and it runs for about a second. Only the spin must stay on Core Animation.
 - Pauses when the display sleeps or the menu bar is hidden in full screen.
 - Target: under 1% of one CPU core while spinning. Measure it again in the real build. Speed updates run only while the speed is changing.
 - With Reduce Motion on, the pulse cross-fades to a still fan, with no morph, spin or blur. The tooltip still gives the speed.
@@ -99,9 +99,9 @@ The icon must not cause the heat it reports.
 
 Work on a branch from `origin/main`. Another Claude session currently has Vitals on `feat/memory-tab`, and PR 20 is open, so check `git status` and open PRs first and use a separate worktree.
 
-1. **Reader.** New `Sources/Vitals/FanReader.swift`, read-only. Reads the fan count, minimum, maximum and live speed from AppleSMC. It keeps one connection open. If the keys are missing, it reports "no fan" and the icon never appears. Add `--fan-live <seconds>`. Then Evan runs a few minutes of heavy work so the live speed can be confirmed above 0.
+1. **Reader.** New `Sources/Vitals/FanReader.swift`, read-only. Reads the fan count, minimum, maximum and live speed from AppleSMC. It keeps one connection open. If the keys are missing, it reports "no fan" and the icon never appears. Add `--fan-live <seconds>`. Then run up to 5 minutes of heavy work, after telling Evan, so the live speed can be confirmed above 0.
 2. **Behavior.** New `FanIndicator` logic with no drawing in it: show, smooth, coast, hide. Add `--selftest-fan` with made-up timelines (off, start, flicker, full speed, missing sensor) and add it to `scripts/check.sh`.
-3. **Graphic.** Draw the frames. Add `--simulate-fan <rpm>` to `--snapshot`. Check it on light and dark wallpapers.
+3. **Graphic.** Draw the frames. `--snapshot` only draws the panel, so add `--fan-frames <folder> --simulate-fan <rpm>` for PNGs of the icon. A second full Vitals cannot run beside the installed one, so add `--fan-bar-test` before the single-instance check for real menu bar tests. Check it on light and dark menu bars. Evan switches the wallpaper, because Vitals' rules forbid changing settings to test.
 4. **Menu bar.** Wire it into `StatusItemController.refreshIcon`, including the morph, the attention dot, tooltip and VoiceOver label.
 5. **Measure.** CPU while spinning, CPU while hidden, and no neighboring icon moving by even a pixel during the morph.
 6. **Ship.** Add a section to `CONTRACT.md`, run `./scripts/check.sh`, open a PR, merge, install with `./scripts/build-app.sh`, then watch a real fan cycle: appears, tracks, leaves.
