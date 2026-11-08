@@ -33,9 +33,9 @@ Inside Vitals (`~/claude/vitals`). It is already running in the menu bar and alr
 
 **Fan off:** the normal Vitals pulse. Vitals checks the fan every 2 seconds.
 
-**Fan starts:** on the first reading above 0, the pulse morphs into the fan in about half a second. The spikes relax, the line bends into a smile, its ends sweep up and close into the ring, and the blades grow out of the center already turning. No window, banner, sound or focus change. Checks speed up to once a second while it runs.
+**Fan starts:** on the first reading above 0, the pulse morphs into the fan in about a second. Nothing appears from nowhere: the five zigzag strokes of the pulse swing out and thicken into the five blades, the two flat tails sweep around into the ring, and the hub grows from the point where the long stroke was cut. No window, banner, sound or focus change. Checks speed up to once a second while it runs.
 
-**Fan running:** the icon's spin follows the real speed. Changes are smoothed over about a second so it speeds up and slows down like something with weight.
+**Fan running:** the icon's spin follows the real speed. Changes use a no-bounce spring with a 1.1 second response, so speed never changes abruptly and the fan feels like it has weight.
 
 **Fan stops:** the blades coast to a stop and the fan stays 8 seconds, then the same morph plays in reverse. The wait stops it flickering if the fan pulses on and off. If the fan restarts mid-morph, the shape turns around from where it is, with no jump.
 
@@ -68,8 +68,13 @@ The blades also blur as speed rises, up to about 30 degrees of smear at full spe
 - Six ideas were rendered at the real 36-pixel size beside the actual menu bar icons (`research/vitals-fan-icon-study.png`). Apple's own SF Symbols fan reads as a clover. The snail-shaped blower case turns to mush. The solid square is too heavy. A bare pinwheel looks like a toy. A reviewer who was not told the subject picked the ring and named it a fan or turbine. The outline square came second and is the backup.
 - Numbers, in a 20-unit box centered on the hub, angles clockwise from the top. Each blade starts at radius 2.9, angle 0. It curves to radius 7.3, angle 38, with its control at radius 5.1, angle 5. It follows the circle to angle 68, then curves back to radius 2.9, angle 18, with its control at radius 5.1, angle 29. Hub radius 2. Ring radius 9, line width 1.3.
 - The morph starts from a trace of Apple's `waveform.path.ecg` symbol at 14 points semibold (`research/vitals-pulse-morph.png`). Its line is 1.15 points thick, almost the same as the ring, so the line itself becomes the ring. Trace in points from the icon's center, y up: (-6.5, -0.85), (-3.5, -0.85), (-1.85, 5.75), (0.4, -6.5), (2.55, 2.75), (3.75, -0.85), (6.3, -0.85).
-- Morph, with t going 0 to 1: spike height falls to 0 by t 0.42. The line curls from t 0.1 to 0.85, keeping its length until it fits the ring's 8.1-point radius, then growing as its ends sweep around. The hub grows from t 0.45 to 0.8 and the blades from t 0.5 to 1. Drive t with a no-bounce spring (0.5 second response) so it can reverse at any moment. The blades use the live spin angle throughout, so there is no pause when the morph ends.
-- Four morphs were rendered frame by frame. Curling closed won. Adding a rotation was disorienting, collapsing to a dot and regrowing was not a morph, and drawing the ring separately broke into pieces.
+- Morph strokes: cut the long downstroke at its middle, which gives five strokes numbered left to right from 0. Going clockwise from the blade at 27 degrees, spaced 72 degrees apart, the blades take strokes 4, 3, 2, 0, 1. Blades 1 and 4 use their stroke backward. A search of every pairing found this one moves the strokes the least.
+- Each stroke starts as a capsule the width of the line and morphs into the blade outline, point for point. Position and angle move from t 0 to 0.9, staggered 0.015 per blade, and the shape fattens from t 0.2 to 1.
+- The left and right tails move in polar coordinates to the ring's left and right halves from t 0.04 to 0.94, outer ends to the top, inner ends to the bottom. The hub grows from t 0.25 to 0.85, moving from the cut point to the center.
+- All of those use a smootherstep curve. Drive t with a no-bounce spring (0.85 second response) so it can reverse at any moment. The live spin angle fades in from t 0.3 to 1, so there is no pause when the morph ends. On the way back, first reduce the spin angle to within 36 degrees, which is invisible because the blades repeat.
+- Measured at 120 frames a second: the fastest point moves 62 points a second, down from 198 in the first morph, and the largest frame-to-frame speed change fell from 9,083 to 645. No part reaches past 8.1 points from the center, so nothing clips.
+- Evan rejected blades that grow from the center: "the blades should come from the lines of vital".
+- Rejected earlier: adding a rotation was disorienting, collapsing to a dot and regrowing was not a morph, and drawing the ring separately broke into pieces.
 - Drawn in code next to the existing `MenuBarIcon` in `VitalsApp.swift`.
 - Black-and-clear "template" images, so macOS colors it correctly on any wallpaper and in light or dark.
 - The pulse and its needs-attention state stay exactly as they are.
@@ -78,10 +83,11 @@ The blades also blur as speed rises, up to about 30 degrees of smear at full spe
 
 The icon must not cause the heat it reports.
 
-- Blades repeat every 72 degrees, so 18 pre-drawn frames at each of 4 blur levels cover the whole spin. Built once, then swapped.
-- 30 frames a second at most. 15 in Low Power Mode.
+- Smoothness comes first: the spin runs on a Core Animation layer at the display's full refresh rate, up to 120 a second, outside the app's own code. Blur cross-fades between a sharp and a blurred copy of the blades.
+- Risk to test first: layers do not get macOS's automatic menu bar coloring, so the color has to follow the menu bar's appearance. If that fails, fall back to pre-drawn image frames at 60 a second, and 30 in Low Power Mode.
+- The morph frames are pre-drawn once, then played.
 - Pauses when the display sleeps or the menu bar is hidden in full screen.
-- Target: under 1% of one CPU core while spinning, measured. If image swapping misses that, switch the blades to a Core Animation layer that runs outside the app.
+- Target: under 1% of one CPU core while spinning, measured.
 - With Reduce Motion on, the pulse cross-fades to a still fan, with no morph, spin or blur. The tooltip still gives the speed.
 
 ## Build steps
