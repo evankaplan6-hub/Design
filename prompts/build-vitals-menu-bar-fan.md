@@ -7,7 +7,7 @@ Build the menu bar fan for Vitals. The design is finished and tested. Your job i
 2. The full design: `git -C ~/Design show origin/plan/vitals-menu-bar-fan:plans/2026-11-08-vitals-menu-bar-fan.md`. If that branch is gone, the plan has been merged, so use `origin/main` instead.
 3. The tested code, for reference only: `git -C ~/Design ls-tree --name-only origin/plan/vitals-menu-bar-fan research/vitals-fan-prototype/`, then read each file with `git show`. Start with `README.md`, `fanprobe.swift`, `realbar2.swift` and `realbar5.swift`. Do not switch branches in `~/Design`.
 
-**Before you edit anything.** My rule is one AI per project at a time. When this prompt was written, another session was editing the Memory tab in this repo. Its 12 commits on `feat/memory-tab` exist only on this Mac, with no PR, and PR 20 was also open. Check `git status`, `git log origin/main..feat/memory-tab`, recent file times, open PRs and `~/.codex/worktrees/`. If the Memory tab is not merged or someone is still working here, tell me and wait for my go-ahead. Never discard, stash or commit that work. Then build in a new worktree on a new branch from `origin/main`.
+**Before you edit anything.** I am giving you this now because the Memory tab work is finished and merged. Run `git fetch`, then confirm it: `git grep -q selftest-memorywatch origin/main -- scripts/check.sh` must succeed. Also confirm the checkout is clean, and check open PRs and `~/.codex/worktrees/`, because my rule is one AI per project at a time. If the Memory tab is not on `origin/main`, the checkout has changes, or someone else is still working here, stop and tell me what you found. Never discard, stash or commit someone else's work. Otherwise create `feat/menu-bar-fan` from `origin/main` and build there.
 
 **Hard rules.** Never request notification permission, post a notification, use sudo or cause an admin prompt. The fan is read-only: only read SMC keys, never write one. Do not change my appearance, wallpaper, Reduce Motion or any other setting to run a test, and do not click things on my screen.
 
@@ -28,7 +28,7 @@ Build the menu bar fan for Vitals. The design is finished and tested. Your job i
 - Do not publish fan readings through `VitalsModel`. It would fire `objectWillChange` every second and redraw the panel for nothing. Keep polling on its own timer, off the main thread, with no AppKit in the reader.
 - The spinning blade view sits on top of the status button. Make it ignore clicks (`hitTest` returns nil) and hide it from VoiceOver.
 - Put the animation in one class that takes a status button and a source of readings, so the app and the test mode below share it.
-- Keep new command-line handling in your own file, with one line in `VitalsApp.swift`. The Memory tab branch also changes that file and `scripts/check.sh`.
+- Keep new command-line handling in your own file, with one line in `VitalsApp.swift`.
 - The tooltip says "Fan 3,400 RPM" only while the fan really reads that. While it coasts or leaves, it says "Fan stopped".
 
 **Testing tools you need to add**
@@ -42,7 +42,7 @@ Build the menu bar fan for Vitals. The design is finished and tested. Your job i
 3. Graphic, with `--fan-frames` and `--fan-bar-test`.
 4. Menu bar wiring, including the morph, attention dot, tooltip and VoiceOver label. Add Reduce Motion: pulse cross-fades to a still fan, with no morph, spin or blur.
 5. Measure, and run every check below.
-6. `CONTRACT.md`: add a fan section and update the "Menu-bar label" line, which says the icon is only an SF Symbol. Then rebase on the latest `origin/main`, run `./scripts/check.sh`, open a PR, merge with a merge commit, install, and do `AGENTS.md`'s step 5 checks.
+6. `CONTRACT.md`: add a fan section and update the "Menu-bar label" line, which says the icon is only an SF Symbol. Then bring the branch up to date with `origin/main`, run `./scripts/check.sh`, open a PR, merge with a merge commit, install, and do `AGENTS.md`'s step 5 checks.
 
 **Stop after step 1 until the fan has really been read spinning.** It has never been read above 0. Tell me you are about to load the Mac, then run `--fan-live` while running one `yes > /dev/null` per core for at most 5 minutes. Make sure every one of them is stopped afterward, even if something fails. If the fan stays at 0, stop and ask me to run something heavy. Do not start the graphics until a real reading above 0 is confirmed.
 
@@ -60,6 +60,6 @@ Build the menu bar fan for Vitals. The design is finished and tested. Your job i
 - The color on a light menu bar. Only the dark bar was tested. Ask me to switch to a light wallpaper for a minute.
 - Pausing during full screen and display sleep. Build it and test the pause logic in `--selftest-fan`. Report the real behavior as not checked unless I do it.
 
-**Installing.** `AGENTS.md` requires a clean checkout that matches `origin/main`. The main checkout may not be clean, so after merging, install by running `./scripts/build-app.sh` from a clean worktree at `origin/main`. First run `strings ~/Applications/Vitals.app/Contents/MacOS/Vitals | grep selftest-memorywatch`. If it finds a match and the Memory tab is not on `origin/main`, installing would remove that work from my running app, so stop and ask me. After installing, watch one more real fan cycle using the same 5-minute load, and tell me before you start it.
+**Installing.** Follow `AGENTS.md`: after merging, switch to `main`, update it, confirm the checkout is clean and matches `origin/main`, then run `./scripts/build-app.sh`. If the checkout is not clean, stop and tell me. After installing, confirm the Memory tab still works by running `--selftest-memorywatch` and a `--snapshot --tab memory` from the installed app. Then watch one more real fan cycle using the same 5-minute load, and tell me before you start it.
 
 **When you report back,** use short, plain words. Say what changed, what is installed, and what still needs me. Say exactly what you checked. Keep real fan readings apart from simulated ones, and never call a check passed unless you ran it.

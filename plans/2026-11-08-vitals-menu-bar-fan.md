@@ -97,7 +97,7 @@ The icon must not cause the heat it reports.
 
 ## Build steps
 
-Work on a branch from `origin/main`. Another Claude session currently has Vitals on `feat/memory-tab`, and PR 20 is open, so check `git status` and open PRs first and use a separate worktree.
+Start after the Memory tab work is merged. Work on a branch from `origin/main`. Check `git status` and open PRs first.
 
 1. **Reader.** New `Sources/Vitals/FanReader.swift`, read-only. Reads the fan count, minimum, maximum and live speed from AppleSMC. It keeps one connection open. If the keys are missing, it reports "no fan" and the icon never appears. Add `--fan-live <seconds>`. Then run up to 5 minutes of heavy work, after telling Evan, so the live speed can be confirmed above 0.
 2. **Behavior.** New `FanIndicator` logic with no drawing in it: show, smooth, coast, hide. Add `--selftest-fan` with made-up timelines (off, start, flicker, full speed, missing sensor) and add it to `scripts/check.sh`.
