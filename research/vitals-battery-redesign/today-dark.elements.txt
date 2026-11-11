@@ -1,0 +1,23 @@
+FittedSegments x   12.0  y   48.0  w  396.0  h  24.0  Section
+HostingScrollView x   12.0  y   84.0  w  396.0  h 524.0  
+AXStaticText x   16.0  y   14.5  w   94.5  h  19.0  MacBook Pro | Apple M5 · 16 GB
+AXButton x  245.5  y   12.5  w   89.0  h  23.0  Mac Health: 1 hidden | 1 warning is hidden. / Click to see every check.
+AXButton x  346.5  y   13.2  w   21.5  h  21.5  Check again | Last checked 6:03 PM | Check again (⌘R) / Last checked 6:03 PM
+AXRadioGroup x   12.0  y   48.0  w  396.0  h  24.0  Section
+AXRadioButton x   12.0  y   48.0  w   75.0  h  24.0  Overview | 0
+AXRadioButton x   87.0  y   48.0  w   50.0  h  24.0  Chip | 0 | Chip performance
+AXRadioButton x  137.0  y   48.0  w   68.0  h  24.0  Memory | 0
+AXRadioButton x  205.0  y   48.0  w   79.0  h  24.0  Processes | 0
+AXRadioButton x  284.0  y   48.0  w   64.0  h  24.0  Battery | 1
+AXRadioButton x  348.0  y   48.0  w   60.0  h  24.0  Health | 0
+AXScrollArea x   12.0  y   84.0  w  396.0  h 524.0  
+AXImage x   25.0  y   97.5  w   13.0  h  13.0  (scrolls) Fine
+AXStaticText x   47.0  y   96.0  w   92.5  h  16.0  (scrolls) Battery health
+AXStaticText x   24.0  y  124.0  w  372.0  h  16.0  (scrolls) Maximum capacity, 99% | How much charge the battery can hold compared with when it was new.
+AXStaticText x   24.0  y  165.0  w  372.0  h  16.0  (scrolls) Condition, Normal
+AXStaticText x   24.0  y  193.0  w  372.0  h  16.0  (scrolls) Cycle count, 96 | One cycle uses a total of 100% of the battery, across one or more charges.
+AXStaticText x   24.0  y  245.0  w   98.0  h  16.0  (scrolls) Current charge
+AXStaticText x   24.0  y  273.0  w  372.0  h  16.0  (scrolls) Charge level, 95%
+AXStaticText x   24.0  y  301.0  w  372.0  h  16.0  (scrolls) Power source, Power adapter
+AXStaticText x   24.0  y  329.0  w  138.0  h  15.0  (scrolls) Plugged in, not charging
+AXButton x   12.0  y  368.0  w  156.5  h  24.0  (scrolls) Open Battery settings
