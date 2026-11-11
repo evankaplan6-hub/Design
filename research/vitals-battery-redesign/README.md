@@ -28,3 +28,20 @@ Blind read (reviewer not told which was preferred): **B, then A, then C**. B ans
 4. **Battery Settings…** as a normal glass button, not dimmed.
 
 Cut: watts, adapter row, cycle row, temperature, the "Power source" row.
+
+## What macOS Battery settings taught us (looked at Nov 11, read only, nothing changed)
+- **Wording.** The header and the chart both say "Charged to 95% Limit", with a capital L. Vitals now copies it exactly.
+- **Health.** Apple shows only Battery Condition ("Normal") and Maximum Capacity ("99%"), each with one plain sentence. It shows no cycle count, which backs cutting it from the tab.
+- **Charging sheet.**
+  - Charge Limit slider: 80, 85, 90, 95 or 100%. Evan's is 95%.
+  - Optimized Battery Charging is on, so a pause at 80% can happen. Vitals falls back to "Plugged in, not charging" unless a documented signal exists.
+- **Last 24 Hours chart.**
+  - Battery Level is drawn as one bar per 15 minutes on a 0, 50 and 100% scale labelled on the right, with hour ticks along the bottom.
+  - Charging is a green strip with a bolt under the axis, not a band behind the bars.
+  - The design now uses the same layout in neutral grey, because Vitals keeps colour for status.
+- **Last 10 Days.**
+  - Energy Usage is the share of the battery used per day; Screen On Usage is hours per day.
+  - Left to Settings: Vitals can't read screen time, and the panel is small. "Battery Settings…" opens it.
+- **Low Power Mode** sits at the top of the pane. Vitals can read it through `ProcessInfo.isLowPowerModeEnabled` (public, no prompt), so the tab says "Low Power Mode is on" when it is.
+- **Not used:** Options (dim the display on battery, wake for network access, and so on) are settings, not readings.
+- **The powerd plist's `policies`** is an NSKeyedArchiver blob of a private class. Read it as a plain property list and never unarchive it.

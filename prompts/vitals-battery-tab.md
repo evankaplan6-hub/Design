@@ -10,11 +10,18 @@ What to build:
      - "Charging", "On battery".
      - Otherwise "Plugged in, not charging".
    - Read the plist on tab open and when the power source changes, not on every tick. If it is missing or unreadable, fall back silently.
+   - The plist's `policies` value is an NSKeyedArchiver blob whose class (ChargeCtrlPolicy) is private. Decode it with PropertyListSerialization and read the `$objects` array for `reason` and `soclimit`. Never instantiate the private class or use NSKeyedUnarchiver on it. The same object has `noChargeToFull` and `isEndOfCharge`; note what they read in each state, but don't build on them.
+   - Copy Apple's exact words: Settings and the menu bar say "Charged to 95% Limit", with a capital L.
+   - Low Power Mode: when ProcessInfo.isLowPowerModeEnabled is true, add "Low Power Mode is on" under the status line. Use the public API, no polling; listen for NSProcessInfoPowerStateDidChange.
+   - Optimized Battery Charging is on for Evan (Settings > Battery > Charging), so macOS can pause at 80%. If you can't detect that state from a documented signal, the "Plugged in, not charging" fallback covers it.
    - Never infer a reason from NotChargingReason bits. Leave "Charging on hold" out of code, snapshots and the contract unless you find a documented signal.
 2. A summary line ("Up from 41% at 9:05 AM" / "Down 33% since 2:10 PM"), then a last-24-hours charge chart.
-   - Y axis fixed at 0 to 100% with a faint 50% rule.
-   - Plugged-in stretches are a neutral band labelled "Plugged in", never green. Strengthen the band under Increase Contrast.
-   - Gaps stay open. Axis labels "24 hr ago" and "Now" in .secondary.
+   - Draw it like System Settings > Battery > Battery Level, so it reads as the same thing:
+     - One bar per 15 minutes (the average of the readings in that slot). A slot with no reading has no bar.
+     - Y axis 0%, 50%, 100% labelled on the right. Hour labels (6 PM, 12 AM, 6 AM, 12 PM, Now) along the bottom.
+     - Charging stretches are a thin strip under the axis with a bolt symbol, not a band behind the bars.
+     - Bars and strip in a neutral foreground style, never green: in Vitals colour only means a status.
+     - Strengthen the strip under Increase Contrast. All labels in .secondary.
    - One VoiceOver label, e.g. "Last 24 hours: 41% at 9:05 AM, now 95%, plugged in since 9:05 AM".
    - History source: `pmset -g log`. Parse it only while the Battery tab is showing and the cache is older than 10 min, never while the panel is closed. Run it off the main thread with a 5 s timeout. Stream the output and keep only the last 24 h of "Charge: NN" and AC/battery lines; discard everything else, since it names processes.
    - Merge in Vitals' own battery readings since launch, kept in memory only. If the parse fails, show only those readings; missing time stays empty.
