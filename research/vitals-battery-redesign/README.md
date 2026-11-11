@@ -45,3 +45,12 @@ Cut: watts, adapter row, cycle row, temperature, the "Power source" row.
 - **Low Power Mode** sits at the top of the pane. Vitals can read it through `ProcessInfo.isLowPowerModeEnabled` (public, no prompt), so the tab says "Low Power Mode is on" when it is.
 - **Not used:** Options (dim the display on battery, wake for network access, and so on) are settings, not readings.
 - **The powerd plist's `policies`** is an NSKeyedArchiver blob of a private class. Read it as a plain property list and never unarchive it.
+
+## Chart, revised Nov 11 (after Evan called the 15-minute bars ugly)
+The Apple-style bars were sent without a blind read; at 372 pt, 96 thin bars read as a barcode. Three options were then rendered (`chart-options.png`: soft-filled line, hourly bars, plain line) and blind-read twice. The plain line won.
+
+It went through two rounds of fixes. The final version (`chart-final.png`, `chart-final.js`) is:
+- One ink at one weight, with monotone smoothing so it never overshoots a reading.
+- No gridlines, and three time labels.
+- One marked moment: "41% · Plugged in", or "Unplugged".
+- A clean break where there are no readings.
