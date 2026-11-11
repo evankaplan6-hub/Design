@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "research/vitals-battery-redesign/final.html"
+        ],
+        "createdAt": "2026-11-11T23:26:33.636Z",
+        "reason": "Claude, critique Nov 11: .seg stands in for the native macOS segmented control, which sets its own insets"
+      }
+    ]
+  }
+}
