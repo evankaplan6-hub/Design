@@ -54,3 +54,13 @@ It went through two rounds of fixes. The final version (`chart-final.png`, `char
 - No gridlines, and three time labels.
 - One marked moment: "41% · Plugged in", or "Unplugged".
 - A clean break where there are no readings.
+
+## Battery object, Nov 11 (after Evan called the tab "ugly slop")
+Evan picked "the battery itself": a large battery drawn as a real object. Earlier HTML mockups were dropped, and the design is now real SwiftUI in `swiftui/BatteryDesign.swift`. Renders are in `swiftui/out/`, with a montage in `swiftui/battery-object.png`.
+- The figure sits left of a 48 pt battery with one flat fill. The fill is grey, green while charging and red at 10% or less on battery.
+- A limit mark with a "Limit" caption shows only below the limit.
+- The status line and summary line sit under it. Under those is a one-line 24 h chart with a dashed limit rule labelled "95%".
+- App rows show real icons and names only. The footer holds the health line and "Battery Settings".
+- Four blind reads. Rejected along the way: a giant dead fill, a cursor-like tick, a split two-colour number, a glossy gradient, a filled area that read as a box, and unlabelled energy bars.
+- Still open: one reviewer finds the battery too big. It stays at Evan's chosen size unless he says otherwise.
+- Rendering note: ImageRenderer on an HDR display returns a PQ colour space, so draw into an sRGB CGContext before saving the PNG.
