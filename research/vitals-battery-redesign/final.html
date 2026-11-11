@@ -1,0 +1,62 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Vitals Battery directions</title>
+<style>
+:root{--bg:#1c1c1e;--panel:#232325;--mod:rgba(255,255,255,.055);--t1:#f2f2f7;--t2:rgba(235,235,245,.62);--t3:rgba(235,235,245,.34);--line:rgba(255,255,255,.09);--green:#30d158;--orange:#ff9f0a;--red:#ff453a;--seg:rgba(255,255,255,.08);--segon:rgba(255,255,255,.24);--glass:rgba(255,255,255,.1)}
+.light{--panel:#ececee;--mod:rgba(0,0,0,.045);--t1:#1d1d1f;--t2:rgba(60,60,67,.72);--t3:rgba(60,60,67,.4);--line:rgba(0,0,0,.08);--green:#28a745;--orange:#c96a00;--seg:rgba(0,0,0,.06);--segon:#fff;--glass:rgba(0,0,0,.06)}
+body{margin:0;background:#0b0b0c;font-family:-apple-system,"SF Pro Text",system-ui;display:flex;gap:28px;padding:24px;flex-wrap:wrap;align-items:flex-start}
+.wrap{display:flex;flex-direction:column;gap:8px}
+.cap{color:#aaa;font:600 13px -apple-system,system-ui}
+.p{width:420px;height:620px;background:var(--panel);border-radius:22px;color:var(--t1);box-sizing:border-box;padding:0 12px;position:relative;overflow:hidden;font-size:13px}
+.hd{display:flex;align-items:center;height:48px;padding:0 4px}
+.hd b{font-size:15px;flex:1}
+.cap2{background:var(--glass);border-radius:99px;padding:4px 10px;color:var(--t2);font-size:12px;margin-left:6px}
+.circ{background:var(--glass);border-radius:99px;width:22px;height:22px;margin-left:8px}
+.seg{display:flex;background:var(--seg);border-radius:8px;height:24px;font-size:12px;margin-bottom:12px}
+.seg span{flex:1;text-align:center;line-height:24px;color:var(--t1)}
+.seg .on{background:var(--segon);border-radius:7px}
+.m{background:var(--mod);border-radius:16px;padding:12px;margin-bottom:12px}
+.h{font-weight:600;font-size:13px}
+.sub{color:var(--t2);font-size:12px}
+.fig{font-family:"SF Pro Rounded",-apple-system,system-ui;font-variant-numeric:tabular-nums;font-weight:600}
+.row{display:flex;justify-content:space-between;align-items:baseline;padding:4px 0}
+.row .k{color:var(--t2)}
+.btn{display:inline-block;background:var(--glass);border-radius:99px;padding:4px 12px;font-size:12px;color:var(--t1)}
+.bar{height:8px;border-radius:99px;background:var(--line);overflow:hidden;margin:10px 0 8px}
+.bar i{display:block;height:100%;background:var(--t1);border-radius:99px}
+.tiles{display:flex;gap:8px}
+.tile{flex:1;background:var(--mod);border-radius:12px;padding:10px}
+.tile .fig{font-size:20px;margin-top:2px}
+.ok{color:var(--green)}
+.dot{display:inline-block;width:7px;height:7px;border-radius:9px;margin-right:5px;vertical-align:1px}
+svg text{font:10px -apple-system,system-ui;fill:var(--t3)}
+</style></head><body><div class="wrap"><div class="cap">Final · plugged in (dark)</div><div class="p"><div class="hd"><b>MacBook Pro</b><span class="cap2">● 1 hidden</span><span class="circ"></span><span class="circ"></span></div>
+<div class="seg"><span>Overview</span><span>Chip</span><span>Memory</span><span>Processes</span><span class="on">Battery</span><span>Health</span></div>
+<div class="m"><span class="fig" style="font-size:44px;line-height:1.1">95%</span>
+<div style="font-size:13px;margin-top:2px">Charged to 95% limit</div><div class="sub" style="margin-top:10px">Up from 41% at 9:05 AM</div>
+<svg width="372" height="122" viewBox="0 0 372 122" style="display:block;margin-top:8px">
+  <rect x="150" y="0" width="222" height="100" fill="var(--t1)" opacity=".07"/>
+  <text x="158" y="14" style="fill:var(--t2)">Plugged in</text>
+  <line x1="0" y1="0" x2="372" y2="0" stroke="var(--line)"/><line x1="0" y1="100" x2="372" y2="100" stroke="var(--line)"/>
+  <path d="M0 22 L40 30 L80 41 L120 55 L150 62 L190 40 L230 18 L260 12 L300 11 L372 11" fill="none" stroke="var(--t1)" stroke-width="2" stroke-linejoin="round"/>
+  <text x="2" y="116" style="fill:var(--t2)">24 hr ago</text><text x="350" y="116" style="fill:var(--t2)">Now</text></svg></div>
+<div class="m"><div class="row"><span class="h"><span class="ok">✓</span> Battery health is normal</span></div>
+<div class="sub" style="margin-top:2px">Holds 99% of its original charge.</div></div>
+<span class="btn">Battery Settings…</span></div></div><div class="wrap"><div class="cap">Final · on battery (light)</div><div class="p light"><div class="hd"><b>MacBook Pro</b><span class="cap2">● 1 hidden</span><span class="circ"></span><span class="circ"></span></div>
+<div class="seg"><span>Overview</span><span>Chip</span><span>Memory</span><span>Processes</span><span class="on">Battery</span><span>Health</span></div>
+<div class="m"><div style="display:flex;align-items:baseline;gap:12px"><span class="fig" style="font-size:44px;line-height:1.1">62%</span><span class="fig" style="font-size:20px">About 4 hr 10 min left</span></div>
+<div class="sub" style="font-size:13px;margin-top:2px">On battery</div><div class="sub" style="margin-top:10px">Down 33% since 2:10 PM</div>
+<svg width="372" height="122" viewBox="0 0 372 122" style="display:block;margin-top:8px">
+  <rect x="0" y="0" width="150" height="100" fill="var(--t1)" opacity=".07"/>
+  <text x="8" y="14" style="fill:var(--t2)">Plugged in</text>
+  <line x1="0" y1="0" x2="372" y2="0" stroke="var(--line)"/><line x1="0" y1="100" x2="372" y2="100" stroke="var(--line)"/>
+  <path d="M0 30 L60 16 L110 11 L150 11 L200 18 L250 25 L300 31 L340 36 L372 38" fill="none" stroke="var(--t1)" stroke-width="2" stroke-linejoin="round"/>
+  <text x="2" y="116" style="fill:var(--t2)">24 hr ago</text><text x="350" y="116" style="fill:var(--t2)">Now</text></svg></div>
+<div class="m"><div class="h" style="margin-bottom:6px">Using significant energy</div>
+<div class="row"><span>Google Chrome</span></div>
+<div class="row"><span>Claude</span></div>
+<div class="row"><span>Spotlight</span></div>
+</div>
+<div class="m"><div class="row"><span class="h"><span class="ok">✓</span> Battery health is normal</span></div>
+<div class="sub" style="margin-top:2px">Holds 99% of its original charge.</div></div>
+<span class="btn">Battery Settings…</span></div></div>
+</body></html>
