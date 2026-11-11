@@ -16,12 +16,13 @@ What to build:
    - Optimized Battery Charging is on for Evan (Settings > Battery > Charging), so macOS can pause at 80%. If you can't detect that state from a documented signal, the "Plugged in, not charging" fallback covers it.
    - Never infer a reason from NotChargingReason bits. Leave "Charging on hold" out of code, snapshots and the contract unless you find a documented signal.
 2. A summary line ("Up from 41% at 9:05 AM" / "Down 33% since 2:10 PM"), then a last-24-hours charge chart.
-   - Draw it like System Settings > Battery > Battery Level, so it reads as the same thing:
-     - One bar per 15 minutes (the average of the readings in that slot). A slot with no reading has no bar.
-     - Y axis 0%, 50%, 100% labelled on the right. Hour labels (6 PM, 12 AM, 6 AM, 12 PM, Now) along the bottom.
-     - Charging stretches are a thin strip under the axis with a bolt symbol, not a band behind the bars.
-     - Bars and strip in a neutral foreground style, never green: in Vitals colour only means a status.
-     - Strengthen the strip under Increase Contrast. All labels in .secondary.
+   - Draw it as one line (see final.png and chart-final.png; the shape is in research/vitals-battery-redesign/chart-final.js):
+     - One ink (.primary) at one weight (2 pt), with round caps and joins. Smooth it with monotone cubic interpolation so it never overshoots a reading; Swift Charts' `.interpolationMethod(.monotone)` does this.
+     - Y scale fixed at 0 to 100%, with no gridlines and no y labels. A single baseline only, and a plot about 72 pt tall.
+     - Three time labels in .secondary under the baseline: the start (e.g. "6 PM"), the middle and "Now".
+     - Mark one moment with a dot: the time it was plugged in (the low point, labelled "41%" on its left in .primary and "Plugged in" on its right in .secondary), or, on battery, the time it was unplugged ("Unplugged" above the dot). Add a dot at Now.
+     - Where there are no readings (asleep), leave a clean break. No dotted bridge, and no drop to zero.
+     - No bars, no bands, no charging strip and no green. Blind reads and Evan rejected the Apple-style 15-minute bars as ugly at this size (Nov 11).
    - One VoiceOver label, e.g. "Last 24 hours: 41% at 9:05 AM, now 95%, plugged in since 9:05 AM".
    - History source: `pmset -g log`. Parse it only while the Battery tab is showing and the cache is older than 10 min, never while the panel is closed. Run it off the main thread with a 5 s timeout. Stream the output and keep only the last 24 h of "Charge: NN" and AC/battery lines; discard everything else, since it names processes.
    - Merge in Vitals' own battery readings since launch, kept in memory only. If the parse fails, show only those readings; missing time stays empty.
