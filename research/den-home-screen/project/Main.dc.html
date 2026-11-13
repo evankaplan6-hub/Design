@@ -2,92 +2,204 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Den home, Apple TV style</title>
+<title>Den home, Home Team</title>
 <script src="./support.js"></script>
 </head>
 <body>
 <x-dc>
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Inter+Tight:wght@600;700;800&amp;display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800;900&amp;family=Atkinson+Hyperlegible+Next:wght@700&amp;display=swap">
 <style>
-body{margin:0}
-a{color:#9db4ff}a:hover{color:#c7d4ff}
-.tile{transition:transform 180ms ease, box-shadow 180ms ease}
-@media (prefers-reduced-motion: reduce){.tile{transition:none}}
+body{margin:0;background:#14120E}
+a{color:#FFB21C}a:hover{color:#ffc75a}
+.lift{transition:transform 160ms cubic-bezier(0.2,0.8,0.2,1), box-shadow 100ms linear}
+.wipe{transition:background-color 140ms linear, color 140ms linear}
+button:focus-visible{outline:none}
+@media (prefers-reduced-motion: reduce){.lift,.wipe{transition:none}}
 </style>
 </helmet>
-<div style="width: 1920px; height: 1080px; box-sizing: border-box; padding: 48px 96px 0; display: flex; flex-direction: column; gap: 32px; background: #0d0f14; color: #f2f4f8; font-family: Inter, system-ui, sans-serif; overflow: hidden; position: relative;">
+<div style="width: 1920px; height: 1080px; box-sizing: border-box; padding: 54px 96px; display: flex; flex-direction: column; background: #14120E; color: #F2ECE0; font-family: 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', Verdana, sans-serif; overflow: hidden;">
 
-  <div style="display: flex; align-items: center; justify-content: flex-end; height: 56px;">
-    <div style="display: flex; align-items: center; gap: 28px;">
-      <button aria-label="Inputs" style="width: 56px; height: 56px; border-radius: 50%; border: none; background: #1b1f29; color: #d7dbe4; display: flex; align-items: center; justify-content: center; cursor: pointer;">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="12" rx="2"></rect><path d="M8 21h8M12 17v4"></path></svg>
-      </button>
-      <button aria-label="Settings" style="width: 56px; height: 56px; border-radius: 50%; border: none; background: #1b1f29; color: #d7dbe4; display: flex; align-items: center; justify-content: center; cursor: pointer;">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"></path></svg>
-      </button>
-      <span style="font-family: 'Inter Tight', Inter, sans-serif; font-size: 40px; font-weight: 600; font-variant-numeric: tabular-nums; color: #f2f4f8;">8:42</span>
+  <!-- Top strip: scorebug clock, Alexa line -->
+  <div style="height: 64px; flex-shrink: 0; display: flex; align-items: stretch; justify-content: space-between;">
+    <div style="display: flex; align-items: stretch;">
+      <div style="width: 220px; box-sizing: border-box; padding: 0 22px; background: #2C271F; display: flex; align-items: baseline; justify-content: center; gap: 8px; padding-top: 6px;">
+        <span style="font-family: 'Big Shoulders Display', Impact, sans-serif; font-size: 48px; font-weight: 800; line-height: 52px; font-variant-numeric: tabular-nums; color: #F2ECE0;">7:42</span>
+        <span style="font-size: 28px; font-weight: 700; color: #A39A8A;">PM</span>
+      </div>
+      <div style="width: 200px; background: #221E18; display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: 700; color: #F2ECE0;">Thu Nov 12</div>
+      <div style="width: 160px; box-sizing: border-box; padding-right: 18px; background: #221E18; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 28px; font-weight: 700; color: #F2ECE0; clip-path: polygon(0 0, 100% 0, calc(100% - 14px) 100%, 0 100%);">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#F2ECE0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.5 19H9a7 7 0 1 1 6.7-9h1.8a4.5 4.5 0 1 1 0 9z"></path></svg>
+        <span>48°</span>
+      </div>
+    </div>
+    <div style="display: flex; align-items: center; gap: 14px; font-size: 28px; font-weight: 700; color: #A39A8A;">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#A39A8A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="2" width="6" height="12" rx="3"></rect><path d="M5 10a7 7 0 0 0 14 0M12 17v5M8 22h8"></path></svg>
+      <span>Hold mic to ask Alexa</span>
     </div>
   </div>
 
-  <div style="height: 240px; display: flex; align-items: flex-end; justify-content: space-between; gap: 48px;">
-    <h1 style="margin: 0; min-width: 0; font-family: 'Inter Tight', Inter, sans-serif; font-size: 120px; line-height: 1; font-weight: 800; letter-spacing: -0.03em; color: #ffffff;">{{focused.name}}</h1>
-    <div style="width: 360px; height: 202px; border-radius: 28px; background: {{focused.bg}}; color: {{focused.fg}}; display: flex; align-items: center; justify-content: center; font-family: 'Inter Tight', Inter, sans-serif; font-size: 52px; font-weight: 800; letter-spacing: -0.02em; box-shadow: 0 30px 60px rgba(0,0,0,0.45);" aria-hidden="true">{{focused.mark}}</div>
+  <!-- Marquee: follows focus -->
+  <div style="margin-top: 16px; height: 256px; flex-shrink: 0; position: relative; background: #221E18; overflow: hidden;">
+    <div class="wipe" style="position: absolute; left: 0; top: 0; bottom: 0; width: 16px; background: {{f.stripe}};" aria-hidden="true"></div>
+    <div style="position: absolute; left: 40px; top: 24px; width: 760px; display: flex; flex-direction: column;">
+      <span style="font-size: 28px; font-weight: 700; color: #A39A8A; line-height: 26px;">{{f.group}}</span>
+      <h1 style="margin: 10px 0 0; font-family: 'Big Shoulders Display', Impact, sans-serif; font-weight: 900; font-size: {{f.nameSize}}; line-height: 1; white-space: nowrap; color: #F2ECE0;">{{f.name}}</h1>
+      <div style="margin-top: 18px; display: flex; align-items: center; gap: 14px;">
+        <span style="height: 40px; box-sizing: border-box; padding: 0 12px; border: 2px solid #A39A8A; border-radius: 8px; display: flex; align-items: center; font-size: 28px; font-weight: 700; color: #F2ECE0;">OK</span>
+        <span style="font-size: 28px; font-weight: 700; color: #A39A8A;">Open</span>
+      </div>
+    </div>
+    <div class="wipe" style="position: absolute; right: 0; top: 0; width: 600px; height: 256px; background: {{f.para}}; clip-path: polygon(54px 0, 100% 0, 100% 100%, 0 100%);" aria-hidden="true">
+      <sc-if value="{{f.isUtil}}" hint-placeholder-val="{{ false }}">
+        <div style="position: absolute; right: 120px; top: 68px; width: 120px; height: 120px; color: #F2ECE0;">
+          <sc-if value="{{f.isInputs}}" hint-placeholder-val="{{ true }}">
+            <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h18l-2 6H5z"></path><path d="M7 14v3h10v-3"></path><path d="M9 11h6"></path></svg>
+          </sc-if>
+          <sc-if value="{{f.isSettings}}" hint-placeholder-val="{{ false }}">
+            <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"></path></svg>
+          </sc-if>
+        </div>
+      </sc-if>
+      <sc-if value="{{f.isApp}}" hint-placeholder-val="{{ true }}">
+        <div style="position: absolute; right: 24px; top: 6px; width: 432px; height: 243px; box-sizing: border-box; border: 2px solid #14120E; background: {{f.bg}}; color: {{f.fg}}; display: flex; align-items: flex-end; padding: 24px; font-size: 44px; font-weight: 700;">{{f.name}}</div>
+      </sc-if>
+    </div>
   </div>
 
-  <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 40px;">
-    <sc-for list="{{big}}" as="item" hint-placeholder-count="8">
-      <button class="tile" onClick="{{item.pick}}" aria-label="{{item.name}}" style="height: 226px; box-sizing: border-box; padding: 0 24px; border-radius: 28px; border: none; cursor: pointer; background: {{item.bg}}; color: {{item.fg}}; display: flex; align-items: center; justify-content: center; font-family: 'Inter Tight', Inter, sans-serif; font-size: 56px; font-weight: 800; letter-spacing: -0.02em; {{item.focusCss}}">{{item.mark}}</button>
-    </sc-for>
+  <!-- Group labels -->
+  <div style="margin-top: 24px; height: 36px; flex-shrink: 0; display: flex; padding-left: 24px; gap: 56px;">
+    <div style="width: 1224px; display: flex; flex-direction: column; justify-content: space-between;">
+      <span style="font-family: 'Big Shoulders Display', Impact, sans-serif; font-size: 36px; font-weight: 800; line-height: 30px; color: #A39A8A;">Shows &amp; Music</span>
+      <div style="height: 4px; background: #3B352B; clip-path: polygon(0 0, 100% 0, calc(100% - 1px) 100%, 0 100%);"></div>
+    </div>
+    <div style="width: 400px; display: flex; flex-direction: column; justify-content: space-between;">
+      <span style="font-family: 'Big Shoulders Display', Impact, sans-serif; font-size: 36px; font-weight: 800; line-height: 30px; color: #A39A8A;">Sports &amp; News</span>
+      <div style="height: 4px; background: #3B352B;"></div>
+    </div>
   </div>
 
-  <div style="display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 24px;">
-    <sc-for list="{{small}}" as="item" hint-placeholder-count="8">
-      <button class="tile" onClick="{{item.pick}}" aria-label="{{item.name}}" style="height: 110px; box-sizing: border-box; padding: 0 14px; border-radius: 20px; border: none; cursor: pointer; background: {{item.bg}}; color: {{item.fg}}; display: flex; align-items: center; justify-content: center; font-family: 'Inter Tight', Inter, sans-serif; font-size: 24px; font-weight: 800; letter-spacing: -0.01em; {{item.focusCss}}">{{item.mark}}</button>
-    </sc-for>
+  <!-- Shows grid + Sports board -->
+  <div style="margin-top: 24px; display: flex; padding-left: 24px; gap: 56px; align-items: flex-start;">
+    <div style="width: 1224px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px;">
+      <sc-for list="{{shows}}" as="t" hint-placeholder-count="12">
+        <button class="lift" onClick="{{t.pick}}" aria-label="{{t.name}}" style="height: 162px; box-sizing: border-box; padding: 20px; border: none; border-radius: 6px; cursor: pointer; display: flex; flex-direction: column; justify-content: {{t.justify}}; align-items: flex-start; text-align: left; background: {{t.tileBg}}; color: {{t.fg}}; font-family: 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', Verdana, sans-serif; font-weight: 700; font-size: {{t.labelSize}}; line-height: 1.1; position: relative; {{t.focusCss}}">
+          <sc-if value="{{t.isInputs}}" hint-placeholder-val="{{ false }}">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#F2ECE0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h18l-2 6H5z"></path><path d="M7 14v3h10v-3"></path><path d="M9 11h6"></path></svg>
+          </sc-if>
+          <sc-if value="{{t.isSettings}}" hint-placeholder-val="{{ false }}">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#F2ECE0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"></path></svg>
+          </sc-if>
+          <span>{{t.name}}</span>
+        </button>
+      </sc-for>
+    </div>
+
+    <div style="width: 400px; display: flex; flex-direction: column;">
+      <sc-for list="{{news}}" as="r" hint-placeholder-count="1">
+        <button class="lift" onClick="{{r.pick}}" aria-label="{{r.name}}" style="width: 400px; height: 78px; padding: 0; border: none; cursor: pointer; display: flex; position: relative; background: transparent; {{r.focusCss}}">
+          <span style="width: 139px; height: 78px; flex-shrink: 0; background: {{r.bg}}; color: {{r.fg}}; display: flex; align-items: center; justify-content: center; font-family: 'Atkinson Hyperlegible Next', Verdana, sans-serif; font-size: 28px; font-weight: 700;">{{r.chip}}</span>
+          <span class="wipe" style="flex: 1 1 auto; height: 78px; box-sizing: border-box; padding-left: 24px; display: flex; align-items: center; background: {{r.nameBg}}; color: {{r.nameFg}}; font-family: 'Big Shoulders Display', Impact, sans-serif; font-size: 40px; font-weight: 800; text-transform: uppercase;">{{r.name}}</span>
+          <sc-if value="{{r.focused}}" hint-placeholder-val="{{ false }}">
+            <span style="position: absolute; left: -44px; top: 27px; width: 20px; height: 24px; background: #FFB21C; clip-path: polygon(0 0, 100% 50%, 0 100%);" aria-hidden="true"></span>
+          </sc-if>
+        </button>
+      </sc-for>
+      <div style="height: 2px; margin: 10px 0 6px; background: #3B352B;"></div>
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <sc-for list="{{sports}}" as="r" hint-placeholder-count="5">
+          <button class="lift" onClick="{{r.pick}}" aria-label="{{r.name}}" style="width: 400px; height: 78px; padding: 0; border: none; cursor: pointer; display: flex; position: relative; background: transparent; {{r.focusCss}}">
+            <span style="width: 139px; height: 78px; flex-shrink: 0; background: {{r.bg}}; color: {{r.fg}}; display: flex; align-items: center; justify-content: center; font-family: 'Atkinson Hyperlegible Next', Verdana, sans-serif; font-size: 28px; font-weight: 700;">{{r.chip}}</span>
+            <span class="wipe" style="flex: 1 1 auto; height: 78px; box-sizing: border-box; padding-left: 24px; display: flex; align-items: center; background: {{r.nameBg}}; color: {{r.nameFg}}; font-family: 'Big Shoulders Display', Impact, sans-serif; font-size: 40px; font-weight: 800; text-transform: uppercase;">{{r.name}}</span>
+            <sc-if value="{{r.focused}}" hint-placeholder-val="{{ false }}">
+              <span style="position: absolute; left: -44px; top: 27px; width: 20px; height: 24px; background: #FFB21C; clip-path: polygon(0 0, 100% 50%, 0 100%);" aria-hidden="true"></span>
+            </sc-if>
+          </button>
+        </sc-for>
+      </div>
+    </div>
   </div>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"bigTiles":{"editor":"enum","default":"8","options":["4","8"]},"$preview":{"width":1920,"height":1080}}'>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1920,"height":1080}}'>
 class Component extends DCLogic {
   constructor(props) {
     super(props);
     this.state = { focused: 'hulu' };
   }
   renderVals() {
-    const apps = [
-      { id: 'hulu', name: 'Hulu', mark: 'hulu', bg: '#1ce783', fg: '#0b0c0f' },
-      { id: 'peacock', name: 'Peacock', mark: 'peacock', bg: '#000000', fg: '#ffffff' },
-      { id: 'disney', name: 'Disney+', mark: 'Disney+', bg: '#0b2a6f', fg: '#ffffff' },
-      { id: 'hbo', name: 'HBO Max', mark: 'HBO max', bg: '#002be7', fg: '#ffffff' },
-      { id: 'youtube', name: 'YouTube', mark: 'YouTube', bg: '#ff0033', fg: '#ffffff' },
-      { id: 'cnbc', name: 'CNBC', mark: 'CNBC', bg: '#005594', fg: '#ffffff' },
-      { id: 'paramount', name: 'Paramount+', mark: 'Paramount+', bg: '#0064ff', fg: '#ffffff' },
-      { id: 'prime', name: 'Prime Video', mark: 'prime video', bg: '#0f171e', fg: '#00a8e1' },
-      { id: 'appletv', name: 'Apple TV', mark: 'Apple TV', bg: '#1c1c1e', fg: '#ffffff' },
-      { id: 'netflix', name: 'Netflix', mark: 'NETFLIX', bg: '#000000', fg: '#e50914' },
-      { id: 'espn', name: 'ESPN', mark: 'ESPN', bg: '#d00000', fg: '#ffffff' },
-      { id: 'fox', name: 'FOX One', mark: 'FOX One', bg: '#111111', fg: '#ffffff' },
-      { id: 'nba', name: 'NBA', mark: 'NBA', bg: '#1d428a', fg: '#ffffff' },
-      { id: 'mlb', name: 'MLB', mark: 'MLB', bg: '#041e42', fg: '#ffffff' },
-      { id: 'dazn', name: 'DAZN', mark: 'DAZN', bg: '#0c0c0c', fg: '#f7ff1a' },
-      { id: 'spotify', name: 'Spotify', mark: 'Spotify', bg: '#121212', fg: '#1ed760' }
-    ];
-    const focusedId = this.state.focused;
-    const decorate = (a) => ({
-      ...a,
-      focusCss: a.id === focusedId
-        ? 'transform: scale(1.08); box-shadow: 0 0 0 5px #ffffff, 0 28px 56px rgba(0,0,0,0.55); position: relative; z-index: 2;'
-        : 'transform: scale(1); box-shadow: 0 10px 24px rgba(0,0,0,0.35);',
-      pick: () => this.setState({ focused: a.id })
-    });
-    const all = apps.map(decorate);
-    const nBig = parseInt(this.props.bigTiles ?? '8', 10);
+    const A = {
+      hulu: { name: 'Hulu', group: 'Shows', bg: '#1CE783', fg: '#14120E' },
+      peacock: { name: 'Peacock', group: 'Shows', bg: '#0E0E10', fg: '#F2ECE0', stripe: '#FFC300', dark: true },
+      disney: { name: 'Disney+', group: 'Shows', bg: '#113CCF', fg: '#F2ECE0' },
+      hbo: { name: 'HBO Max', group: 'Shows', bg: '#002BE7', fg: '#F2ECE0' },
+      youtube: { name: 'YouTube', group: 'Shows', bg: '#FF0033', fg: '#F2ECE0' },
+      paramount: { name: 'Paramount+', group: 'Shows', bg: '#0064FF', fg: '#F2ECE0' },
+      prime: { name: 'Prime Video', group: 'Shows', bg: '#1A98FF', fg: '#0F171E' },
+      appletv: { name: 'Apple TV', group: 'Shows', bg: '#1C1C1E', fg: '#F2ECE0', stripe: '#A2AAAD', dark: true },
+      netflix: { name: 'Netflix', group: 'Shows', bg: '#141414', fg: '#E50914', stripe: '#E50914', dark: true },
+      spotify: { name: 'Spotify', group: 'Music', bg: '#1ED760', fg: '#14120E' },
+      inputs: { name: 'Inputs', group: 'TV', util: 'inputs' },
+      settings: { name: 'Settings', group: 'TV', util: 'settings' },
+      cnbc: { name: 'CNBC', group: 'News', bg: '#005594', fg: '#F2ECE0' },
+      espn: { name: 'ESPN', group: 'Sports', bg: '#D00000', fg: '#F2ECE0' },
+      fox: { name: 'FOX One', group: 'Sports', bg: '#0B2A5B', fg: '#F2ECE0' },
+      nba: { name: 'NBA', group: 'Sports', bg: '#1D428A', fg: '#F2ECE0' },
+      mlb: { name: 'MLB', group: 'Sports', bg: '#041E42', fg: '#F2ECE0', stripe: '#D50032' },
+      dazn: { name: 'DAZN', group: 'Sports', bg: '#F8FC00', fg: '#14120E' }
+    };
+    const fid = this.state.focused;
+    const ring = '0 0 0 3px #14120E, 0 0 0 9px #FFB21C, 0 18px 32px rgba(0,0,0,0.55)';
+    const pick = (id) => () => this.setState({ focused: id });
+
+    const tile = (id) => {
+      const a = A[id];
+      const on = id === fid;
+      const util = !!a.util;
+      const inner = util || a.dark ? 'inset 0 0 0 2px #3B352B' : '';
+      const shadows = [on ? ring : '', inner].filter(Boolean).join(', ');
+      return {
+        id, name: a.name,
+        tileBg: util ? '#221E18' : a.bg,
+        fg: util ? '#F2ECE0' : a.fg,
+        labelSize: util ? '32px' : '36px',
+        justify: util ? 'space-between' : 'flex-end',
+        isInputs: a.util === 'inputs',
+        isSettings: a.util === 'settings',
+        focusCss: (on ? 'transform: scale(1.1); z-index: 2;' : 'transform: scale(1);') + (shadows ? ' box-shadow: ' + shadows + ';' : ' box-shadow: none;'),
+        pick: pick(id)
+      };
+    };
+    const row = (id) => {
+      const a = A[id];
+      const on = id === fid;
+      return {
+        id, name: a.name, chip: a.name, bg: a.bg, fg: a.fg, focused: on,
+        nameBg: on ? '#FFB21C' : '#221E18',
+        nameFg: on ? '#14120E' : '#F2ECE0',
+        focusCss: on ? 'transform: scale(1.04); z-index: 2; box-shadow: ' + ring + ';' : 'transform: scale(1); box-shadow: none;',
+        pick: pick(id)
+      };
+    };
+
+    const fa = A[fid] || A.hulu;
+    const isUtil = !!fa.util;
     return {
-      focused: all.find(a => a.id === focusedId) || all[0],
-      big: all.slice(0, nBig),
-      small: all.slice(nBig, nBig + 8)
+      shows: ['hulu', 'peacock', 'disney', 'hbo', 'youtube', 'paramount', 'prime', 'appletv', 'netflix', 'spotify', 'inputs', 'settings'].map(tile),
+      news: ['cnbc'].map(row),
+      sports: ['espn', 'fox', 'nba', 'mlb', 'dazn'].map(row),
+      f: {
+        name: fa.name,
+        group: fa.group,
+        nameSize: fa.name.length > 9 ? '96px' : '112px',
+        stripe: isUtil ? '#A39A8A' : (fa.stripe || fa.bg),
+        para: isUtil ? '#2C271F' : fa.bg,
+        bg: fa.bg, fg: fa.fg,
+        isUtil, isApp: !isUtil,
+        isInputs: fa.util === 'inputs',
+        isSettings: fa.util === 'settings'
+      }
     };
   }
 }
