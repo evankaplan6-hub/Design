@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Den home, Roku style</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Inter+Tight:wght@600;700;800&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#9db4ff}a:hover{color:#c7d4ff}
+.tile{transition:transform 180ms ease, box-shadow 180ms ease}
+@media (prefers-reduced-motion: reduce){.tile{transition:none}}
+</style>
+</helmet>
+<div style="width: 1920px; height: 1080px; box-sizing: border-box; display: flex; background: #0d0f14; color: #f2f4f8; font-family: Inter, system-ui, sans-serif; overflow: hidden;">
+
+  <nav aria-label="Main" style="width: 360px; flex-shrink: 0; box-sizing: border-box; padding: 64px 32px 64px 72px; display: flex; flex-direction: column; gap: 56px; background: #12151c;">
+    <span style="font-family: 'Inter Tight', Inter, sans-serif; font-size: 48px; font-weight: 600; font-variant-numeric: tabular-nums; color: #f2f4f8;">8:42</span>
+    <div style="display: flex; flex-direction: column; gap: 8px;">
+      <sc-for list="{{menu}}" as="m" hint-placeholder-count="4">
+        <button onClick="{{m.pick}}" style="height: 72px; box-sizing: border-box; padding: 0 24px; border: none; border-radius: 18px; cursor: pointer; display: flex; align-items: center; gap: 20px; font-family: Inter, system-ui, sans-serif; font-size: 30px; font-weight: 600; text-align: left; {{m.css}}">{{m.label}}</button>
+      </sc-for>
+    </div>
+  </nav>
+
+  <main style="flex: 1 1 auto; min-width: 0; box-sizing: border-box; padding: 72px 96px 0 72px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 36px; align-content: start;">
+    <sc-for list="{{apps}}" as="item" hint-placeholder-count="12">
+      <button class="tile" onClick="{{item.pick}}" aria-label="{{item.name}}" style="height: 248px; border-radius: 28px; border: none; cursor: pointer; background: {{item.bg}}; color: {{item.fg}}; display: flex; align-items: center; justify-content: center; font-family: 'Inter Tight', Inter, sans-serif; font-size: 60px; font-weight: 800; letter-spacing: -0.02em; {{item.focusCss}}">{{item.mark}}</button>
+    </sc-for>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1920,"height":1080}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { focused: 'hulu', menu: 'home' };
+  }
+  renderVals() {
+    const apps = [
+      { id: 'hulu', name: 'Hulu', mark: 'hulu', bg: '#1ce783', fg: '#0b0c0f' },
+      { id: 'peacock', name: 'Peacock', mark: 'peacock', bg: '#000000', fg: '#ffffff' },
+      { id: 'disney', name: 'Disney+', mark: 'Disney+', bg: '#0b2a6f', fg: '#ffffff' },
+      { id: 'hbo', name: 'HBO Max', mark: 'HBO max', bg: '#002be7', fg: '#ffffff' },
+      { id: 'youtube', name: 'YouTube', mark: 'YouTube', bg: '#ff0033', fg: '#ffffff' },
+      { id: 'cnbc', name: 'CNBC', mark: 'CNBC', bg: '#005594', fg: '#ffffff' },
+      { id: 'paramount', name: 'Paramount+', mark: 'Paramount+', bg: '#0064ff', fg: '#ffffff' },
+      { id: 'prime', name: 'Prime Video', mark: 'prime video', bg: '#0f171e', fg: '#00a8e1' },
+      { id: 'appletv', name: 'Apple TV', mark: 'Apple TV', bg: '#1c1c1e', fg: '#ffffff' },
+      { id: 'netflix', name: 'Netflix', mark: 'NETFLIX', bg: '#000000', fg: '#e50914' },
+      { id: 'espn', name: 'ESPN', mark: 'ESPN', bg: '#d00000', fg: '#ffffff' },
+      { id: 'fox', name: 'FOX One', mark: 'FOX One', bg: '#111111', fg: '#ffffff' },
+      { id: 'nba', name: 'NBA', mark: 'NBA', bg: '#1d428a', fg: '#ffffff' },
+      { id: 'mlb', name: 'MLB', mark: 'MLB', bg: '#041e42', fg: '#ffffff' },
+      { id: 'dazn', name: 'DAZN', mark: 'DAZN', bg: '#0c0c0c', fg: '#f7ff1a' },
+      { id: 'spotify', name: 'Spotify', mark: 'Spotify', bg: '#121212', fg: '#1ed760' }
+    ];
+    const f = this.state.focused;
+    const menu = [
+      { id: 'home', label: 'Home' },
+      { id: 'search', label: 'Search' },
+      { id: 'inputs', label: 'Inputs' },
+      { id: 'settings', label: 'Settings' }
+    ].map(m => ({
+      ...m,
+      css: m.id === this.state.menu ? 'background: #262b37; color: #ffffff;' : 'background: transparent; color: #8f97a8;',
+      pick: () => this.setState({ menu: m.id })
+    }));
+    return {
+      menu,
+      apps: apps.map(a => ({
+        ...a,
+        focusCss: a.id === f
+          ? 'transform: scale(1.07); box-shadow: 0 0 0 5px #ffffff, 0 28px 56px rgba(0,0,0,0.55); position: relative; z-index: 2;'
+          : 'transform: scale(1); box-shadow: 0 10px 24px rgba(0,0,0,0.35);',
+        pick: () => this.setState({ focused: a.id })
+      }))
+    };
+  }
+}
+</script>
+</body>
+</html>

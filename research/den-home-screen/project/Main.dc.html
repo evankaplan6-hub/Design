@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Den home, Apple TV style</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Inter+Tight:wght@600;700;800&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#9db4ff}a:hover{color:#c7d4ff}
+.tile{transition:transform 180ms ease, box-shadow 180ms ease}
+@media (prefers-reduced-motion: reduce){.tile{transition:none}}
+</style>
+</helmet>
+<div style="width: 1920px; height: 1080px; box-sizing: border-box; padding: 48px 96px 0; display: flex; flex-direction: column; gap: 32px; background: #0d0f14; color: #f2f4f8; font-family: Inter, system-ui, sans-serif; overflow: hidden; position: relative;">
+
+  <div style="display: flex; align-items: center; justify-content: flex-end; height: 56px;">
+    <div style="display: flex; align-items: center; gap: 28px;">
+      <button aria-label="Inputs" style="width: 56px; height: 56px; border-radius: 50%; border: none; background: #1b1f29; color: #d7dbe4; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="12" rx="2"></rect><path d="M8 21h8M12 17v4"></path></svg>
+      </button>
+      <button aria-label="Settings" style="width: 56px; height: 56px; border-radius: 50%; border: none; background: #1b1f29; color: #d7dbe4; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"></path></svg>
+      </button>
+      <span style="font-family: 'Inter Tight', Inter, sans-serif; font-size: 40px; font-weight: 600; font-variant-numeric: tabular-nums; color: #f2f4f8;">8:42</span>
+    </div>
+  </div>
+
+  <div style="height: 240px; display: flex; align-items: flex-end; justify-content: space-between; gap: 48px;">
+    <h1 style="margin: 0; min-width: 0; font-family: 'Inter Tight', Inter, sans-serif; font-size: 120px; line-height: 1; font-weight: 800; letter-spacing: -0.03em; color: #ffffff;">{{focused.name}}</h1>
+    <div style="width: 360px; height: 202px; border-radius: 28px; background: {{focused.bg}}; color: {{focused.fg}}; display: flex; align-items: center; justify-content: center; font-family: 'Inter Tight', Inter, sans-serif; font-size: 52px; font-weight: 800; letter-spacing: -0.02em; box-shadow: 0 30px 60px rgba(0,0,0,0.45);" aria-hidden="true">{{focused.mark}}</div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 40px;">
+    <sc-for list="{{big}}" as="item" hint-placeholder-count="8">
+      <button class="tile" onClick="{{item.pick}}" aria-label="{{item.name}}" style="height: 226px; border-radius: 28px; border: none; cursor: pointer; background: {{item.bg}}; color: {{item.fg}}; display: flex; align-items: center; justify-content: center; font-family: 'Inter Tight', Inter, sans-serif; font-size: 56px; font-weight: 800; letter-spacing: -0.02em; {{item.focusCss}}">{{item.mark}}</button>
+    </sc-for>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 24px;">
+    <sc-for list="{{small}}" as="item" hint-placeholder-count="8">
+      <button class="tile" onClick="{{item.pick}}" aria-label="{{item.name}}" style="height: 110px; border-radius: 20px; border: none; cursor: pointer; background: {{item.bg}}; color: {{item.fg}}; display: flex; align-items: center; justify-content: center; font-family: 'Inter Tight', Inter, sans-serif; font-size: 28px; font-weight: 800; letter-spacing: -0.01em; {{item.focusCss}}">{{item.mark}}</button>
+    </sc-for>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"bigTiles":{"editor":"enum","default":"8","options":["4","8"]},"$preview":{"width":1920,"height":1080}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { focused: 'hulu' };
+  }
+  renderVals() {
+    const apps = [
+      { id: 'hulu', name: 'Hulu', mark: 'hulu', bg: '#1ce783', fg: '#0b0c0f' },
+      { id: 'peacock', name: 'Peacock', mark: 'peacock', bg: '#000000', fg: '#ffffff' },
+      { id: 'disney', name: 'Disney+', mark: 'Disney+', bg: '#0b2a6f', fg: '#ffffff' },
+      { id: 'hbo', name: 'HBO Max', mark: 'HBO max', bg: '#002be7', fg: '#ffffff' },
+      { id: 'youtube', name: 'YouTube', mark: 'YouTube', bg: '#ff0033', fg: '#ffffff' },
+      { id: 'cnbc', name: 'CNBC', mark: 'CNBC', bg: '#005594', fg: '#ffffff' },
+      { id: 'paramount', name: 'Paramount+', mark: 'Paramount+', bg: '#0064ff', fg: '#ffffff' },
+      { id: 'prime', name: 'Prime Video', mark: 'prime video', bg: '#0f171e', fg: '#00a8e1' },
+      { id: 'appletv', name: 'Apple TV', mark: 'Apple TV', bg: '#1c1c1e', fg: '#ffffff' },
+      { id: 'netflix', name: 'Netflix', mark: 'NETFLIX', bg: '#000000', fg: '#e50914' },
+      { id: 'espn', name: 'ESPN', mark: 'ESPN', bg: '#d00000', fg: '#ffffff' },
+      { id: 'fox', name: 'FOX One', mark: 'FOX One', bg: '#111111', fg: '#ffffff' },
+      { id: 'nba', name: 'NBA', mark: 'NBA', bg: '#1d428a', fg: '#ffffff' },
+      { id: 'mlb', name: 'MLB', mark: 'MLB', bg: '#041e42', fg: '#ffffff' },
+      { id: 'dazn', name: 'DAZN', mark: 'DAZN', bg: '#0c0c0c', fg: '#f7ff1a' },
+      { id: 'spotify', name: 'Spotify', mark: 'Spotify', bg: '#121212', fg: '#1ed760' }
+    ];
+    const focusedId = this.state.focused;
+    const decorate = (a) => ({
+      ...a,
+      focusCss: a.id === focusedId
+        ? 'transform: scale(1.08); box-shadow: 0 0 0 5px #ffffff, 0 28px 56px rgba(0,0,0,0.55); position: relative; z-index: 2;'
+        : 'transform: scale(1); box-shadow: 0 10px 24px rgba(0,0,0,0.35);',
+      pick: () => this.setState({ focused: a.id })
+    });
+    const all = apps.map(decorate);
+    const nBig = parseInt(this.props.bigTiles ?? '8', 10);
+    return {
+      focused: all.find(a => a.id === focusedId) || all[0],
+      big: all.slice(0, nBig),
+      small: all.slice(nBig, nBig + 8)
+    };
+  }
+}
+</script>
+</body>
+</html>
