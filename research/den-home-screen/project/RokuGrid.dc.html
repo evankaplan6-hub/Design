@@ -30,7 +30,7 @@ a{color:#9db4ff}a:hover{color:#c7d4ff}
 
   <main style="flex: 1 1 auto; min-width: 0; box-sizing: border-box; padding: 72px 96px 0 72px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 36px; align-content: start;">
     <sc-for list="{{apps}}" as="item" hint-placeholder-count="12">
-      <button class="tile" onClick="{{item.pick}}" aria-label="{{item.name}}" style="height: 248px; border-radius: 28px; border: none; cursor: pointer; background: {{item.bg}}; color: {{item.fg}}; display: flex; align-items: center; justify-content: center; font-family: 'Inter Tight', Inter, sans-serif; font-size: 60px; font-weight: 800; letter-spacing: -0.02em; {{item.focusCss}}">{{item.mark}}</button>
+      <button class="tile" onClick="{{item.pick}}" aria-label="{{item.name}}" style="height: 248px; box-sizing: border-box; padding: 0 28px; border-radius: 28px; border: none; cursor: pointer; background: {{item.bg}}; color: {{item.fg}}; display: flex; align-items: center; justify-content: center; font-family: 'Inter Tight', Inter, sans-serif; font-size: 60px; font-weight: 800; letter-spacing: -0.02em; {{item.focusCss}}">{{item.mark}}</button>
     </sc-for>
   </main>
 </div>

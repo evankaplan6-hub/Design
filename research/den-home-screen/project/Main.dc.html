@@ -38,13 +38,13 @@ a{color:#9db4ff}a:hover{color:#c7d4ff}
 
   <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 40px;">
     <sc-for list="{{big}}" as="item" hint-placeholder-count="8">
-      <button class="tile" onClick="{{item.pick}}" aria-label="{{item.name}}" style="height: 226px; border-radius: 28px; border: none; cursor: pointer; background: {{item.bg}}; color: {{item.fg}}; display: flex; align-items: center; justify-content: center; font-family: 'Inter Tight', Inter, sans-serif; font-size: 56px; font-weight: 800; letter-spacing: -0.02em; {{item.focusCss}}">{{item.mark}}</button>
+      <button class="tile" onClick="{{item.pick}}" aria-label="{{item.name}}" style="height: 226px; box-sizing: border-box; padding: 0 24px; border-radius: 28px; border: none; cursor: pointer; background: {{item.bg}}; color: {{item.fg}}; display: flex; align-items: center; justify-content: center; font-family: 'Inter Tight', Inter, sans-serif; font-size: 56px; font-weight: 800; letter-spacing: -0.02em; {{item.focusCss}}">{{item.mark}}</button>
     </sc-for>
   </div>
 
   <div style="display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 24px;">
     <sc-for list="{{small}}" as="item" hint-placeholder-count="8">
-      <button class="tile" onClick="{{item.pick}}" aria-label="{{item.name}}" style="height: 110px; border-radius: 20px; border: none; cursor: pointer; background: {{item.bg}}; color: {{item.fg}}; display: flex; align-items: center; justify-content: center; font-family: 'Inter Tight', Inter, sans-serif; font-size: 28px; font-weight: 800; letter-spacing: -0.01em; {{item.focusCss}}">{{item.mark}}</button>
+      <button class="tile" onClick="{{item.pick}}" aria-label="{{item.name}}" style="height: 110px; box-sizing: border-box; padding: 0 14px; border-radius: 20px; border: none; cursor: pointer; background: {{item.bg}}; color: {{item.fg}}; display: flex; align-items: center; justify-content: center; font-family: 'Inter Tight', Inter, sans-serif; font-size: 24px; font-weight: 800; letter-spacing: -0.01em; {{item.focusCss}}">{{item.mark}}</button>
     </sc-for>
   </div>
 </div>
