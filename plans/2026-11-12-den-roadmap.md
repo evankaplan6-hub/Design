@@ -93,3 +93,19 @@ Launchers: github.com/toolicious/home-on-fire (issues 2, 12, 13, 14), github.com
 Process: nngroup.com (5 users, task scenarios, think aloud), dtg.org.uk 2025 study of viewers 65+, fxdigital.uk 10-foot
 testing. Updates: aftvnews.com/amazon-patches-fire-tv-exploit, thestreamable.com/check-fire-tv-software-updates.
 Full sourced research: the workflow output saved with this session (wf_f1dc77df-fe2).
+
+## Step 0 results (run on Den 2026-11-12, then fully undone)
+
+| Check | Result |
+|---|---|
+| Home from inside an app | Works, but Amazon's home, with its big promo banner, shows for about **1.3 s** first (15 timed presses from YouTube, Peacock and Hulu, plus a screen video). **Fails** the 1 s line. |
+| Settings from our home screen | **Pass.** Opens and stays. |
+| Input button | **Fail.** Amazon's input list gets pulled back to our screen in about 0.6 s. LtvLauncher's own "HDMI 1" opened Amazon Live TV instead. With the Xbox on HDMI 1, this blocks the setup. |
+| Restart | Failed at first: TCL's software blocks the redirect from starting at boot. **Fixed** by allowing TCL's auto-start setting for the app; Den then booted onto our home screen. |
+| Escape (double-press Home) | Unreliable with simulated presses (1 of 7). Needs a real-remote test. |
+| Memory | Fine: about 19 MB and 56 MB. |
+| Not tested (needs a person) | Alexa, sound in apps, real-remote long-press, kids profile. |
+
+Den is back to its exact earlier state: both apps removed, settings match the backup.
+
+**What would unblock it:** (1) a version of the redirect app that stands aside for the Input button. The fix is posted in home-on-fire issue #13 but not released; we could build it ourselves for free. (2) Or switching to the Xbox by turning it on, if Den follows the Xbox automatically over HDMI-CEC (untested). The 1.3 s flash has no fix on Fire TV.
