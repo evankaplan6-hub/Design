@@ -66,6 +66,13 @@
   #sim .small { font-size: 32px; font-weight: 600; opacity: .75; }
   #sim .tag { position: absolute; top: 54px; left: 96px; font-size: 28px; font-weight: 700; padding: 10px 22px; border-radius: 24px; background: rgba(0,0,0,.35); }
 
+  /* Stand-in for Amazon's home flashing before the redirect lands on ours */
+  #flash { position: absolute; inset: 0; z-index: 30; display: none; background: #0F1B2A; padding: 54px 96px; }
+  #flash.show { display: block; }
+  #flash .fbanner { height: 520px; border-radius: 16px; background: linear-gradient(120deg, #3A4B63, #1E2A3B); display: flex; align-items: flex-end; padding: 32px; font-size: 40px; font-weight: 700; color: rgba(255,255,255,.8); }
+  #flash .frow { display: flex; gap: 24px; margin-top: 32px; }
+  #flash .frow i { flex: 1; height: 160px; border-radius: 10px; background: #2A3A50; }
+
   /* Help card: outside the design, for testers only */
   #help { position: fixed; right: 16px; bottom: 16px; z-index: 50; max-width: 340px; padding: 14px 16px; border-radius: 12px; background: rgba(255,255,255,.94); color: #15121c; font: 500 14px/1.45 -apple-system, "Helvetica Neue", sans-serif; box-shadow: 0 8px 30px rgba(0,0,0,.4); transition: opacity 400ms; }
   #help b { font-weight: 700; }
@@ -94,13 +101,17 @@
   <div id="band"><div id="grid"></div></div>
 
   <div id="sim"><div class="tag">Prototype: pretend screen</div><div class="big" id="simBig"></div><div class="small" id="simSmall"></div></div>
+
+  <div id="flash"><div class="fbanner">Fire TV's own home</div><div class="frow"><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="frow"><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
 </div>
 
 <div id="help">
   <b>Den home screen prototype</b>
   <div class="row"><kbd>←</kbd><kbd>↑</kbd><kbd>→</kbd><kbd>↓</kbd> move like the remote</div>
   <div class="row"><kbd>Enter</kbd> open &nbsp; <kbd>Esc</kbd> or <kbd>⌫</kbd> Back</div>
-  <div class="row"><kbd>F</kbd> full screen &nbsp; <kbd>H</kbd> hide or show this card</div>
+  <div class="row"><kbd>H</kbd> press Home (shows Fire TV's home flashing first)</div>
+  <div class="row">Flash length: <kbd>1</kbd> 0.25 s <kbd>2</kbd> 0.5 s <kbd>3</kbd> 0.9 s &nbsp;<b id="flashLen">now 0.5 s</b></div>
+  <div class="row"><kbd>F</kbd> full screen &nbsp; <kbd>?</kbd> hide or show this card</div>
   <div class="row" style="opacity:.7">Tiles use brand colours as stand-ins. The real version uses each app's own art from Den.</div>
 </div>
 
@@ -234,8 +245,8 @@
   }
   function openHeader(h) {
     const msg = [
-      ['Inputs', 'HDMI 1 · HDMI 2 · Antenna. Opens Fire TV’s own Inputs screen if the app can’t switch inputs.'],
-      ['Settings', 'Opens Fire TV Settings.'],
+      ['Inputs', 'Opens Fire TV’s own Inputs screen. A home screen app can’t switch inputs itself.'],
+      ['Settings', 'Opens Fire TV Settings. On other TVs this has bounced straight back; Den must be tested.'],
       ['All apps', 'Opens the full list of installed apps.'],
     ][h];
     showSim(msg[0], msg[1], 'linear-gradient(160deg, #2B1257, #120824)', '#F2F2F5');
@@ -249,6 +260,21 @@
     // On the home screen Back does nothing: it never exits to Amazon's home.
   }
 
+  // Home: on Fire TV a custom home screen can't take over the Home button. A redirect app waits for
+  // Amazon's home to appear, then jumps in front, so Amazon's home flashes first. Reported flashes:
+  // about 0.4-0.9 s on newer Fire TVs. Not measured on Den yet.
+  let flashMs = 500;
+  const flash = document.getElementById('flash');
+  function pressHome() {
+    flash.classList.add('show');
+    setTimeout(() => {
+      flash.classList.remove('show');
+      if (inSim) { sim.classList.remove('show'); inSim = false; }
+      focus = { zone: 'grid', i: lastTile };
+      render();
+    }, flashMs);
+  }
+
   // Keys: arrows / D-pad, Enter / OK, Esc or Backspace / Back
   const KEYMAP = { ArrowLeft: 'left', ArrowRight: 'right', ArrowUp: 'up', ArrowDown: 'down' };
   document.addEventListener('keydown', e => {
@@ -260,7 +286,13 @@
       return;
     }
     if (e.key === 'Escape' || e.key === 'Backspace' || e.key === 'GoBack' || e.key === 'BrowserBack') { e.preventDefault(); back(); return; }
-    if (e.key === 'h' || e.key === 'H') { help.classList.toggle('hide'); return; }
+    if (e.key === '?' || e.key === '/') { help.classList.toggle('hide'); return; }
+    if (e.key === 'h' || e.key === 'H') { pressHome(); return; }
+    if (e.key === '1' || e.key === '2' || e.key === '3') {
+      flashMs = { 1: 250, 2: 500, 3: 900 }[e.key];
+      document.getElementById('flashLen').textContent = `now ${flashMs / 1000} s`;
+      return;
+    }
     if (e.key === 'f' || e.key === 'F') { document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen?.(); }
   });
   // A TV browser's Back button goes back in history; catch it so it acts as the remote's Back
