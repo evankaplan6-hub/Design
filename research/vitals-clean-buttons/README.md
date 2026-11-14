@@ -13,6 +13,11 @@ Glass, spinners, the segmented control and NSAlert are flat stand-ins: ImageRend
 
 Pictures: `A-1-session`, `A-2-confirm`, `B-1-entry`, `B-2-session`, `B-3-confirm`, `C-1-session`, `C-2-confirm`, each light and dark.
 
+## B2, after reading the CleanMyMac design system (Nov 14)
+Evan's CleanMyMac design system (claude.ai artifact, measured from the main window, not its menu-bar mini app) backs B: "Totals, not lists", with the list one level down in a Manager screen reached by Review, with Back and Done.
+B2 takes what fits Vitals' rules: a real app or folder icon per row (Cursor, ChatGPT, Xcode; a folder for the rest), Back with a centred title, and a footer with the running total and Done (`B2-session`, `B2-confirm`).
+Left out on purpose: pre-ticked checkboxes with one Run for everything (no "Clean all"), a "5.2 GB of junk" total (no junk total), colour-coded canvases, magenta and glossy renders (colour means status only), and its "Looking for junk…" voice (no ellipses).
+
 ## Blind read (three reviewers, not told which was preferred)
 A CleanMyMac user, a macOS designer and an honesty reviewer. Rankings: **B, A, C**; B, A, C; B, C, A.
 - B: every state is visible together, the total and Put Back stay in view, and the sheet stops a second press.

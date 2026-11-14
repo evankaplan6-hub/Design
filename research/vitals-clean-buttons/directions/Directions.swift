@@ -199,7 +199,7 @@ struct CleanRow: View {
         switch item.state {
         case .ready, .waiting:
             Text(["up to \(item.bytes)", item.note ?? (item.comesBack ? "Comes back as you work" : nil)].compactMap { $0 }.joined(separator: " · "))
-                .font(.caption).foregroundStyle(secondary).lineLimit(1)
+                .font(.caption).foregroundStyle(secondary).lineLimit(2).fixedSize(horizontal: false, vertical: true)
         case .blocked(let msg):
             Text("up to \(item.bytes) · \(msg)").font(.caption).foregroundStyle(secondary).lineLimit(2)
         case .cleaning:
@@ -417,6 +417,63 @@ struct AlertMock: View {
     }
 }
 
+// MARK: - Direction B2: B with what fits from CleanMyMac's Manager sheet
+// Borrowed: a real icon per row, Back + centred title, a footer with the running total and Done.
+// Not borrowed (Vitals rules): checkboxes and one Run for all, a "junk" total, colour, glossy renders.
+
+func icon(_ id: String) -> NSImage {
+    let apps = ["cursor": "/Applications/Cursor.app", "derived": "/Applications/Xcode.app", "codex": "/Applications/ChatGPT.app"]
+    if let path = apps[id], FileManager.default.fileExists(atPath: path) { return NSWorkspace.shared.icon(forFile: path) }
+    return NSWorkspace.shared.icon(for: .folder)
+}
+
+struct DirectionB2: View {
+    var items: [Item]
+    var sheet = false
+    var body: some View {
+        PanelChrome {
+            ZStack {
+                VStack(spacing: 0) {
+                    ZStack {
+                        HStack {
+                            Image(systemName: "chevron.left").font(.system(size: 12, weight: .semibold))
+                                .frame(width: 26, height: 26).background(Circle().fill(.fill.tertiary))
+                            Spacer()
+                        }
+                        Text("Clean up").font(.body.weight(.semibold))
+                    }
+                    .padding(.horizontal, 14).padding(.vertical, 10)
+                    Divider()
+                    VStack(spacing: 2) {
+                        ForEach(items) { item in
+                            HStack(spacing: 10) {
+                                Image(nsImage: icon(item.id)).resizable().frame(width: 28, height: 28)
+                                CleanRow(item: item)
+                                CopyIcon()
+                            }
+                        }
+                    }
+                    .padding(.horizontal, 14).padding(.top, 8)
+                    Spacer(minLength: 0)
+                    Divider()
+                    HStack {
+                        Text("Freed 120 MB · 146 MB in the Trash").font(.callout).foregroundStyle(secondary)
+                        Spacer()
+                        GlassButton(title: "Done", small: false)
+                    }
+                    .padding(.horizontal, 14).padding(.vertical, 10)
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(RoundedRectangle(cornerRadius: 16, style: .continuous).fill(.fill.quaternary))
+                if sheet {
+                    RoundedRectangle(cornerRadius: 16, style: .continuous).fill(Color.black.opacity(0.28))
+                    SheetConfirm().padding(.horizontal, 22)
+                }
+            }
+        }
+    }
+}
+
 // MARK: - Render
 
 @MainActor func render<V: View>(_ view: V, _ path: String, dark: Bool) {
@@ -448,6 +505,8 @@ struct AlertMock: View {
             ("B-1-entry", AnyView(DirectionBEntry())),
             ("B-2-session", AnyView(DirectionB(items: mid))),
             ("B-3-confirm", AnyView(DirectionB(items: base, sheet: true))),
+            ("B2-session", AnyView(DirectionB2(items: mid))),
+            ("B2-confirm", AnyView(DirectionB2(items: base, sheet: true))),
             ("C-1-session", AnyView(DirectionC(items: mid))),
             ("C-2-confirm", AnyView(DirectionC(items: base, alert: true))),
         ]
