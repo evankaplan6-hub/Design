@@ -31,3 +31,13 @@ Fixed after the read, in all three: waiting rows keep their words (only the butt
 - **Two numbers disagree.** The Storage stage says "Up to 486 MB you could clear" (lasting wins only) while the list shows 10.8 GB and 10.2 GB caches. That is today's rule, but it now sits beside the buttons.
 - **Biggest wins after a clean.** Codex and NVIDIA are both wins and cleanable. After a clean the win row still says "up to".
 - Cancel is the blue default, as NSAlert draws it. One reviewer would rather Clean sit on the right without blue fill.
+
+## Motion (Nov 14, after Evan asked for "cool graphics and animations")
+Three studies on B2, drawn frame by frame with real SwiftUI offscreen (`motion/Motion.swift`, videos in `motion/out/`). Same story in each: uv is cleaned and frees 120 MB of "up to 10.2 GB", NVIDIA goes to the Trash, then Put Back. The confirmation sheet is cut from the videos. Springs are critically damped (no bounce).
+- **M1, morph.** The button shrinks into a turning ring while it works (the tools report no progress, so the ring never pretends to fill), then the result slides in.
+- **M2, into the Trash (chosen by the blind read, 2 of 3 first).** M1, plus the item's icon flies on a short arc into a Trash glyph beside "146 MB in the Trash" and leaves a dashed empty slot in its row. Put Back flies it back along the same path. The glyph shows only while something is in the Trash.
+- **M3, squares.** Dropped. A 120 MB clean changes one square in about 270, and the honesty reviewer showed that freed and in-the-Trash squares looked alike and part squares were rounded up.
+
+Fixed during the read: figures no longer count up (that showed numbers that were never measured, such as "140 MB in the Trash"); they fade in whole. Titles and captions wrap instead of ending in "…". A "Freed 120 MB" figure flying to the footer was tried and cut: it crossed other rows' text.
+Reduce Motion: no flight, no ring shrink; the row icon cross-fades to the dashed slot and the words cross-fade.
+New words to add to `CleanWords`: "Cleaning", "Moving to the Trash".
