@@ -1,6 +1,12 @@
 Put Smart Check's Clean buttons on screen (Sources/Vitals/Views/SmartCheckCard.swift and a new Views/CleanUpList.swift). The wiring is done on `feat/smart-check-clean-actions`; the look was done in ~/Design. The target is a real SwiftUI file, so port it rather than redraw it.
-- The design lives in ~/Design once PR "Vitals Clean buttons" is merged. Until then it is on branch `design/vitals-clean-buttons` (worktree ~/Design-clean-buttons); read it there.
-- Read ~/Design/research/vitals-clean-buttons/README.md (the "Final" section) and the blueprint, docs/superpowers/specs/2026-11-14-clean-buttons-blueprint.md.
+- Get the design first. It is on the `main` branch of ~/Design's GitHub repo. The ~/Design folder itself is often checked out on another branch with someone else's uncommitted work, so never look for the files there, and never switch, stash or edit anything in it. Copy main's version into a temp folder instead:
+  ```
+  git -C ~/Design fetch
+  rm -rf /tmp/clean-design && mkdir -p /tmp/clean-design
+  git -C ~/Design archive origin/main research/vitals-clean-buttons | tar -x -C /tmp/clean-design
+  ```
+  Every design path below (README.md, final/, motion/) is inside `/tmp/clean-design/research/vitals-clean-buttons/`. If any of those commands fails, stop and tell Evan; don't start a new design.
+- Read README.md (the "Final" section) and the blueprint, docs/superpowers/specs/2026-11-14-clean-buttons-blueprint.md.
 - Look at final/out/: the result (1b is the same card scrolled to its end), both confirmations, the Clean up screen fresh and mid-session, the result reopened mid-clean, and 7-states (every CleanState). Each is light and dark. Watch motion/out/M2-trash.mp4 for the flight. Where the video and section 6 differ, section 6 wins.
 - Code to port: final/CleanButtonsDesign.swift. Its CleanRow, CleanIcon, CleanUpScreen and ResultScreen's `entry` are the layout, sizes and words to match. It already compiles against this repo's own files (final/render.sh), so the types and calls are real.
 - Read CONTRACT.md first. Its honesty, privacy and look rules, and the blueprint's eight rules, win over the design file.
@@ -72,7 +78,7 @@ Testing and contract:
 - Add `--simulate-clean fresh|session|reopened` to --snapshot and --live-snapshot, using preview data only (feed the views states directly, or add DEBUG-only preview data to CleanController). It must never run a clean.
 - Update CONTRACT.md: the Smart Check section (the Clean up row, the screen, the states, the totals, the motion and Reduce Motion), and that the words live in CleanWords.
 - Work on a branch from `feat/smart-check-clean-actions` (or from `main` if it has been merged), run ./scripts/check.sh (it includes --selftest-clean) and open a PR.
-- Nothing may appear on Evan's screen. Judge the look from `--snapshot <out.png> --tab check --appearance light|dark` with each simulated state, and the layout from `--live-snapshot <out.png> --offscreen --tab check` (its buttons always draw greyed). Never `--running-app`. Put the pictures in the Vitals PR, compare them side by side with final/out/, and say which are the real window. Don't write into ~/Design.
+- Nothing may appear on Evan's screen. Judge the look from `--snapshot <out.png> --tab check --appearance light|dark` with each simulated state, and the layout from `--live-snapshot <out.png> --offscreen --tab check` (its buttons always draw greyed). Never `--running-app`. Put the pictures in the Vitals PR, compare them side by side with final/out/, and say which are the real window. Don't write into ~/Design or the temp folder.
 - Check VoiceOver labels from --live-snapshot: every action is a real button named by its title, Put Back has its own label, the headings are headers, the header includes the totals, and focus moves on opening Clean up and on Back.
 - Check that the result card's last row ("Rebuilds itself", the tally) is reachable by scrolling, and that nothing is cut by "…" (a row cut at the scroll edge is fine).
 - Never press a real Clean button. It deletes Evan's real caches.

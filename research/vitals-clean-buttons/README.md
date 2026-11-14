@@ -81,7 +81,8 @@ Answers to the brief's open questions:
 - Put Back: shown while `canPutBack` (until the Trash is emptied) or the next scan, and disabled while another clean runs.
 - The verdict header shows measured totals ("Freed 120 MB · 146 MB in the Trash"), never "up to".
 - The disappointing case: the row says the exact outcome ("Freed 120 MB.") and the "up to" figure is gone, with no apology or colour.
-Build prompt: `prompts/vitals-clean-buttons.md`.
+Build prompt: `prompts/vitals-clean-buttons.md`. Start a Vitals session with this line, not the file path (~/Design is often on another branch, so the file may not be there):
+`Run: git -C ~/Design fetch && git -C ~/Design show origin/main:prompts/vitals-clean-buttons.md / Then do exactly what it says, starting with its "Get the design first" step.`
 New for the wiring session: after the Trash is emptied, the outcome still says "Empty the Trash to get the space back."
 
 ### Review of the final (three reviewers, each finding checked by a second agent)
