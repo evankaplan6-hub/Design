@@ -47,7 +47,7 @@ What to build, top to bottom:
 5. The confirmation stays SystemActions.clean's NSAlert (.warning style): the plan's confirmTitle, confirmMessage and confirmButton first, then Cancel, the default (Return). The panel closes only on its icon or Escape, so an in-panel sheet would fight Escape. Don't add a second confirmation.
 6. Motion (M2), critically damped springs only (bounce 0):
    - Pressing a button (after the alert): it cross-fades to the Spinner in the same column (response 0.3). The result fades in (0.35). Figures appear whole: no counting up.
-   - A Trash clean: the row's icon flies on a short arc (0.45 s) to a small trash glyph beside the totals line, leaving a 1 pt dashed rounded slot. The glyph shows only while `totalMovedToTrash > 0` and pulses once (scale 1.14) when the icon lands. Put Back flies it back the same way.
+   - A Trash clean: the row's icon flies on a short arc (0.45 s) to a small trash glyph beside the totals line, leaving a 1 pt dashed rounded slot. The glyph shows only while the in-Trash figure from section 1 is above 0 and pulses once (scale 1.14) when the icon lands. Put Back flies it back the same way.
    - The "Stays free" figure changes when the icon lands, not before.
    - From a Biggest wins row on the result card there is no totals line to fly to: the icon cross-fades to the dashed slot and the header totals fade in.
    - Reduce Motion: no flight and no scaling. The icon cross-fades to the slot, and words cross-fade.
@@ -71,8 +71,8 @@ Testing and contract:
 - Add #Previews for every `CleanPreviewStates.all` entry in Views/Previews.swift, plus the Clean up screen fresh and mid-session.
 - Add `--simulate-clean fresh|session|reopened` to --snapshot and --live-snapshot, using preview data only (feed the views states directly, or add DEBUG-only preview data to CleanController). It must never run a clean.
 - Update CONTRACT.md: the Smart Check section (the Clean up row, the screen, the states, the totals, the motion and Reduce Motion), and that the words live in CleanWords.
-- Work on a branch from `feat/smart-check-clean-actions`, run ./scripts/check.sh (it includes --selftest-clean) and open a PR.
-- Nothing may appear on Evan's screen. Judge the look from `--snapshot <out.png> --tab check --appearance light|dark` with each simulated state, and the layout from `--live-snapshot <out.png> --offscreen --tab check` (its buttons always draw greyed). Never `--running-app`. Put the pictures next to final/out/ and say which are the real window.
+- Work on a branch from `feat/smart-check-clean-actions` (or from `main` if it has been merged), run ./scripts/check.sh (it includes --selftest-clean) and open a PR.
+- Nothing may appear on Evan's screen. Judge the look from `--snapshot <out.png> --tab check --appearance light|dark` with each simulated state, and the layout from `--live-snapshot <out.png> --offscreen --tab check` (its buttons always draw greyed). Never `--running-app`. Put the pictures in the Vitals PR, compare them side by side with final/out/, and say which are the real window. Don't write into ~/Design.
 - Check VoiceOver labels from --live-snapshot: every action is a real button named by its title, Put Back has its own label, the headings are headers, the header includes the totals, and focus moves on opening Clean up and on Back.
 - Check that the result card's last row ("Rebuilds itself", the tally) is reachable by scrolling, and that nothing is cut by "…" (a row cut at the scroll edge is fine).
 - Never press a real Clean button. It deletes Evan's real caches.

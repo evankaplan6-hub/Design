@@ -26,7 +26,7 @@ A CleanMyMac user, a macOS designer and an honesty reviewer. Rankings: **B, A, C
 
 Fixed after the read, in all three: waiting rows keep their words (only the button dims), a blocked row keeps its size, every row keeps its finding's note ("Possible: the app seems to be gone"), the totals line says what is in the Trash, B got Done, and C lost a leftover annotation.
 
-## Open points (raise with Evan)
+## Open points (raise with Evan). Superseded: B3 and the Final section below settle these.
 - **New words.** "Freed 120 MB. The rest is still in use." is a proposed `CleanWords` sentence for a prune that frees far less than "up to". "Clean up", "Cleaning" and "146 MB in the Trash" also need to come from `CleanWords`, not the view.
 - **Two numbers disagree.** The Storage stage says "Up to 486 MB you could clear" (lasting wins only) while the list shows 10.8 GB and 10.2 GB caches. That is today's rule, but it now sits beside the buttons.
 - **Biggest wins after a clean.** Codex and NVIDIA are both wins and cleanable. After a clean the win row still says "up to".
@@ -74,6 +74,13 @@ Faked: the panel's title bar and tabs, the stage figures, "Checked at 9:49 AM", 
 - `7-states`: every CleanState.
 
 The new words sit in an `extension CleanWords` at the top of the file, ready to move into the app.
+
+Answers to the brief's open questions:
+- Where the list sits: one "Clean up" row on the result opens its own screen (Back, two groups, pinned totals). Biggest wins rows also get their buttons.
+- Confirmation: SystemActions.clean's NSAlert, Cancel the default. An in-panel sheet would fight Escape, which closes the panel.
+- Put Back: shown while `canPutBack` (until the Trash is emptied) or the next scan, and disabled while another clean runs.
+- The verdict header shows measured totals ("Freed 120 MB · 146 MB in the Trash"), never "up to".
+- The disappointing case: the row says the exact outcome ("Freed 120 MB.") and the "up to" figure is gone, with no apology or colour.
 Build prompt: `prompts/vitals-clean-buttons.md`.
 New for the wiring session: after the Trash is emptied, the outcome still says "Empty the Trash to get the space back."
 
