@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Den Home Prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #F2F2F5;
+    --ink-dim: rgba(242, 242, 245, 0.62);
+    --purple-deep: #1A0B33;
+    --purple: #2B1257;
+    --glass: rgba(22, 9, 44, 0.78);
+    --glass-edge: rgba(255, 255, 255, 0.10);
+    --ring: #FFFFFF;
+    --ring-inner: #0B0614;
+    --ease: cubic-bezier(.2, .8, .2, 1);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 100%; height: 100%; background: #000; overflow: hidden; }
+  body { font-family: "Albert Sans", -apple-system, "Helvetica Neue", sans-serif; color: var(--ink); -webkit-font-smoothing: antialiased; cursor: default; }
+
+  /* The TV: a fixed 1920x1080 stage scaled to fit the window */
+  #stage { position: absolute; left: 50%; top: 50%; width: 1920px; height: 1080px; transform-origin: 0 0; overflow: hidden; background: var(--purple-deep); }
+
+  /* 1. Backdrop that follows focus (stand-in for the app's blurred, purple-tinted banner) */
+  .backdrop { position: absolute; inset: 0; opacity: 0; transition: opacity 250ms ease; }
+  .backdrop.show { opacity: 1; }
+  #backdrops { position: absolute; inset: 0; transition: filter 300ms var(--ease); }
+  #stage.scrolled #backdrops { filter: brightness(.45); }
+  .tint { position: absolute; inset: 0; background:
+      linear-gradient(180deg, rgba(26,11,51,.15) 0%, rgba(26,11,51,.35) 45%, rgba(26,11,51,.85) 100%); }
+
+  /* 2. Header bar */
+  #header { position: absolute; left: 96px; right: 96px; top: 54px; height: 64px; display: flex; align-items: center; justify-content: space-between; z-index: 5; }
+  .hbtns { display: flex; gap: 12px; }
+  .hbtn { height: 56px; padding: 0 26px; border-radius: 28px; display: flex; align-items: center; font-size: 28px; font-weight: 600; color: var(--ink-dim); background: rgba(255,255,255,.06); transition: transform 150ms var(--ease), color 150ms, background 150ms, box-shadow 150ms; }
+  .hbtn.focused { color: #120820; background: var(--ink); transform: scale(1.06); box-shadow: 0 0 0 2px var(--ring-inner), 0 10px 30px rgba(0,0,0,.45); }
+  #clock { height: 64px; padding: 0 28px; border-radius: 32px; display: flex; align-items: center; font-size: 44px; font-weight: 700; letter-spacing: -.5px; background: rgba(20,8,40,.55); border: 1px solid var(--glass-edge); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); font-variant-numeric: tabular-nums; }
+
+  /* 3. Heading naming the focused app */
+  #heading { position: absolute; left: 116px; top: 316px; font-size: 40px; font-weight: 800; letter-spacing: -.3px; z-index: 4; text-shadow: 0 2px 16px rgba(0,0,0,.5); transition: top 300ms var(--ease), opacity 150ms; }
+  #heading .grp { display: block; font-size: 28px; font-weight: 600; color: var(--ink-dim); margin-bottom: 2px; }
+
+  /* 4. Glass band that holds the grid */
+  #band { position: absolute; left: 0; right: 0; top: 390px; bottom: 0; background: var(--glass); border-top: 1px solid var(--glass-edge); backdrop-filter: blur(24px) saturate(1.2); -webkit-backdrop-filter: blur(24px) saturate(1.2); transition: top 300ms var(--ease); overflow: hidden; z-index: 3; }
+  #grid { position: absolute; left: 116px; top: 30px; width: 1688px; transition: transform 300ms var(--ease); }
+
+  /* 5-7. Tiles, names, focus */
+  .tile { position: absolute; width: 392px; height: 221px; }
+  .face { position: absolute; inset: 0; border-radius: 24px; display: flex; align-items: center; justify-content: center; font-size: 46px; font-weight: 800; letter-spacing: -.5px; overflow: hidden; transition: transform 150ms var(--ease), box-shadow 150ms var(--ease); box-shadow: 0 6px 18px rgba(0,0,0,.35); }
+  .face::after { content: ""; position: absolute; inset: 0; border-radius: 24px; background: linear-gradient(180deg, rgba(255,255,255,.22) 0%, rgba(255,255,255,0) 38%); pointer-events: none; }
+  .name { position: absolute; left: 0; right: 0; top: 233px; text-align: center; font-size: 28px; font-weight: 600; color: var(--ink-dim); white-space: nowrap; transition: font-size 150ms, color 150ms, top 150ms; }
+  .tile.focused .face { transform: scale(1.08); box-shadow: 0 0 0 2px var(--ring-inner), 0 0 0 6px var(--ring), 0 24px 48px rgba(0,0,0,.55); }
+  .tile.focused .name { color: var(--ink); font-size: 32px; font-weight: 700; top: 244px; }
+  #stage.in-header .tile.focused .face { transform: none; box-shadow: 0 6px 18px rgba(0,0,0,.35); }
+  #stage.in-header .tile.focused .name { color: var(--ink-dim); font-size: 28px; font-weight: 600; top: 233px; }
+
+  /* Simulated screens (an app opening, Inputs, Settings, All apps) */
+  #sim { position: absolute; inset: 0; z-index: 20; display: none; flex-direction: column; align-items: center; justify-content: center; gap: 24px; text-align: center; }
+  #sim.show { display: flex; animation: simIn 250ms var(--ease); }
+  @keyframes simIn { from { opacity: 0; transform: scale(1.02); } to { opacity: 1; transform: none; } }
+  #sim .big { font-size: 96px; font-weight: 800; letter-spacing: -1px; }
+  #sim .small { font-size: 32px; font-weight: 600; opacity: .75; }
+  #sim .tag { position: absolute; top: 54px; left: 96px; font-size: 28px; font-weight: 700; padding: 10px 22px; border-radius: 24px; background: rgba(0,0,0,.35); }
+
+  /* Stand-in for Amazon's home flashing before the redirect lands on ours */
+  #flash { position: absolute; inset: 0; z-index: 30; display: none; background: #0F1B2A; padding: 54px 96px; }
+  #flash.show { display: block; }
+  #flash .fbanner { height: 520px; border-radius: 16px; background: linear-gradient(120deg, #3A4B63, #1E2A3B); display: flex; align-items: flex-end; padding: 32px; font-size: 40px; font-weight: 700; color: rgba(255,255,255,.8); }
+  #flash .frow { display: flex; gap: 24px; margin-top: 32px; }
+  #flash .frow i { flex: 1; height: 160px; border-radius: 10px; background: #2A3A50; }
+
+  /* Help card: outside the design, for testers only */
+  #help { position: fixed; right: 16px; bottom: 16px; z-index: 50; max-width: 340px; padding: 14px 16px; border-radius: 12px; background: rgba(255,255,255,.94); color: #15121c; font: 500 14px/1.45 -apple-system, "Helvetica Neue", sans-serif; box-shadow: 0 8px 30px rgba(0,0,0,.4); transition: opacity 400ms; }
+  #help b { font-weight: 700; }
+  #help kbd { display: inline-block; min-width: 22px; padding: 1px 6px; border-radius: 5px; border: 1px solid #c9c4d4; background: #f4f2f8; font: 600 12px/1.6 ui-monospace, Menlo, monospace; text-align: center; }
+  #help.hide { opacity: 0; pointer-events: none; }
+  #help .row { margin-top: 6px; }
+  @media (prefers-reduced-motion: reduce) { * { transition-duration: 0ms !important; animation: none !important; } }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="backdrops"><div class="backdrop" id="bdA"></div><div class="backdrop" id="bdB"></div></div>
+  <div class="tint"></div>
+
+  <div id="header">
+    <div class="hbtns">
+      <div class="hbtn" data-h="0">Inputs</div>
+      <div class="hbtn" data-h="1">Settings</div>
+      <div class="hbtn" data-h="2">All apps</div>
+    </div>
+    <div id="clock">7:42</div>
+  </div>
+
+  <div id="heading"><span class="grp">Shows</span><span id="hname">Hulu</span></div>
+
+  <div id="band"><div id="grid"></div></div>
+
+  <div id="sim"><div class="tag">Prototype: pretend screen</div><div class="big" id="simBig"></div><div class="small" id="simSmall"></div></div>
+
+  <div id="flash"><div class="fbanner">Fire TV's own home</div><div class="frow"><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="frow"><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+</div>
+
+<div id="help">
+  <b>Den home screen prototype</b>
+  <div class="row"><kbd>←</kbd><kbd>↑</kbd><kbd>→</kbd><kbd>↓</kbd> move like the remote</div>
+  <div class="row"><kbd>Enter</kbd> open &nbsp; <kbd>Esc</kbd> or <kbd>⌫</kbd> Back</div>
+  <div class="row"><kbd>H</kbd> press Home (shows Fire TV's home flashing first)</div>
+  <div class="row">Flash length: <kbd>1</kbd> 0.25 s <kbd>2</kbd> 0.5 s <kbd>3</kbd> 0.9 s &nbsp;<b id="flashLen">now 0.5 s</b></div>
+  <div class="row"><kbd>F</kbd> full screen &nbsp; <kbd>?</kbd> hide or show this card</div>
+  <div class="row" style="opacity:.7">Tiles use brand colours as stand-ins. The real version uses each app's own art from Den.</div>
+</div>
+
+<script>
+(() => {
+  // Den's apps in locked order (watch time, read from Den 2026-11-12). Colours are brand stand-ins.
+  const APPS = [
+    { n: 'Hulu',        g: 'Shows',  bg: '#1CE783', fg: '#0B0C0F' },
+    { n: 'Peacock',     g: 'Shows',  bg: '#0A0A0A', fg: '#FFFFFF', accent: '#F5B400' },
+    { n: 'Disney+',     g: 'Shows',  bg: '#0E2A8C', fg: '#FFFFFF', bg2: '#1F8FD1' },
+    { n: 'HBO Max',     g: 'Shows',  bg: '#0026D9', fg: '#FFFFFF', bg2: '#5B2EE6' },
+    { n: 'YouTube',     g: 'Shows',  bg: '#FF0033', fg: '#FFFFFF' },
+    { n: 'CNBC',        g: 'News',   bg: '#0A2E63', fg: '#FFFFFF', accent: '#00A3E0' },
+    { n: 'Paramount+',  g: 'Shows',  bg: '#0064FF', fg: '#FFFFFF', bg2: '#0A2A8C' },
+    { n: 'Prime Video', g: 'Shows',  bg: '#0F171E', fg: '#FFFFFF', accent: '#1399FF' },
+    { n: 'Spotify',     g: 'Music',  bg: '#121212', fg: '#1ED760' },
+    { n: 'Apple TV',    g: 'Shows',  bg: '#0A0A0A', fg: '#FFFFFF', bg2: '#2A2A2E' },
+    { n: 'NBA',         g: 'Sports', bg: '#1D428A', fg: '#FFFFFF', accent: '#C8102E' },
+    { n: 'ESPN',        g: 'Sports', bg: '#D00F1F', fg: '#FFFFFF' },
+    { n: 'DAZN',        g: 'Sports', bg: '#0C161C', fg: '#F2FF00' },
+    { n: 'FOX One',     g: 'Sports', bg: '#0B1F3A', fg: '#FFFFFF', accent: '#E0262E' },
+    { n: 'Netflix',     g: 'Shows',  bg: '#0A0A0A', fg: '#E50914' },
+    { n: 'MLB',         g: 'Sports', bg: '#041E42', fg: '#FFFFFF', accent: '#BF0D3E' },
+  ];
+  const COLS = 4, TILE_W = 392, TILE_H = 221, GAP_X = 40, ROW_STEP = 221 + 100;
+  const ROWS = Math.ceil(APPS.length / COLS);
+  const HEADER = ['Inputs', 'Settings', 'All apps'];
+
+  const stage = document.getElementById('stage');
+  const grid = document.getElementById('grid');
+  const band = document.getElementById('band');
+  const heading = document.getElementById('heading');
+  const hname = document.getElementById('hname');
+  const hgrp = heading.querySelector('.grp');
+  const hbtns = [...document.querySelectorAll('.hbtn')];
+  const bd = [document.getElementById('bdA'), document.getElementById('bdB')];
+  const sim = document.getElementById('sim');
+  const help = document.getElementById('help');
+
+  // Build tiles
+  const tiles = APPS.map((a, i) => {
+    const t = document.createElement('div');
+    t.className = 'tile';
+    t.style.left = (i % COLS) * (TILE_W + GAP_X) + 'px';
+    t.style.top = Math.floor(i / COLS) * ROW_STEP + 'px';
+    const bg = a.bg2 ? `linear-gradient(135deg, ${a.bg} 0%, ${a.bg2} 100%)` : a.bg;
+    const accent = a.accent ? `<span style="position:absolute;left:0;right:0;bottom:0;height:10px;background:${a.accent}"></span>` : '';
+    t.innerHTML = `<div class="face" style="background:${bg};color:${a.fg}">${a.n}${accent}</div><div class="name">${a.n}</div>`;
+    t.addEventListener('click', () => { focus = { zone: 'grid', i }; render(); openSim(i); });
+    grid.appendChild(t);
+    return t;
+  });
+  hbtns.forEach((b, h) => b.addEventListener('click', () => { focus = { zone: 'header', h }; render(); openHeader(h); }));
+
+  // Backdrop art: stand-in for the app's banner, blown up, blurred, darkened and tinted purple.
+  function backdropCss(a) {
+    const c1 = a.bg, c2 = a.bg2 || a.accent || a.fg;
+    return `radial-gradient(1100px 700px at 72% 18%, ${c1}cc 0%, transparent 70%),
+            radial-gradient(900px 600px at 18% 8%, ${c2}88 0%, transparent 65%),
+            linear-gradient(160deg, #2B1257 0%, #170A30 70%)`;
+  }
+
+  let focus = { zone: 'grid', i: 0 };
+  let lastTile = 0;          // where Down from the header returns, and where Back from an app lands
+  let shownBg = -1, front = 0, bgTimer = null;
+  let inSim = false;
+
+  function setBackdrop(i) {
+    if (i === shownBg) return;
+    clearTimeout(bgTimer);
+    bgTimer = setTimeout(() => {            // wait for focus to rest 150 ms, then cross-fade 250 ms
+      const next = 1 - front;
+      bd[next].style.background = backdropCss(APPS[i]);
+      bd[next].classList.add('show');
+      bd[front].classList.remove('show');
+      front = next; shownBg = i;
+    }, shownBg === -1 ? 0 : 150);
+  }
+
+  function render() {
+    const inHeader = focus.zone === 'header';
+    stage.classList.toggle('in-header', inHeader);
+    hbtns.forEach((b, h) => b.classList.toggle('focused', inHeader && focus.h === h));
+    const i = inHeader ? lastTile : focus.i;
+    tiles.forEach((t, k) => t.classList.toggle('focused', k === i));
+
+    const a = APPS[i];
+    if (inHeader) { hgrp.textContent = 'Menu'; hname.textContent = HEADER[focus.h]; }
+    else { hgrp.textContent = a.g; hname.textContent = a.n; }
+    setBackdrop(i);
+
+    // Rows 1-2 sit on the band; moving to row 3 or 4 raises the band and slides the grid up
+    const row = Math.floor(i / COLS);
+    const scrolled = !inHeader && row >= 2;
+    stage.classList.toggle('scrolled', scrolled);
+    const bandTop = scrolled ? 210 : 390;
+    band.style.top = bandTop + 'px';
+    heading.style.top = (bandTop - 74) + 'px';
+    grid.style.transform = `translateY(${scrolled ? -(row - 1) * ROW_STEP : 0}px)`;
+  }
+
+  function move(dir) {
+    if (focus.zone === 'header') {
+      if (dir === 'left' && focus.h > 0) focus.h--;
+      else if (dir === 'right' && focus.h < HEADER.length - 1) focus.h++;
+      else if (dir === 'down') focus = { zone: 'grid', i: lastTile };
+      else return;
+    } else {
+      const i = focus.i, c = i % COLS, r = Math.floor(i / COLS);
+      let n = i;
+      if (dir === 'left' && c > 0) n = i - 1;
+      else if (dir === 'right' && c < COLS - 1 && i + 1 < APPS.length) n = i + 1;
+      else if (dir === 'down' && r < ROWS - 1 && i + COLS < APPS.length) n = i + COLS;
+      else if (dir === 'up' && r > 0) n = i - COLS;
+      else if (dir === 'up' && r === 0) { lastTile = i; focus = { zone: 'header', h: 0 }; render(); return; }
+      if (n === i) return;          // edges are walls: no wrap, no diagonals
+      focus.i = n; lastTile = n;
+    }
+    render();
+  }
+
+  function showSim(big, small, bg, fg) {
+    document.getElementById('simBig').textContent = big;
+    document.getElementById('simSmall').textContent = small;
+    sim.style.background = bg; sim.style.color = fg;
+    sim.classList.add('show'); inSim = true;
+  }
+  function openSim(i) {
+    const a = APPS[i]; lastTile = i;
+    showSim(a.n, 'The app would open here. Press Back to return home.', a.bg2 ? `linear-gradient(135deg, ${a.bg}, ${a.bg2})` : a.bg, a.fg);
+  }
+  function openHeader(h) {
+    const msg = [
+      ['Inputs', 'Opens Fire TV’s own Inputs screen. A home screen app can’t switch inputs itself.'],
+      ['Settings', 'Opens Fire TV Settings. On other TVs this has bounced straight back; Den must be tested.'],
+      ['All apps', 'Opens the full list of installed apps.'],
+    ][h];
+    showSim(msg[0], msg[1], 'linear-gradient(160deg, #2B1257, #120824)', '#F2F2F5');
+  }
+  function back() {
+    if (inSim) {            // returning from an app puts focus on the tile you launched
+      sim.classList.remove('show'); inSim = false;
+      if (focus.zone === 'grid') focus.i = lastTile;
+      render(); return;
+    }
+    // On the home screen Back does nothing: it never exits to Amazon's home.
+  }
+
+  // Home: on Fire TV a custom home screen can't take over the Home button. A redirect app waits for
+  // Amazon's home to appear, then jumps in front, so Amazon's home flashes first. Reported flashes:
+  // about 0.4-0.9 s on newer Fire TVs. Not measured on Den yet.
+  let flashMs = 500;
+  const flash = document.getElementById('flash');
+  function pressHome() {
+    flash.classList.add('show');
+    setTimeout(() => {
+      flash.classList.remove('show');
+      if (inSim) { sim.classList.remove('show'); inSim = false; }
+      focus = { zone: 'grid', i: lastTile };
+      render();
+    }, flashMs);
+  }
+
+  // Keys: arrows / D-pad, Enter / OK, Esc or Backspace / Back
+  const KEYMAP = { ArrowLeft: 'left', ArrowRight: 'right', ArrowUp: 'up', ArrowDown: 'down' };
+  document.addEventListener('keydown', e => {
+    if (KEYMAP[e.key]) { e.preventDefault(); if (!inSim) move(KEYMAP[e.key]); hideHelpSoon(); return; }
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      if (inSim) return;
+      if (focus.zone === 'grid') openSim(focus.i); else openHeader(focus.h);
+      return;
+    }
+    if (e.key === 'Escape' || e.key === 'Backspace' || e.key === 'GoBack' || e.key === 'BrowserBack') { e.preventDefault(); back(); return; }
+    if (e.key === '?' || e.key === '/') { help.classList.toggle('hide'); return; }
+    if (e.key === 'h' || e.key === 'H') { pressHome(); return; }
+    if (e.key === '1' || e.key === '2' || e.key === '3') {
+      flashMs = { 1: 250, 2: 500, 3: 900 }[e.key];
+      document.getElementById('flashLen').textContent = `now ${flashMs / 1000} s`;
+      return;
+    }
+    if (e.key === 'f' || e.key === 'F') { document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen?.(); }
+  });
+  // A TV browser's Back button goes back in history; catch it so it acts as the remote's Back
+  history.pushState({ den: 1 }, '');
+  window.addEventListener('popstate', () => { back(); history.pushState({ den: 1 }, ''); });
+
+  let helpTimer = null;
+  function hideHelpSoon() { if (helpTimer) return; helpTimer = setTimeout(() => help.classList.add('hide'), 6000); }
+
+  // Fit the 1920x1080 TV into the window
+  function fit() {
+    const s = Math.min(innerWidth / 1920, innerHeight / 1080);
+    stage.style.transform = `scale(${s}) translate(-50%, -50%)`;
+    stage.style.transformOrigin = '0 0';
+    stage.style.left = '50%'; stage.style.top = '50%';
+    stage.style.transform = `translate(-50%, -50%) scale(${s})`;
+    stage.style.transformOrigin = 'center center';
+  }
+  addEventListener('resize', fit); fit();
+
+  // Live clock
+  const clock = document.getElementById('clock');
+  function tick() { const d = new Date(); let h = d.getHours() % 12 || 12; clock.textContent = `${h}:${String(d.getMinutes()).padStart(2, '0')}`; }
+  tick(); setInterval(tick, 10000);
+
+  render();
+})();
+</script>
+</body>
+</html>
