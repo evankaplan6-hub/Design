@@ -61,3 +61,22 @@ Fixed: "Stays free" recounts from rows still offered (340 MB once NVIDIA is in t
 - Ideas not drawn: a "Show Trash" link, words for the Put Back state, a tooltip on Copy for Claude.
 
 Checked: offscreen SwiftUI renders and the motion frames only. Not checked in the real app.
+
+## Final (Nov 14, after Evan's "Yes, build it")
+`final/CleanButtonsDesign.swift`, drawn by `final/render.sh` into `final/out/` (light and dark).
+The script compiles the design file together with Vitals' own files at commit a489c94 (read with `git show`, nothing checked out), so the states come from `CleanPreviewStates.all` and the plans, sizes and sentences from `CleanPolicy`, `CleanWords`, `CleanError` and `SmartSizer`. Module, glassButton, StatusGlyph, Spinner, SnapshotCircleButton and IconCache are the app's own, drawn in their snapshot forms (so a spinner is an hourglass).
+Faked: the panel's title bar and tabs, the stage figures, "Checked at 9:49 AM", "Rebuilds itself 35.7 GB" and the NSAlert. The tally squares are left out of these pictures; they stay where they are.
+
+- `1-result`: the Clean up row and Biggest wins with their buttons. `1b-result-scrolled`: the same card to its end.
+- `2-confirm-clean`, `3-confirm-trash`: the NSAlert with the plan's own words, Cancel the default.
+- `4-cleanup`, `5-cleanup-session`: the Clean up screen, fresh and mid-session (Cursor open, pnpm freed 120 MB, NVIDIA in the Trash, npm cleaning).
+- `6-result-reopened`: the result reopened mid-clean, with the totals in the header.
+- `7-states`: every CleanState.
+
+The new words sit in an `extension CleanWords` at the top of the file, ready to move into the app.
+Build prompt: `prompts/vitals-clean-buttons.md`.
+New for the wiring session: after the Trash is emptied, the outcome still says "Empty the Trash to get the space back."
+
+### Review of the final (three reviewers, each finding checked by a second agent)
+Confirmed and fixed: Put Back now dims while another clean runs (the controller ignores it then). The Trash total is summed from rows still in the Trash, because `totalMovedToTrash` never drops when the Trash is emptied. The Clean up row says "Putting back X" during a Put Back. A Biggest wins row with no button keeps its "up to" caption. The alert draws its buttons in NSAlert's order (confirm, then Cancel as the blue default) with the warning badge. `.fixedSize` moved inside the scroll content so the live list still scrolls. The prompt now covers VoiceOver focus, header totals, where the new words live, "Back", and where to read the design before this PR merges.
+Thrown out on checking: words can't go in CleanWords (an extension in its own file works), `--simulate-clean` needs the wiring changed (states can be fed directly), and the video contradicts the written motion.
