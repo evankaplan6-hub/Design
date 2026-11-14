@@ -6,6 +6,18 @@ You're picking up a design task for **Vitals**, Evan's native macOS menu-bar app
 
 Evan, Nov 14: "when i run a vitals check why cant i actually do the things it says to do like how cleanmymac worked?" Smart Check now has the wiring to act on what it finds: a Clean or Move to Trash button per finding, a confirmation, Put Back, and running totals. **None of it is on screen yet.** Your job is the look: where the buttons sit, how each state looks, and the confirmation. The wiring is done and tested; don't change it.
 
+## Set up first (do this before anything else)
+
+`~/Design` may be on another branch with someone's uncommitted work. Never switch branches there, stash, or touch those files. Work in your own worktree from `origin/main`:
+
+```
+git -C ~/Design fetch
+git -C ~/Design worktree add -b design/vitals-clean-buttons ~/Design-clean-buttons origin/main
+cd ~/Design-clean-buttons
+```
+
+All your files go in `~/Design-clean-buttons`. Commit there, push the branch and open a PR. Remove the worktree when the PR is merged.
+
 ## Read first
 
 1. The blueprint. It is the brief: the API, all ten states, the eight rules, open questions and the real scan.
@@ -13,9 +25,9 @@ Evan, Nov 14: "when i run a vitals check why cant i actually do the things it sa
    If that branch is gone, it has been merged: use `origin/main`.
 2. The states with real sizes, for previews: `CleanPreviewStates` at the bottom of `Sources/Vitals/SmartCheck/CleanController.swift` (same branch, read it with `git show`).
 3. Today's card: `Sources/Vitals/Views/SmartCheckCard.swift` on `origin/main`.
-4. The live list of buttons on Evan's Mac (a dry run; it never cleans): `~/claude/vitals/.build/release/Vitals --clean-plan` if built, otherwise use the table in the blueprint.
+4. The real sizes are in the blueprint's table (from `Vitals --clean-plan` on Evan's Mac, Nov 14). Don't run Vitals yourself.
 
-Do not switch branches or edit files in `~/claude/vitals`. Work only in `~/Design`, on your own branch.
+Do not switch branches or edit files in `~/claude/vitals`. Read it only, with `git show`.
 
 ## What's decided (don't reopen without telling Evan first)
 
@@ -38,11 +50,11 @@ Do not switch branches or edit files in `~/claude/vitals`. Work only in `~/Desig
 1. Ask Evan one plain question if something truly blocks you. Otherwise start.
 2. Show 2 or 3 directions as pictures before writing any spec. Use the real sizes. Say your doubts about each one unasked.
 3. After Evan picks, build the final in SwiftUI like `research/vitals-battery-redesign/swiftui/BatteryDesign.swift`: one file that draws every state from `CleanPreviewStates`, rendered light and dark. Use the app's own pieces where you can and say where you faked them.
-4. Put everything in `research/vitals-clean-buttons/` with a `README.md`.
+4. Put everything in `research/vitals-clean-buttons/` in your worktree with a `README.md`.
 5. Finish with a build prompt, `prompts/vitals-clean-buttons.md`, in the style of `prompts/vitals-battery-tab.md`, for a Vitals session to port it. It must list the states, the words (taken from `CleanPolicy` and `CleanWords`, never new ones in the view), and the checks.
 
 ## Hard rules
 
 - Nothing on Evan's screen. Assume he is clicking and typing in other apps. No windows, no bringing apps to the front, no opening his Vitals panel, no `--running-app`. Render offscreen.
 - Never press a real Clean button or run a clean. It deletes Evan's real caches.
-- Commit to a branch and open a PR in `~/Design`. Check `git status` first and never touch other work there.
+- Work only in your worktree. Never touch the other branch's files in `~/Design`.
