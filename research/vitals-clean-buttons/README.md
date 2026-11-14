@@ -41,3 +41,23 @@ Three studies on B2, drawn frame by frame with real SwiftUI offscreen (`motion/M
 Fixed during the read: figures no longer count up (that showed numbers that were never measured, such as "140 MB in the Trash"); they fade in whole. Titles and captions wrap instead of ending in "…". A "Freed 120 MB" figure flying to the footer was tried and cut: it crossed other rows' text.
 Reduce Motion: no flight, no ring shrink; the row icon cross-fades to the dashed slot and the words cross-fade.
 New words to add to `CleanWords`: "Cleaning", "Moving to the Trash".
+
+## B3, after Evan's "critique what you're proposing" (Nov 14)
+The critique's top four, fixed (`directions/out/B3-*`, `directions/b3-strip.png`):
+1. **A way to clean from the result.** A "Clean up · 7 items ›" row sits first under the stages, and the Biggest wins rows get their own buttons and icons.
+2. **NSAlert, not a sheet.** The panel closes only on its icon or Escape, so a sheet inside it would fight Escape. Cancel is the default (`B3-2-confirm`, `B3-2b-confirm-clean`).
+3. **Long cleans and coming back.** A cleaning row says "Cleaning. This can take a few minutes." Reopening mid-clean shows "Cleaning npm cache" on the Clean up row (`B3-5-reopened`). Other buttons dim with "One at a time. npm cache is cleaning."
+4. **Two groups.** "Stays free" (Codex, NVIDIA: lasting, up to 486 MB) above "Comes back as you work" (caches). This explains why Storage says 486 MB while Cursor shows 10.8 GB. One Back, no Done. The list scrolls and the totals line stays pinned.
+
+## Once-over (three new reviewers, before the last fixes all said "not ready")
+Fixed: "Stays free" recounts from rows still offered (340 MB once NVIDIA is in the Trash), in the pictures and the M2 video. Long captions wrap to four lines instead of being cut. The totals line no longer scrolls away. Rows no longer squash when the list is long. "Nothing in the Trash" removed (the Trash may hold other things). The uv outcome uses the exact `CleanWords` sentence "Freed 120 MB."
+
+## For Evan to decide (not the design's to fix)
+- **Grouping changes a decision.** "One list, biggest first" becomes two groups, each biggest first.
+- **"Rebuilds itself 35.7 GB"** is the card's existing figure and includes app caches, logs and the Claude VM, so it does not match the 25.4 GB of cache rows.
+- **Words to add to `CleanWords`:** "Clean up", "7 items", "Stays free", "Comes back as you work", "Cleaning. This can take a few minutes.", "Moving to the Trash", "One at a time. X is cleaning.", "Cleaning X".
+- **Wiring:** the NVIDIA confirm title reads "Move Possible leftovers from NVIDIA to the Trash?" (capital P mid-sentence).
+- Storage and Apps stage rows keep the scan's figures after a clean until Check again.
+- Ideas not drawn: a "Show Trash" link, words for the Put Back state, a tooltip on Copy for Claude.
+
+Checked: offscreen SwiftUI renders and the motion frames only. Not checked in the real app.

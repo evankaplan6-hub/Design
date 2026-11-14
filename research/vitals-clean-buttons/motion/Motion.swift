@@ -36,13 +36,13 @@ struct Item: Identifiable {
     let caption: String; let button: String; let lasting: Bool
 }
 let items: [Item] = [
-    Item(id: "cursor", title: "Cursor snapshots", bytes: 10844, size: "10.8 GB", caption: "up to 10.8 GB · Comes back as you work", button: "Move to Trash", lasting: false),
-    Item(id: "uv", title: "Python download cache (uv)", bytes: 10165, size: "10.2 GB", caption: "up to 10.2 GB · Comes back as you work", button: "Clean", lasting: false),
-    Item(id: "npm", title: "npm cache", bytes: 3300, size: "3.3 GB", caption: "up to 3.3 GB · Comes back as you work", button: "Clean", lasting: false),
-    Item(id: "pnpm", title: "pnpm store", bytes: 850, size: "850 MB", caption: "up to 850 MB · Comes back as you work", button: "Clean", lasting: false),
     Item(id: "codex", title: "Codex install leftover", bytes: 340, size: "340 MB", caption: "up to 340 MB · A half-finished install", button: "Move to Trash", lasting: true),
-    Item(id: "derived", title: "Xcode build files", bytes: 203, size: "203 MB", caption: "up to 203 MB · Comes back as you work", button: "Move to Trash", lasting: false),
     Item(id: "nvidia", title: "Possible leftovers from NVIDIA", bytes: 146, size: "146 MB", caption: "up to 146 MB · Possible: the app seems to be gone", button: "Move to Trash", lasting: true),
+    Item(id: "cursor", title: "Cursor snapshots", bytes: 10844, size: "10.8 GB", caption: "up to 10.8 GB", button: "Move to Trash", lasting: false),
+    Item(id: "uv", title: "Python download cache (uv)", bytes: 10165, size: "10.2 GB", caption: "up to 10.2 GB", button: "Clean", lasting: false),
+    Item(id: "npm", title: "npm cache", bytes: 3300, size: "3.3 GB", caption: "up to 3.3 GB", button: "Clean", lasting: false),
+    Item(id: "pnpm", title: "pnpm store", bytes: 850, size: "850 MB", caption: "up to 850 MB", button: "Clean", lasting: false),
+    Item(id: "derived", title: "Xcode build files", bytes: 203, size: "203 MB", caption: "up to 203 MB", button: "Move to Trash", lasting: false),
 ]
 
 func icon(_ id: String) -> NSImage {
@@ -65,7 +65,7 @@ enum Fly {
     static let backStart = T.putBack + 0.05, backLand = T.putBack + 0.5
     static func inTrash(_ t: Double) -> Bool { t >= outLand && t < backStart }
     static func flying(_ t: Double) -> Bool { (t >= outStart && t < outLand) || (t >= backStart && t < backLand) }
-    static func glyphShown(_ t: Double) -> Bool { t >= outStart - 0.1 && t < backLand + 0.35 }
+    static func glyphShown(_ t: Double) -> Bool { t >= outStart - 0.1 }
     static let freedStart = T.uvDone + 0.15, freedLand = T.uvDone + 0.65
 }
 
@@ -114,7 +114,7 @@ struct CopyIcon: View {
 struct PutBackButton: View {
     var t: Double
     var body: some View {
-        let appear = clamp(ease(t, from: T.nvDone + 0.25, 0.3))
+        let appear = clamp(ease(t, from: T.nvDone + 0.5, 0.3))
         let pressed = t >= T.putBack && t < T.putBack + 0.12
         let gone = clamp(ease(t, from: T.putBack + 0.15, 0.25))
         Text("Put Back").font(.callout).padding(.horizontal, 10).padding(.vertical, 3)
@@ -133,7 +133,7 @@ struct SwapText: View {
             Text(new).foregroundStyle(newPrimary ? Color.primary : secondary).opacity(p).offset(y: CGFloat(6 * (1 - p)))
                 .fixedSize(horizontal: false, vertical: true)
         }
-        .font(.caption).lineLimit(3)
+        .font(.caption).lineLimit(4)
     }
 }
 
@@ -154,10 +154,10 @@ struct Row: View {
                 caption
             }
             Spacer(minLength: 8)
-            trailing
+            trailing.frame(width: 112, alignment: .trailing)
             CopyIcon()
         }
-        .frame(minHeight: rowH)
+        .frame(minHeight: 48)
     }
 
     /// M2: the icon leaves its row for the Trash and comes back on Put Back (the flying copy is drawn above).
@@ -171,14 +171,14 @@ struct Row: View {
         case "uv":
             let cleaning = clamp(ease(t, from: T.uvWork, 0.3))
             let done = clamp(ease(t, from: T.uvDone, 0.35))
-            if t < T.uvDone { SwapText(old: item.caption, new: "up to 10.2 GB · Cleaning", p: cleaning, newPrimary: false) }
-            else { SwapText(old: "up to 10.2 GB · Cleaning", new: "Freed 120 MB. The rest is still in use.", p: done)
+            if t < T.uvDone { SwapText(old: item.caption, new: "Cleaning. This can take a few minutes.", p: cleaning, newPrimary: false) }
+            else { SwapText(old: "Cleaning. This can take a few minutes.", new: "Freed 120 MB.", p: done)
                 .anchorPreference(key: Spots.self, value: .bounds) { ["uvcap": $0] } }
         case "nvidia":
             let cleaning = clamp(ease(t, from: T.nvWork, 0.3))
-            let done = clamp(ease(t, from: T.nvDone, 0.35))
+            let done = clamp(ease(t, from: T.nvDone + 0.45, 0.3))
             let back = clamp(ease(t, from: T.putBackDone, 0.35))
-            if t < T.nvDone { SwapText(old: item.caption, new: "up to 146 MB · Moving to the Trash", p: cleaning, newPrimary: false) }
+            if t < T.nvDone + 0.45 { SwapText(old: item.caption, new: "up to 146 MB · Moving to the Trash", p: cleaning, newPrimary: false) }
             else if t < T.putBackDone { SwapText(old: "up to 146 MB · Moving to the Trash", new: "Moved 146 MB to the Trash. Empty the Trash to get the space back.", p: done) }
             else { SwapText(old: "Moved 146 MB to the Trash. Empty the Trash to get the space back.", new: item.caption, p: back, newPrimary: false) }
         default:
@@ -191,7 +191,7 @@ struct Row: View {
         switch item.id {
         case "uv": Capsuleish(title: "Clean", t: t, press: T.uvPress, work: T.uvWork, done: T.uvDone)
         case "nvidia":
-            if t < T.nvDone + 0.25 { Capsuleish(title: "Move to Trash", t: t, press: T.nvPress, work: T.nvWork, done: T.nvDone) }
+            if t < T.nvDone + 0.5 { Capsuleish(title: "Move to Trash", t: t, press: T.nvPress, work: T.nvWork, done: T.nvDone) }
             else if t < T.putBackDone { PutBackButton(t: t) }
             else {
                 Text("Move to Trash").font(.callout).padding(.horizontal, 10).padding(.vertical, 3)
@@ -218,7 +218,7 @@ struct Footer: View {
         let trashText = m2
             ? clamp(ease(t, from: Fly.outLand, 0.3)) * (1 - clamp(ease(t, from: Fly.backStart, 0.25)))
             : clamp(ease(t, from: T.nvDone + 0.35, 0.4)) * (1 - clamp(ease(t, from: T.putBack + 0.4, 0.4)))
-        let glyphIn = clamp(ease(t, from: Fly.outStart - 0.1, 0.25)) * (1 - clamp(ease(t, from: Fly.backLand + 0.1, 0.25)))
+        let glyphIn = clamp(ease(t, from: Fly.outStart - 0.1, 0.25))
         let trashPart = m2 ? Fly.glyphShown(t) || trashText > 0.01 : trashText > 0.01
         HStack(spacing: 6) {
             Text("Freed 120 MB").opacity(freedShown)
@@ -233,11 +233,11 @@ struct Footer: View {
                         .opacity(glyphIn)
                         .anchorPreference(key: Spots.self, value: .bounds) { ["trash": $0] }
                 }
-                Text("146 MB in the Trash").opacity(trashText).offset(y: CGFloat(3 * (1 - trashText)))
+                ZStack(alignment: .leading) {
+                    Text("146 MB in the Trash").opacity(trashText).offset(y: CGFloat(3 * (1 - trashText)))
+                }
             }
             Spacer(minLength: 8)
-            Text("Done").font(.body).foregroundStyle(Color.primary).padding(.horizontal, 14).padding(.vertical, 5)
-                .background(Capsule().fill(.fill.tertiary)).overlay(Capsule().strokeBorder(Color.primary.opacity(0.08)))
         }
         .font(.callout.monospacedDigit()).foregroundStyle(secondary)
         .padding(.horizontal, pad).frame(height: 50)
@@ -341,8 +341,13 @@ struct Screen: View {
                         .padding(.horizontal, pad).frame(height: headerH)
                         Divider()
                         if study == .squares { Squares(t: t).padding(.horizontal, pad).padding(.top, 10).padding(.bottom, 4) }
-                        VStack(spacing: 0) { ForEach(items) { Row(item: $0, t: t, study: study) } }
-                            .padding(.horizontal, pad).padding(.top, 6)
+                        VStack(spacing: 0) {
+                            groupHeader("Stays free", Fly.inTrash(t) || (t >= Fly.outLand && t < Fly.backLand) ? "up to 340 MB" : "up to 486 MB")
+                            ForEach(items.filter { $0.lasting }) { Row(item: $0, t: t, study: study) }
+                            groupHeader("Comes back as you work", nil).padding(.top, 6)
+                            ForEach(items.filter { !$0.lasting }) { Row(item: $0, t: t, study: study) }
+                        }
+                        .padding(.horizontal, pad).padding(.top, 6)
                         Spacer(minLength: 0)
                         Divider()
                         Footer(t: t, study: study)
@@ -373,6 +378,15 @@ struct Screen: View {
                 .opacity(1 - 0.7 * clamp((p - 0.8) / 0.2))
                 .position(x: CGFloat(x), y: CGFloat(y))
         }
+    }
+
+    func groupHeader(_ title: String, _ figure: String?) -> some View {
+        HStack {
+            Text(title).font(.callout.weight(.semibold)).foregroundStyle(secondary)
+            Spacer()
+            if let figure { Text(figure).font(.callout).foregroundStyle(secondary) }
+        }
+        .frame(height: 24)
     }
 
     var chrome: some View {

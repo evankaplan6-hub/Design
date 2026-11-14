@@ -40,7 +40,7 @@ func midSession() -> [Item] {
         var i = item
         switch item.id {
         case "cursor": i.state = .blocked("Quit Cursor first, then try again.")
-        case "uv": i.state = .done("Freed 120 MB. The rest is still in use.", putBack: false)
+        case "uv": i.state = .done("Freed 120 MB.", putBack: false)
         case "npm": i.state = .cleaning
         case "nvidia": i.state = .done("Moved 146 MB to the Trash. Empty the Trash to get the space back.", putBack: true)
         default: i.state = .waiting
@@ -63,7 +63,7 @@ struct GlassButton: View {
             .foregroundStyle(prominent ? Color.white : Color.primary)
             .background(Capsule().fill(prominent ? AnyShapeStyle(Color.accentColor) : AnyShapeStyle(.fill.tertiary)))
             .overlay(Capsule().strokeBorder(Color.primary.opacity(prominent ? 0 : 0.08)))
-            .opacity(dimmed ? 0.4 : 1)
+            .opacity(dimmed ? 0.5 : 1)
             .fixedSize()
     }
 }
@@ -173,11 +173,13 @@ struct BottomButtons: View {
 struct CleanRow: View {
     var item: Item
     var dense = false
+    var grouped = false
+    var fixedColumn = false
 
     var body: some View {
         HStack(alignment: .center, spacing: 10) {
             VStack(alignment: .leading, spacing: 1) {
-                Text(item.title).font(.callout).lineLimit(1)
+                Text(item.title).font(.callout).lineLimit(2).fixedSize(horizontal: false, vertical: true)
                     .foregroundStyle(Color.primary)
                 if !dense || hasMessage { caption }
             }
@@ -185,9 +187,9 @@ struct CleanRow: View {
             if dense && !hasMessage {
                 Text("up to \(item.bytes)").font(.callout.monospacedDigit()).foregroundStyle(secondary)
             }
-            trailing
+            trailing.frame(width: fixedColumn ? 112 : nil, alignment: .trailing)
         }
-        .frame(minHeight: dense ? 30 : 38)
+        .frame(minHeight: fixedColumn ? 48 : (dense ? 30 : 38))
     }
 
     private var isWaiting: Bool { if case .waiting = item.state { true } else { false } }
@@ -198,14 +200,14 @@ struct CleanRow: View {
     @ViewBuilder private var caption: some View {
         switch item.state {
         case .ready, .waiting:
-            Text(["up to \(item.bytes)", item.note ?? (item.comesBack ? "Comes back as you work" : nil)].compactMap { $0 }.joined(separator: " · "))
+            Text(["up to \(item.bytes)", item.note ?? (item.comesBack && !grouped ? "Comes back as you work" : nil)].compactMap { $0 }.joined(separator: " · "))
                 .font(.caption).foregroundStyle(secondary).lineLimit(2).fixedSize(horizontal: false, vertical: true)
         case .blocked(let msg):
             Text("up to \(item.bytes) · \(msg)").font(.caption).foregroundStyle(secondary).lineLimit(2)
         case .cleaning:
-            Text("up to \(item.bytes) · Cleaning").font(.caption).foregroundStyle(secondary)
+            Text(grouped ? "Cleaning. This can take a few minutes." : "up to \(item.bytes) · Cleaning").font(.caption).foregroundStyle(secondary)
         case .done(let msg, _):
-            Text(msg).font(.caption).foregroundStyle(Color.primary).lineLimit(2).fixedSize(horizontal: false, vertical: true)
+            Text(msg).font(.caption).foregroundStyle(Color.primary).lineLimit(4).fixedSize(horizontal: false, vertical: true)
         case .failed(let msg):
             HStack(spacing: 4) {
                 Image(systemName: "exclamationmark.triangle.fill").foregroundStyle(.orange).font(.system(size: 9))
@@ -474,6 +476,179 @@ struct DirectionB2: View {
     }
 }
 
+// MARK: - B3: B2 after the critique (Nov 14)
+// 1. The way to clean starts on the result card: Biggest wins rows get their own button, and a
+//    "Clean up" row (count, chevron) opens the full list.
+// 2. Confirmation is NSAlert (Escape closes the popover, so an in-panel sheet would fight it).
+// 3. A long clean says so; reopening the panel mid-clean shows it on the result card's Clean up row.
+// 4. The list is grouped: "Stays free" (its total matches the Storage line) then "Comes back as you work".
+//    One way back (the chevron); the footer carries only measured totals.
+
+func stays(_ items: [Item]) -> [Item] { items.filter { !$0.comesBack } }
+func refills(_ items: [Item]) -> [Item] { items.filter { $0.comesBack } }
+
+struct WinRowB3: View {
+    var item: Item
+    var body: some View {
+        HStack(spacing: 10) {
+            Image(nsImage: icon(item.id)).resizable().frame(width: 28, height: 28)
+            CleanRow(item: item, fixedColumn: true)
+            CopyIcon()
+        }
+    }
+}
+
+struct CleanUpEntry: View {
+    var cleaning: String? = nil
+    var body: some View {
+        HStack(spacing: 8) {
+            Text("Clean up").font(.callout)
+            Spacer(minLength: 8)
+            if let cleaning {
+                Spinner()
+                Text("Cleaning \(cleaning)").font(.callout).foregroundStyle(secondary).lineLimit(1)
+            } else {
+                Text("7 items").font(.callout).foregroundStyle(secondary)
+            }
+            Image(systemName: "chevron.right").font(.system(size: 11, weight: .semibold)).foregroundStyle(secondary)
+        }
+        .padding(.horizontal, 10).frame(height: 36)
+        .background(RoundedRectangle(cornerRadius: 10, style: .continuous).fill(.fill.tertiary))
+    }
+}
+
+struct ResultB3: View {
+    var items: [Item]
+    var cleaning: String? = nil
+    var totals: String? = nil
+    var alert = false
+    var alertClean = false
+    var body: some View {
+        ZStack {
+            PanelChrome {
+                Module {
+                    VerdictHeader(extra: totals)
+                    StageRows(compact: true)
+                    VStack(alignment: .leading, spacing: 0) {
+                        Text("Also needs a look").font(.callout.weight(.semibold)).foregroundStyle(secondary)
+                        HStack(spacing: 10) {
+                            Image(systemName: "xmark.octagon.fill").foregroundStyle(.red.opacity(0.45)).font(.system(size: 14))
+                            Text("Backups").font(.callout)
+                            Spacer()
+                            Text("Hidden").font(.callout).foregroundStyle(secondary)
+                        }
+                        .frame(height: 26)
+                    }
+                    Divider()
+                    CleanUpEntry(cleaning: cleaning)
+                    Text("Biggest wins").font(.callout.weight(.semibold)).foregroundStyle(secondary)
+                    ForEach(stays(items)) { WinRowB3(item: $0) }
+                    HStack {
+                        Text("Rebuilds itself").font(.callout).foregroundStyle(secondary)
+                        Spacer()
+                        Text("35.7 GB").font(.callout.monospacedDigit()).foregroundStyle(secondary)
+                    }
+                    Spacer(minLength: 0)
+                    BottomButtons()
+                }
+            }
+            if alert { AlertTrash().offset(y: -20) }
+            if alertClean { AlertMock().offset(y: -20) }
+        }
+        .frame(width: 420, height: 620)
+    }
+}
+
+/// NSAlert can't be rendered offscreen: a look-alike. The real one appears centred on the screen
+/// with Vitals' icon; Return and Escape both mean Cancel (the default).
+struct AlertTrash: View {
+    var body: some View {
+        VStack(spacing: 10) {
+            RoundedRectangle(cornerRadius: 12, style: .continuous).fill(.fill.secondary).frame(width: 48, height: 48)
+                .overlay(Text("app icon").font(.system(size: 8)).foregroundStyle(.tertiary))
+            Text("Move Possible leftovers from NVIDIA to the Trash?").font(.body.weight(.bold)).multilineTextAlignment(.center)
+                .fixedSize(horizontal: false, vertical: true)
+            Text("This moves the data folder of NVIDIA to the Trash (up to 146 MB). The app seems to be gone, but check it isn't one you still use. You can put it back until you empty the Trash.")
+                .font(.callout).multilineTextAlignment(.center).fixedSize(horizontal: false, vertical: true)
+            VStack(spacing: 6) {
+                Text("Cancel").font(.body).foregroundStyle(.white).frame(maxWidth: .infinity).frame(height: 28)
+                    .background(Capsule().fill(Color.accentColor))
+                Text("Move to Trash").font(.body).frame(maxWidth: .infinity).frame(height: 28)
+                    .background(Capsule().fill(.fill.tertiary))
+            }
+            .padding(.top, 4)
+        }
+        .padding(18)
+        .frame(width: 270)
+        .background(RoundedRectangle(cornerRadius: 22, style: .continuous).fill(Color(nsColor: .windowBackgroundColor)))
+        .overlay(RoundedRectangle(cornerRadius: 22, style: .continuous).strokeBorder(Color.primary.opacity(0.12)))
+        .shadow(color: .black.opacity(0.35), radius: 24, y: 10)
+    }
+}
+
+struct CleanUpB3: View {
+    var items: [Item]
+    var totals: String? = nil
+    var busy: String? = nil
+    var body: some View {
+        PanelChrome {
+            VStack(spacing: 0) {
+                ZStack {
+                    HStack {
+                        Image(systemName: "chevron.left").font(.system(size: 12, weight: .semibold))
+                            .frame(width: 26, height: 26).background(Circle().fill(.fill.tertiary))
+                        Spacer()
+                    }
+                    Text("Clean up").font(.body.weight(.semibold))
+                }
+                .padding(.horizontal, 14).padding(.vertical, 10)
+                Divider()
+                VStack(alignment: .leading, spacing: 2) {
+                    if let busy {
+                    Text("One at a time. \(busy) is cleaning.").font(.caption).foregroundStyle(secondary).frame(height: 18)
+                }
+                group("Stays free", stayFigure, stays(items))
+                    group("Comes back as you work", nil, refills(items)).padding(.top, 6)
+                }
+                .padding(.horizontal, 14).padding(.top, 8)
+                .fixedSize(horizontal: false, vertical: true)
+                .frame(minHeight: 0, maxHeight: .infinity, alignment: .top)
+                .clipped()
+                if let totals {
+                    Divider()
+                    HStack { Text(totals).font(.callout).foregroundStyle(secondary); Spacer() }
+                        .padding(.horizontal, 14).frame(height: 40)
+                }
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(RoundedRectangle(cornerRadius: 16, style: .continuous).fill(.fill.quaternary))
+        }
+    }
+
+    /// Recounted from the rows still offered, so it never contradicts a finished row.
+    var stayFigure: String? {
+        let mb = stays(items).filter { if case .done = $0.state { false } else { true } }
+            .compactMap { Double($0.bytes.replacingOccurrences(of: " MB", with: "")) }.reduce(0, +)
+        return mb > 0 ? "up to \(Int(mb)) MB" : nil
+    }
+
+    @ViewBuilder func group(_ title: String, _ figure: String?, _ rows: [Item]) -> some View {
+        HStack {
+            Text(title).font(.callout.weight(.semibold)).foregroundStyle(secondary)
+            Spacer()
+            if let figure { Text(figure).font(.callout).foregroundStyle(secondary) }
+        }
+        .frame(height: 24)
+        ForEach(rows) { item in
+            HStack(spacing: 10) {
+                Image(nsImage: icon(item.id)).resizable().frame(width: 28, height: 28)
+                CleanRow(item: item, grouped: true, fixedColumn: true)
+                CopyIcon()
+            }
+        }
+    }
+}
+
 // MARK: - Render
 
 @MainActor func render<V: View>(_ view: V, _ path: String, dark: Bool) {
@@ -507,6 +682,12 @@ struct DirectionB2: View {
             ("B-3-confirm", AnyView(DirectionB(items: base, sheet: true))),
             ("B2-session", AnyView(DirectionB2(items: mid))),
             ("B2-confirm", AnyView(DirectionB2(items: base, sheet: true))),
+            ("B3-1-result", AnyView(ResultB3(items: base))),
+            ("B3-2-confirm", AnyView(ResultB3(items: base, alert: true))),
+            ("B3-2b-confirm-clean", AnyView(ResultB3(items: base, alertClean: true))),
+            ("B3-3-cleanup", AnyView(CleanUpB3(items: base))),
+            ("B3-4-session", AnyView(CleanUpB3(items: mid, totals: "Freed 120 MB · 146 MB in the Trash", busy: "npm cache"))),
+            ("B3-5-reopened", AnyView(ResultB3(items: mid, cleaning: "npm cache", totals: "Freed 120 MB · 146 MB in the Trash"))),
             ("C-1-session", AnyView(DirectionC(items: mid))),
             ("C-2-confirm", AnyView(DirectionC(items: base, alert: true))),
         ]
